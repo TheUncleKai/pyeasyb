@@ -17,7 +17,11 @@
 #
 
 __all__ = [
+    "control",
+    "data",
+    "logging"
 ]
+
 
 #: package name
 __name__ = "easyb"
@@ -61,3 +65,8 @@ __version__ = "{0:d}.{1:d}.{2:d}.{3:d}".format(__milestone__, __major__, __minor
 
 #: package maintainer
 __maintainer__ = __author__
+
+
+import easyb.logging
+
+log = easyb.logging.Log()
