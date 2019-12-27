@@ -8,6 +8,19 @@
                 "test_constructor",
                 "test_setup"
             ]
+        },
+        {
+            "id": "Message",
+            "path": "tests.message",
+            "classname": "TestMessage",
+            "tests": [
+                "test_message_1",
+                "test_message_2",
+                "test_message_3",
+                "test_message_4",
+                "test_message_5",
+                "test_message_6"
+            ]
         }
     ]
 }

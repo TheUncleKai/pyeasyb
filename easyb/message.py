@@ -16,7 +16,7 @@
 #    Copyright (C) 2017, Kai Raphahn <kai.raphahn@laburec.de>
 #
 
-import crc8
+import numpy as np
 
 from typing import List, Tuple
 from easyb.data import MessageDirection, MessageLength, MessagePriority
@@ -29,16 +29,16 @@ __all__ = [
 class Message(object):
 
     @property
-    def priority(self) -> MessagePriority:
-        return self._priority
-
-    @property
     def address(self) -> int:
         return self._address
 
     @property
     def code(self) -> int:
         return self._code
+
+    @property
+    def priority(self) -> MessagePriority:
+        return self._priority
 
     @property
     def length(self) -> MessageLength:
@@ -52,10 +52,6 @@ class Message(object):
     def data(self) -> List[int]:
         return self._data
 
-    @property
-    def command(self) -> List[int]:
-        return self._command
-
     def __init__(self, **kwargs):
         """Initialise the Message.
 
@@ -64,6 +60,7 @@ class Message(object):
         * code: F1 command code
         * priority: message priority
         * length: message length
+        * data: data for message > 3 bytes
 
         :param kwargs: keyworded variable length of arguments.
         :type kwargs: **dict
@@ -75,7 +72,6 @@ class Message(object):
         self._length = MessageLength.Byte3
         self._direction = MessageDirection.FromMaster
         self._data = []
-        self._command = []
 
         item = kwargs.get("address", 0)
         if item is not None:
@@ -96,25 +92,81 @@ class Message(object):
         item = kwargs.get("direction", None)
         if item is not None:
             self._direction = item
+
+        item = kwargs.get("data", None)
+        if item is not None:
+            self._data = item
         return
 
-    def encode(self) -> Tuple[int, int, int]:
-        crc = crc8.crc8()
+    @staticmethod
+    def _crc(byte1: int, byte2: int) -> int:
+        ui16_integer = np.uint16((byte1 << 8) | byte2)
 
-        byte1 = 255 - self.address
-        crc.update(byte1)
+        counter = 0
+        while counter < 16:
+            if np.bitwise_and(ui16_integer, 0x8000) == 0x8000:
+                ui16_integer = np.left_shift(ui16_integer, 1)
+                ui16_integer = np.bitwise_xor(ui16_integer, 0x0700)
+            else:
+                ui16_integer = np.left_shift(ui16_integer, 1)
 
-        direction = self.direction.value
-        length = self.length.value << 1
-        priority = self.priority.value << 3
-        code = self.code << 4
+            counter += 1
 
-        byte2 = 0x00
-        byte2 = byte2 | direction
-        byte2 = byte2 | length
-        byte2 = byte2 | priority
-        byte2 = byte2 | code
-        crc.update(byte2)
+        crc = np.uint8(255 - np.right_shift(ui16_integer, 8))
+        result = int(crc)
+        return result
 
-        result = (byte1, byte2, crc.digest())
+    @staticmethod
+    def _encode_start(data):
+        u8 = np.uint8(255 - data)
+        result = int(u8)
+        return result
+
+    def _encode_header(self):
+        u8 = np.uint8(0)
+
+        direction = np.uint8(self.direction.value)
+        length = np.uint8(self.length.value << 1)
+        priority = np.uint8(self.priority.value << 3)
+        code = np.uint8(self.code << 4)
+
+        u8 = np.bitwise_or(u8, direction)
+        u8 = np.bitwise_or(u8, length)
+        u8 = np.bitwise_or(u8, priority)
+        u8 = np.bitwise_or(u8, code)
+
+        result = int(u8)
+        return result
+
+    def encode(self) -> List[int]:
+        result = []
+
+        byte = self._encode_start(self.address)
+        result.append(byte)
+
+        byte = self._encode_header()
+        result.append(byte)
+
+        byte = self._crc(result[0], result[1])
+        result.append(byte)
+
+        if (self.length == MessageLength.Byte6) or (self.length == MessageLength.Byte9):
+            byte = self._encode_start(self.data[0])
+            result.append(byte)
+
+            byte = self.data[1]
+            result.append(byte)
+
+            byte = self._crc(result[3], result[4])
+            result.append(byte)
+
+        if self.length == MessageLength.Byte9:
+            byte = self._encode_start(self.data[2])
+            result.append(byte)
+
+            byte = self.data[3]
+            result.append(byte)
+
+            byte = self._crc(result[6], result[7])
+            result.append(byte)
         return result
