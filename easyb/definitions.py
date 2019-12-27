@@ -48,6 +48,63 @@ class MessageLength(Enum):
 
 class ErrorCodes(Enum):
 
-    VALUE_OVER_LIMIT = 16352
+    error_16352 = {"code": 16352, "text": "Value over measurement range"}
 
-    VALUE_UNDER_LIMIT = 16353
+    error_16353 = {"code": 16353, "text": "Value under measurement range"}
+
+    error_16362 = {"code": 16362, "text": "Calculation impossible"}
+
+    error_16363 = {"code": 16363, "text": "System error"}
+
+    error_16364 = {"code": 16364, "text": "Battery empty"}
+
+    error_16365 = {"code": 16365, "text": "No sensor"}
+
+    error_16366 = {"code": 16366, "text": "Recording error: EEPROM error"}
+
+    error_16367 = {"code": 16367, "text": "EEPROM checksum invalid"}
+
+    error_16368 = {"code": 16368, "text": "Recording error: error 6, system restart"}
+
+    error_16369 = {"code": 16369, "text": "Recording error: data pointer"}
+
+    error_16370 = {"code": 16370, "text": "Recording error: marker data invalid"}
+
+    error_16371 = {"code": 16370, "text": "Data invalid"}
+
+    error_unknown = {"code": 0, "text": "Unknown error"}
+
+
+class StatusCodes(Enum):
+
+    bit_0 = {"bit": 0x0001, "text": "Max. alarm"}
+
+    bit_1 = {"bit": 0x0002, "text": "Max. alarm"}
+
+    bit_2 = {"bit": 0x0004, "text": "Max. alarm"}
+
+    bit_3 = {"bit": 0x0008, "text": "Max. alarm"}
+
+    bit_4 = {"bit": 0x0010, "text": "Max. alarm"}
+
+    bit_5 = {"bit": 0x0020, "text": "Max. alarm"}
+
+    bit_6 = {"bit": 0x0040, "text": "Max. alarm"}
+
+    bit_7 = {"bit": 0x0080, "text": "Max. alarm"}
+
+    bit_8 = {"bit": 0x0100, "text": "Max. alarm"}
+
+    bit_9 = {"bit": 0x0200, "text": "Max. alarm"}
+
+    bit_10 = {"bit": 0x0400, "text": "Max. alarm"}
+
+    bit_11 = {"bit": 0x0800, "text": "Max. alarm"}
+
+    bit_12 = {"bit": 0x1000, "text": "Max. alarm"}
+
+    bit_13 = {"bit": 0x2000, "text": "Max. alarm"}
+
+    bit_14 = {"bit": 0x4000, "text": "Max. alarm"}
+
+    bit_15 = {"bit": 0x8000, "text": "Max. alarm"}

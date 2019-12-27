@@ -16,7 +16,8 @@
 #    Copyright (C) 2017, Kai Raphahn <kai.raphahn@laburec.de>
 #
 
-from numpy import uint8, uint16, uint32, bitwise_and, bitwise_or, bitwise_xor, left_shift, right_shift
+from numpy import uint8, uint16, uint32, bitwise_and, bitwise_or, bitwise_xor, left_shift, right_shift, power, \
+    true_divide
 
 from typing import List, Any
 from easyb.definitions import MessageDirection, MessageLength, MessagePriority
@@ -71,6 +72,9 @@ class Message(object):
     def answer(self) -> List[Any]:
         return self._answer
 
+    def error(self) -> int:
+        return self._error
+
     def __init__(self, **kwargs):
         """Initialise the Message.
 
@@ -92,6 +96,7 @@ class Message(object):
         self._direction = MessageDirection.FromMaster
         self._command = []
         self._answer = []
+        self._error = 0
 
         item = kwargs.get("address", 0)
         if item is not None:
@@ -198,12 +203,45 @@ class Message(object):
         return result
 
     @staticmethod
-    def _decode_u16(bytea: uint8, byteb: uint8) -> uint16:
-        itema = left_shift(uint16(255 - bytea), 8)
-        itemb = uint16(byteb)
+    def _convert_u16(inputa: uint8, inputb: uint8) -> uint16:
+        itema = left_shift(uint16(255 - inputa), 8)
+        itemb = uint16(inputb)
 
         data = uint16(bitwise_or(itema, itemb))
         return data
 
+    @staticmethod
+    def _convert_u32(inputa: uint16, inputb: uint16) -> uint32:
+        itema = uint32(left_shift(inputa, 16))
+        itemb = uint32(inputb)
+
+        data = uint32(bitwise_or(itema, itemb))
+        return data
+
+    def _decode_u16(self, byte3: uint8, byte4: uint8) -> bool:
+
+        u16_integer = self._convert_u16(byte3, byte4)
+        float_pos = uint16(bitwise_and(u16_integer, 0xc000))
+        float_pos = uint16(right_shift(float_pos, 14))
+
+        u16_integer = uint16(bitwise_and(u16_integer, 0x3fff))
+
+        if (u16_integer >= 0x3fe0) and (u16_integer <= 0x3fff):
+            error = int(u16_integer) - 16352
+            self._error = error
+            return False
+
+        denominator = uint32(power(10, float_pos))
+        numerator = uint32(u16_integer - 2048)
+
+        float_value = float(true_divide(numerator, denominator))
+        self._answer.append(float_value)
+        self._error = 0
+        return True
+
     def decode(self, answer: list) -> bool:
+        self._error = 0
+
+
+
         return True
