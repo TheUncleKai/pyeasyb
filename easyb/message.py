@@ -16,7 +16,7 @@
 #    Copyright (C) 2017, Kai Raphahn <kai.raphahn@laburec.de>
 #
 
-from numpy import uint8, uint16, uint32, bitwise_and, bitwise_or, bitwise_xor, left_shift, right_shift, power, \
+from numpy import uint8, uint16, uint32, uint64, bitwise_and, bitwise_or, bitwise_xor, left_shift, right_shift, power, \
     true_divide
 
 from typing import List, Any
@@ -235,6 +235,35 @@ class Message(object):
         numerator = uint32(u16_integer - 2048)
 
         float_value = float(true_divide(numerator, denominator))
+        self._answer.append(float_value)
+        self._error = 0
+        return True
+
+    def _decode_u32(self, byte3: uint8, byte4: uint8, byte6: uint8, byte7: uint8) -> bool:
+        u16_integer1 = self._convert_u16(byte3, byte4)
+        u16_integer2 = self._convert_u16(byte6, byte7)
+
+        u32_integer = self._convert_u32(u16_integer1, u16_integer2)
+
+        float_pos = uint16(0xff - byte3)
+        float_pos = uint16(right_shift(float_pos, 3) - 15)
+
+        u32_integer = uint32(bitwise_and(u32_integer, 0x07ffffff))
+
+        if (100000000 + 0x2000000) > u32_integer:
+            compare = uint32(bitwise_and(u32_integer, 0x04000000))
+
+            if 0x04000000 == compare:
+                u32_integer = uint32(bitwise_or(u32_integer, 0xf8000000))
+
+            u32_integer = uint32(uint64(u32_integer) + 0x02000000)
+        else:
+            error = int(u32_integer - 0x02000000 - 16352)
+            self._error = error
+            return False
+
+        float_value = float(u32_integer)
+        float_value = float(true_divide(float_value, power(10, float_pos)))
         self._answer.append(float_value)
         self._error = 0
         return True
