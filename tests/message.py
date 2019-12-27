@@ -186,3 +186,13 @@ class TestMessage(unittest.TestCase):
         self.assertIs(byte7, 0x00, "Failed: byte7: " + hex(byte7))
         self.assertIs(byte8, 0x47, "Failed: byte8: " + hex(byte8))
         return
+
+    def test_message_7(self):
+        """Test constructor.
+        """
+        message = easyb.message.Message(address=3, code=0xf, priority=MessagePriority.NoPriority,
+                                        length=MessageLength.Byte6, direction=MessageDirection.FromMaster,
+                                        data=[0xca])
+
+        self.assertRaises(ValueError, message.encode)
+        return

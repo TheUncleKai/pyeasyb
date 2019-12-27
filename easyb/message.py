@@ -150,6 +150,14 @@ class Message(object):
         byte = self._crc(result[0], result[1])
         result.append(byte)
 
+        if self.length == MessageLength.Byte6:
+            if len(self.data) != 2:
+                raise ValueError("Not enough data for 6 Byte message!")
+
+        if self.length == MessageLength.Byte9:
+            if len(self.data) != 4:
+                raise ValueError("Not enough data for 6 Byte message!")
+
         if (self.length == MessageLength.Byte6) or (self.length == MessageLength.Byte9):
             byte = self._encode_start(self.data[0])
             result.append(byte)
