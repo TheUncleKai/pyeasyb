@@ -19,11 +19,26 @@
 import numpy as np
 
 from typing import List
-from easyb.data import MessageDirection, MessageLength, MessagePriority
+from easyb.definitions import MessageDirection, MessageLength, MessagePriority
 
 __all__ = [
+    "ExceptionEncodeByte6",
+    "ExceptionEncodeByte9",
+
     "Message"
 ]
+
+
+class ExceptionEncodeByte6(Exception):
+
+    def __init___(self):
+        Exception.__init__(self, "Not enough data for 6 Byte message!")
+
+
+class ExceptionEncodeByte9(Exception):
+
+    def __init___(self):
+        Exception.__init__(self, "Not enough data for 9 Byte message!")
 
 
 class Message(object):
@@ -49,8 +64,8 @@ class Message(object):
         return self._direction
 
     @property
-    def data(self) -> List[int]:
-        return self._data
+    def command(self) -> List[int]:
+        return self._command
 
     def __init__(self, **kwargs):
         """Initialise the Message.
@@ -71,7 +86,7 @@ class Message(object):
         self._priority = MessagePriority.NoPriority
         self._length = MessageLength.Byte3
         self._direction = MessageDirection.FromMaster
-        self._data = []
+        self._command = []
 
         item = kwargs.get("address", 0)
         if item is not None:
@@ -93,9 +108,9 @@ class Message(object):
         if item is not None:
             self._direction = item
 
-        item = kwargs.get("data", None)
+        item = kwargs.get("command", None)
         if item is not None:
-            self._data = item
+            self._command = item
         return
 
     @staticmethod
@@ -150,31 +165,32 @@ class Message(object):
         byte = self._crc(result[0], result[1])
         result.append(byte)
 
-        if self.length == MessageLength.Byte6:
-            if len(self.data) != 2:
-                raise ValueError("Not enough data for 6 Byte message!")
+        if (self.length == MessageLength.Byte6) and (len(self.command) != 2):
+            raise ExceptionEncodeByte6()
 
-        if self.length == MessageLength.Byte9:
-            if len(self.data) != 4:
-                raise ValueError("Not enough data for 6 Byte message!")
+        if (self.length == MessageLength.Byte9) and (len(self.command) != 4):
+            raise ExceptionEncodeByte9()
 
         if (self.length == MessageLength.Byte6) or (self.length == MessageLength.Byte9):
-            byte = self._encode_start(self.data[0])
+            byte = self._encode_start(self.command[0])
             result.append(byte)
 
-            byte = self.data[1]
+            byte = self.command[1]
             result.append(byte)
 
             byte = self._crc(result[3], result[4])
             result.append(byte)
 
         if self.length == MessageLength.Byte9:
-            byte = self._encode_start(self.data[2])
+            byte = self._encode_start(self.command[2])
             result.append(byte)
 
-            byte = self.data[3]
+            byte = self.command[3]
             result.append(byte)
 
             byte = self._crc(result[6], result[7])
             result.append(byte)
         return result
+
+    def decode(self, answer: list) -> bool:
+        return True

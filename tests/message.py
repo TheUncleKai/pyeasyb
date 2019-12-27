@@ -21,12 +21,12 @@ import unittest
 
 import easyb.message
 
-from easyb.data import MessageDirection, MessageLength, MessagePriority
+from easyb.definitions import MessageDirection, MessageLength, MessagePriority
 
 
 # noinspection DuplicatedCode
 class TestMessage(unittest.TestCase):
-    """Testing class for locking module."""
+    """Testing class for message coding and decoding module."""
 
     def setUp(self):
         """set up test.
@@ -39,8 +39,6 @@ class TestMessage(unittest.TestCase):
         return
 
     def test_message_1(self):
-        """Test constructor.
-        """
         message = easyb.message.Message()
 
         self.assertNotEqual(message, None, "Failed: constructor")
@@ -52,8 +50,6 @@ class TestMessage(unittest.TestCase):
         return
 
     def test_message_2(self):
-        """Test constructor.
-        """
         message = easyb.message.Message(address=1, code=1, priority=MessagePriority.Priority,
                                         length=MessageLength.Byte6, direction=MessageDirection.FromSlave)
 
@@ -66,8 +62,6 @@ class TestMessage(unittest.TestCase):
         return
 
     def test_message_3(self):
-        """Test constructor.
-        """
         message = easyb.message.Message(address=1, code=0, priority=MessagePriority.NoPriority,
                                         length=MessageLength.Byte3, direction=MessageDirection.FromMaster)
 
@@ -118,7 +112,7 @@ class TestMessage(unittest.TestCase):
         """
         message = easyb.message.Message(address=3, code=0xf, priority=MessagePriority.NoPriority,
                                         length=MessageLength.Byte6, direction=MessageDirection.FromMaster,
-                                        data=[0xca, 0x00])
+                                        command=[0xca, 0x00])
 
         self.assertNotEqual(message, None, "Failed: constructor")
         self.assertIs(message.address, 3, "Failed: address")
@@ -151,7 +145,7 @@ class TestMessage(unittest.TestCase):
         """
         message = easyb.message.Message(address=3, code=0xf, priority=MessagePriority.NoPriority,
                                         length=MessageLength.Byte9, direction=MessageDirection.FromMaster,
-                                        data=[0xca, 0x00, 0xca, 0x00])
+                                        command=[0xca, 0x00, 0xca, 0x00])
 
         self.assertNotEqual(message, None, "Failed: constructor")
         self.assertIs(message.address, 3, "Failed: address")
@@ -188,11 +182,17 @@ class TestMessage(unittest.TestCase):
         return
 
     def test_message_7(self):
-        """Test constructor.
-        """
         message = easyb.message.Message(address=3, code=0xf, priority=MessagePriority.NoPriority,
                                         length=MessageLength.Byte6, direction=MessageDirection.FromMaster,
-                                        data=[0xca])
+                                        command=[0xca])
 
-        self.assertRaises(ValueError, message.encode)
+        self.assertRaises(easyb.message.ExceptionEncodeByte6, message.encode)
+        return
+
+    def test_message_8(self):
+        message = easyb.message.Message(address=3, code=0xf, priority=MessagePriority.NoPriority,
+                                        length=MessageLength.Byte9, direction=MessageDirection.FromMaster,
+                                        command=[0xca])
+
+        self.assertRaises(easyb.message.ExceptionEncodeByte9, message.encode)
         return
