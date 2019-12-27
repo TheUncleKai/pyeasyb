@@ -16,6 +16,8 @@
 #    Copyright (C) 2017, Kai Raphahn <kai.raphahn@laburec.de>
 #
 
+import easyb
+
 from numpy import uint8, uint16, uint32, uint64, bitwise_and, bitwise_or, bitwise_xor, left_shift, right_shift, power, \
     true_divide
 
@@ -268,9 +270,43 @@ class Message(object):
         self._error = 0
         return True
 
+    def _check_crc(self, byte1: int, byte2: int, crc: int) -> bool:
+
+        check_crc = self._crc(byte1, byte2)
+
+        if check_crc == crc:
+            return True
+
+        easyb.log.error("CRC check failed: {0:x} {1:x}, crc {2:x}, calculated {3:x}".format(byte1, byte2, crc, check_crc))
+        return False
+
     def decode(self, answer: list) -> bool:
         self._error = 0
 
+        if len(answer) == 3:
+            check = self._check_crc(answer[0], answer[1], answer[2])
+            if check is False:
+                return False
 
+        if len(answer) == 6:
+            check = self._check_crc(answer[0], answer[1], answer[2])
+            if check is False:
+                return False
 
+            check = self._check_crc(answer[3], answer[4], answer[5])
+            if check is False:
+                return False
+
+        if len(answer) == 3:
+            check = self._check_crc(answer[0], answer[1], answer[2])
+            if check is False:
+                return False
+
+            check = self._check_crc(answer[3], answer[4], answer[5])
+            if check is False:
+                return False
+
+            check = self._check_crc(answer[6], answer[7], answer[8])
+            if check is False:
+                return False
         return True

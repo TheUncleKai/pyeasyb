@@ -61,7 +61,7 @@ class TestMessage(unittest.TestCase):
         self.assertEqual(message.direction, MessageDirection.FromSlave, "Failed: direction")
         return
 
-    def test_message_3(self):
+    def test_encode_1(self):
         message = easyb.message.Message(address=1, code=0, priority=MessagePriority.NoPriority,
                                         length=MessageLength.Byte3, direction=MessageDirection.FromMaster)
 
@@ -83,7 +83,7 @@ class TestMessage(unittest.TestCase):
         self.assertIs(byte2, 0x3d, "Failed: byte2: " + hex(byte2))
         return
 
-    def test_message_4(self):
+    def test_encode_2(self):
         """Test constructor.
         """
         message = easyb.message.Message(address=2, code=3, priority=MessagePriority.NoPriority,
@@ -107,7 +107,7 @@ class TestMessage(unittest.TestCase):
         self.assertIs(byte2, 0x92, "Failed: byte2: " + hex(byte2))
         return
 
-    def test_message_5(self):
+    def test_encode_3(self):
         """Test constructor.
         """
         message = easyb.message.Message(address=3, code=0xf, priority=MessagePriority.NoPriority,
@@ -140,7 +140,7 @@ class TestMessage(unittest.TestCase):
         self.assertIs(byte5, 0x47, "Failed: byte5: " + hex(byte5))
         return
 
-    def test_message_6(self):
+    def test_encode_4(self):
         """Test constructor.
         """
         message = easyb.message.Message(address=3, code=0xf, priority=MessagePriority.NoPriority,
@@ -181,7 +181,7 @@ class TestMessage(unittest.TestCase):
         self.assertIs(byte8, 0x47, "Failed: byte8: " + hex(byte8))
         return
 
-    def test_message_7(self):
+    def test_encode_5(self):
         message = easyb.message.Message(address=3, code=0xf, priority=MessagePriority.NoPriority,
                                         length=MessageLength.Byte6, direction=MessageDirection.FromMaster,
                                         command=[0xca])
@@ -189,7 +189,7 @@ class TestMessage(unittest.TestCase):
         self.assertRaises(easyb.message.ExceptionEncodeByte6, message.encode)
         return
 
-    def test_message_8(self):
+    def test_encode_6(self):
         message = easyb.message.Message(address=3, code=0xf, priority=MessagePriority.NoPriority,
                                         length=MessageLength.Byte9, direction=MessageDirection.FromMaster,
                                         command=[0xca])
