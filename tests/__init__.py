@@ -15,39 +15,3 @@
 #
 #    Copyright (C) 2017, Kai Raphahn <kai.raphahn@laburec.de>
 #
-
-from enum import Enum
-
-__all__ = [
-    "MessageDirection",
-    "MessagePriority",
-    "MessageLength",
-    "ErrorCodes"
-]
-
-
-class MessageDirection(Enum):
-
-    FromSlave = 1
-    FromMaster = 0
-
-
-class MessagePriority(Enum):
-
-    Priority = 1
-    NoPriority = 0
-
-
-class MessageLength(Enum):
-
-    Byte3 = 0
-    Byte6 = 1
-    Byte9 = 2
-    Variable = 3
-
-
-class ErrorCodes(Enum):
-
-    VALUE_OVER_LIMIT = 16352
-
-    VALUE_UNDER_LIMIT = 16353

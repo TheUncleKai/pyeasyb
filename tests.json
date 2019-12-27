@@ -1,0 +1,13 @@
+{
+    "modules": [
+        {
+            "id": "Control",
+            "path": "tests.control",
+            "classname": "TestControl",
+            "tests": [
+                "test_constructor",
+                "test_setup"
+            ]
+        }
+    ]
+}

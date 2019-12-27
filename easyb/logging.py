@@ -67,9 +67,15 @@ def _write_stderr(content, raw=False):
 class Log(object):
 
     def __init__(self):
+        colorama.init()
+
         self.reset = colorama.Style.RESET_ALL
         self.LabelNum = 15
         self.Seperator = "| "
+        return
+
+    def raw(self, content: str):
+        _write_stdout(content)
         return
 
     def inform(self, tag, text):

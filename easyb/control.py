@@ -21,6 +21,11 @@ import easyb
 from serial import Serial, EIGHTBITS, PARITY_NONE, STOPBITS_ONE, SerialException, SerialTimeoutException
 
 
+
+
+
+
+
 class Control(object):
 
     def __init__(self, port: str):
@@ -32,6 +37,10 @@ class Control(object):
         self._ser = None
         self._port = port
         return
+
+    @property
+    def port(self) -> str:
+        return self._port
 
     @property
     def ser(self) -> Serial:
@@ -92,4 +101,7 @@ class Control(object):
             easyb.log.error("Problem during opening of serial port!")
             easyb.log.exception(e)
             return False
+        return True
+
+    def send(self, address: int, command: int) -> bool:
         return True
