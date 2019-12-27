@@ -18,10 +18,10 @@
 
 import easyb
 
-from numpy import uint8, uint16, uint32, uint64, bitwise_and, bitwise_or, bitwise_xor, left_shift, right_shift, power, \
-    true_divide
+from numpy import uint8, uint16, uint32, int32, uint64, bitwise_and, bitwise_or, bitwise_xor, left_shift, right_shift, \
+    power, true_divide
 
-from typing import List, Any
+from typing import List, Any, Tuple
 from easyb.definitions import MessageDirection, MessageLength, MessagePriority
 
 __all__ = [
@@ -205,23 +205,17 @@ class Message(object):
         return result
 
     @staticmethod
-    def _convert_u16(inputa: uint8, inputb: uint8) -> uint16:
-        itema = left_shift(uint16(255 - inputa), 8)
-        itemb = uint16(inputb)
-
-        data = uint16(bitwise_or(itema, itemb))
+    def _convert_u16(bytea: int, byteb: int) -> int:
+        data = (255 - bytea) << 8
+        data = data | byteb
         return data
 
     @staticmethod
-    def _convert_u32(inputa: uint16, inputb: uint16) -> uint32:
-        itema = uint32(left_shift(inputa, 16))
-        itemb = uint32(inputb)
-
-        data = uint32(bitwise_or(itema, itemb))
+    def _convert_u32(inputa: int, inputb: int) -> int:
+        data = (inputa << 16) | inputb
         return data
 
-    def _decode_u16(self, byte3: uint8, byte4: uint8) -> bool:
-
+    def _decode_u16(self, byte3: uint8, byte4: uint8) -> Tuple[int, float]:
         u16_integer = self._convert_u16(byte3, byte4)
         float_pos = uint16(bitwise_and(u16_integer, 0xc000))
         float_pos = uint16(right_shift(float_pos, 14))
@@ -230,21 +224,17 @@ class Message(object):
 
         if (u16_integer >= 0x3fe0) and (u16_integer <= 0x3fff):
             error = int(u16_integer) - 16352
-            self._error = error
-            return False
+            return error, 0.0
 
         denominator = uint32(power(10, float_pos))
         numerator = uint32(u16_integer - 2048)
 
         float_value = float(true_divide(numerator, denominator))
-        self._answer.append(float_value)
-        self._error = 0
-        return True
+        return 0, float_value
 
-    def _decode_u32(self, byte3: uint8, byte4: uint8, byte6: uint8, byte7: uint8) -> bool:
+    def _decode_u32(self, byte3: uint8, byte4: uint8, byte6: uint8, byte7: uint8) -> Tuple[int, float]:
         u16_integer1 = self._convert_u16(byte3, byte4)
         u16_integer2 = self._convert_u16(byte6, byte7)
-
         u32_integer = self._convert_u32(u16_integer1, u16_integer2)
 
         float_pos = uint16(0xff - byte3)
@@ -261,14 +251,11 @@ class Message(object):
             u32_integer = uint32(uint64(u32_integer) + 0x02000000)
         else:
             error = int(u32_integer - 0x02000000 - 16352)
-            self._error = error
-            return False
+            return error, 0.0
 
-        float_value = float(u32_integer)
-        float_value = float(true_divide(float_value, power(10, float_pos)))
-        self._answer.append(float_value)
-        self._error = 0
-        return True
+        i32_integer = int32(u32_integer)
+        float_value = float(i32_integer) / float(float(10.0) ** float_pos)
+        return 0, float_value
 
     def _check_crc(self, byte1: int, byte2: int, crc: int) -> bool:
 
@@ -277,11 +264,17 @@ class Message(object):
         if check_crc == crc:
             return True
 
-        easyb.log.error("CRC check failed: {0:x} {1:x}, crc {2:x}, calculated {3:x}".format(byte1, byte2, crc, check_crc))
+        easyb.log.error(
+            "CRC check failed: {0:s} {1:s}, crc {2:s}, calculated {3:s}".format(hex(byte1), hex(byte2), hex(crc),
+                                                                                hex(check_crc)))
         return False
 
     def decode(self, answer: list) -> bool:
         self._error = 0
+
+        length = self._decode_u16(answer[0], answer[1])
+
+        print(length)
 
         if len(answer) == 3:
             check = self._check_crc(answer[0], answer[1], answer[2])
@@ -289,24 +282,23 @@ class Message(object):
                 return False
 
         if len(answer) == 6:
-            check = self._check_crc(answer[0], answer[1], answer[2])
-            if check is False:
+            check1 = self._check_crc(answer[0], answer[1], answer[2])
+            check2 = self._check_crc(answer[3], answer[4], answer[5])
+            if (check1 is False) or (check2 is False):
                 return False
 
-            check = self._check_crc(answer[3], answer[4], answer[5])
-            if check is False:
+        if len(answer) == 9:
+            check1 = self._check_crc(answer[0], answer[1], answer[2])
+            check2 = self._check_crc(answer[3], answer[4], answer[5])
+            check3 = self._check_crc(answer[6], answer[7], answer[8])
+            if (check1 is False) or (check2 is False) or (check3 is False):
                 return False
 
-        if len(answer) == 3:
-            check = self._check_crc(answer[0], answer[1], answer[2])
-            if check is False:
-                return False
+        if len(answer) == 9:
+            error, value = self._decode_u32(answer[3], answer[4], answer[6], answer[7])
+            if error == 0:
+                self._answer.append(value)
+            else:
+                self._error = error
 
-            check = self._check_crc(answer[3], answer[4], answer[5])
-            if check is False:
-                return False
-
-            check = self._check_crc(answer[6], answer[7], answer[8])
-            if check is False:
-                return False
         return True

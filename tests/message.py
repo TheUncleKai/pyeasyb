@@ -196,3 +196,15 @@ class TestMessage(unittest.TestCase):
 
         self.assertRaises(easyb.message.ExceptionEncodeByte9, message.encode)
         return
+
+    def test_decode_1(self):
+        message = easyb.message.Message(address=1, code=0, priority=MessagePriority.NoPriority,
+                                        length=MessageLength.Byte3, direction=MessageDirection.FromMaster)
+
+        answer = [0xfe, 0x0d, 0x1e, 0x72, 0xff, 0x84, 0x00, 0xfc, 0x05]
+
+        check = message.decode(answer)
+
+        self.assertIs(check, True)
+        self.assertEqual(message.answer[0], -0.04)
+        return
