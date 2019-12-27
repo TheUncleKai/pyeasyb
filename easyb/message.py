@@ -18,7 +18,7 @@
 
 import numpy as np
 
-from typing import List, Tuple
+from typing import List
 from easyb.data import MessageDirection, MessageLength, MessagePriority
 
 __all__ = [
