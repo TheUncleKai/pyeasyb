@@ -16,9 +16,9 @@
 #    Copyright (C) 2017, Kai Raphahn <kai.raphahn@laburec.de>
 #
 
-import numpy as np
+from numpy import uint8, uint16, uint32, bitwise_and, bitwise_or, bitwise_xor, left_shift, right_shift
 
-from typing import List
+from typing import List, Any
 from easyb.definitions import MessageDirection, MessageLength, MessagePriority
 
 __all__ = [
@@ -67,6 +67,10 @@ class Message(object):
     def command(self) -> List[int]:
         return self._command
 
+    @property
+    def answer(self) -> List[Any]:
+        return self._answer
+
     def __init__(self, **kwargs):
         """Initialise the Message.
 
@@ -87,6 +91,7 @@ class Message(object):
         self._length = MessageLength.Byte3
         self._direction = MessageDirection.FromMaster
         self._command = []
+        self._answer = []
 
         item = kwargs.get("address", 0)
         if item is not None:
@@ -115,40 +120,40 @@ class Message(object):
 
     @staticmethod
     def _crc(byte1: int, byte2: int) -> int:
-        ui16_integer = np.uint16((byte1 << 8) | byte2)
+        ui16_integer = uint16((byte1 << 8) | byte2)
 
         counter = 0
         while counter < 16:
-            if np.bitwise_and(ui16_integer, 0x8000) == 0x8000:
-                ui16_integer = np.left_shift(ui16_integer, 1)
-                ui16_integer = np.bitwise_xor(ui16_integer, 0x0700)
+            if bitwise_and(ui16_integer, 0x8000) == 0x8000:
+                ui16_integer = left_shift(ui16_integer, 1)
+                ui16_integer = bitwise_xor(ui16_integer, 0x0700)
             else:
-                ui16_integer = np.left_shift(ui16_integer, 1)
+                ui16_integer = left_shift(ui16_integer, 1)
 
             counter += 1
 
-        crc = np.uint8(255 - np.right_shift(ui16_integer, 8))
+        crc = uint8(255 - right_shift(ui16_integer, 8))
         result = int(crc)
         return result
 
     @staticmethod
     def _encode_start(data):
-        u8 = np.uint8(255 - data)
+        u8 = uint8(255 - data)
         result = int(u8)
         return result
 
     def _encode_header(self):
-        u8 = np.uint8(0)
+        u8 = uint8(0)
 
-        direction = np.uint8(self.direction.value)
-        length = np.uint8(self.length.value << 1)
-        priority = np.uint8(self.priority.value << 3)
-        code = np.uint8(self.code << 4)
+        direction = uint8(self.direction.value)
+        length = uint8(self.length.value << 1)
+        priority = uint8(self.priority.value << 3)
+        code = uint8(self.code << 4)
 
-        u8 = np.bitwise_or(u8, direction)
-        u8 = np.bitwise_or(u8, length)
-        u8 = np.bitwise_or(u8, priority)
-        u8 = np.bitwise_or(u8, code)
+        u8 = bitwise_or(u8, direction)
+        u8 = bitwise_or(u8, length)
+        u8 = bitwise_or(u8, priority)
+        u8 = bitwise_or(u8, code)
 
         result = int(u8)
         return result
@@ -191,6 +196,14 @@ class Message(object):
             byte = self._crc(result[6], result[7])
             result.append(byte)
         return result
+
+    @staticmethod
+    def _decode_u16(bytea: uint8, byteb: uint8) -> uint16:
+        itema = left_shift(uint16(255 - bytea), 8)
+        itemb = uint16(byteb)
+
+        data = uint16(bitwise_or(itema, itemb))
+        return data
 
     def decode(self, answer: list) -> bool:
         return True
