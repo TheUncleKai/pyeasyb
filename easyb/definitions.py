@@ -16,12 +16,18 @@
 #    Copyright (C) 2017, Kai Raphahn <kai.raphahn@laburec.de>
 #
 
+from typing import Union
 from enum import Enum
 
 __all__ = [
     "MessageDirection",
+    "get_direction",
+
     "MessagePriority",
-    "MessageLength"
+    "get_priority",
+
+    "MessageLength",
+    "get_length"
 ]
 
 
@@ -31,10 +37,24 @@ class MessageDirection(Enum):
     FromMaster = 0
 
 
+def get_direction(value: int) -> Union[None, MessageDirection]:
+    for item in MessageDirection:
+        if item.value == value:
+            return item
+    return None
+
+
 class MessagePriority(Enum):
 
     Priority = 1
     NoPriority = 0
+
+
+def get_priority(value: int) -> Union[None, MessagePriority]:
+    for item in MessagePriority:
+        if item.value == value:
+            return item
+    return None
 
 
 class MessageLength(Enum):
@@ -43,3 +63,10 @@ class MessageLength(Enum):
     Byte6 = 1
     Byte9 = 2
     Variable = 3
+
+
+def get_length(value: int) -> Union[None, MessageLength]:
+    for item in MessageLength:
+        if item.value == value:
+            return item
+    return None

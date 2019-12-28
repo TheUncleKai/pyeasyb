@@ -18,30 +18,14 @@
 
 import easyb
 
-from numpy import uint8, uint16, uint32, int32, uint64, bitwise_and, bitwise_or, bitwise_xor, left_shift, right_shift, \
-    power, true_divide
+from numpy import uint8, uint16, uint32, int32, uint64, bitwise_and, bitwise_or, bitwise_xor, left_shift, right_shift
 
 from typing import List, Any, Tuple
-from easyb.definitions import MessageDirection, MessageLength, MessagePriority
+from easyb.definitions import MessageDirection, get_direction, MessageLength, get_length, MessagePriority, get_priority
 
 __all__ = [
-    "ExceptionEncodeByte6",
-    "ExceptionEncodeByte9",
-
     "Message"
 ]
-
-
-class ExceptionEncodeByte6(Exception):
-
-    def __init___(self):
-        Exception.__init__(self, "Not enough data for 6 Byte message!")
-
-
-class ExceptionEncodeByte9(Exception):
-
-    def __init___(self):
-        Exception.__init__(self, "Not enough data for 9 Byte message!")
 
 
 class Message(object):
@@ -67,15 +51,20 @@ class Message(object):
         return self._direction
 
     @property
-    def command(self) -> List[int]:
-        return self._command
+    def data(self) -> List[int]:
+        return self._data
 
     @property
-    def answer(self) -> List[Any]:
-        return self._answer
-
     def error(self) -> int:
         return self._error
+
+    @property
+    def success(self) -> bool:
+        return self._success
+
+    @property
+    def value(self) -> Any:
+        return self._value
 
     def __init__(self, **kwargs):
         """Initialise the Message.
@@ -96,9 +85,10 @@ class Message(object):
         self._priority = MessagePriority.NoPriority
         self._length = MessageLength.Byte3
         self._direction = MessageDirection.FromMaster
-        self._command = []
-        self._answer = []
+        self._data = []
+        self._value = None
         self._error = 0
+        self._success = False
 
         item = kwargs.get("address", 0)
         if item is not None:
@@ -120,9 +110,9 @@ class Message(object):
         if item is not None:
             self._direction = item
 
-        item = kwargs.get("command", None)
+        item = kwargs.get("data", None)
         if item is not None:
-            self._command = item
+            self._data = item
         return
 
     @staticmethod
@@ -165,7 +155,40 @@ class Message(object):
         result = int(u8)
         return result
 
+    def _encode_byte6(self, result: list):
+        byte = self._encode_start(self.data[0])
+        result.append(byte)
+
+        byte = self.data[1]
+        result.append(byte)
+
+        byte = self._crc(result[3], result[4])
+        result.append(byte)
+        return
+
+    def _encode_byte9(self, result: list):
+        byte = self._encode_start(self.data[2])
+        result.append(byte)
+
+        byte = self.data[3]
+        result.append(byte)
+
+        byte = self._crc(result[6], result[7])
+        result.append(byte)
+        return
+
     def encode(self) -> List[int]:
+
+        if (self.length == MessageLength.Byte6) and (len(self.data) != 2):
+            easyb.log.error("Invald data size for Byte6: " + str(len(self.data)))
+            self._success = False
+            return []
+
+        if (self.length == MessageLength.Byte9) and (len(self.data) != 4):
+            easyb.log.error("Invald data size for Byte4: " + str(len(self.data)))
+            self._success = False
+            return []
+
         result = []
 
         byte = self._encode_start(self.address)
@@ -177,31 +200,14 @@ class Message(object):
         byte = self._crc(result[0], result[1])
         result.append(byte)
 
-        if (self.length == MessageLength.Byte6) and (len(self.command) != 2):
-            raise ExceptionEncodeByte6()
-
-        if (self.length == MessageLength.Byte9) and (len(self.command) != 4):
-            raise ExceptionEncodeByte9()
-
-        if (self.length == MessageLength.Byte6) or (self.length == MessageLength.Byte9):
-            byte = self._encode_start(self.command[0])
-            result.append(byte)
-
-            byte = self.command[1]
-            result.append(byte)
-
-            byte = self._crc(result[3], result[4])
-            result.append(byte)
+        if self.length == MessageLength.Byte6:
+            self._encode_byte6(result)
 
         if self.length == MessageLength.Byte9:
-            byte = self._encode_start(self.command[2])
-            result.append(byte)
+            self._encode_byte6(result)
+            self._encode_byte9(result)
 
-            byte = self.command[3]
-            result.append(byte)
-
-            byte = self._crc(result[6], result[7])
-            result.append(byte)
+        self._success = True
         return result
 
     @staticmethod
@@ -226,10 +232,10 @@ class Message(object):
             error = int(u16_integer) - 16352
             return error, 0.0
 
-        denominator = uint32(power(10, float_pos))
-        numerator = uint32(u16_integer - 2048)
+        nenner = 10 ** int(float_pos)
+        zaehler = float(u16_integer) - 2048.0
 
-        float_value = float(true_divide(numerator, denominator))
+        float_value = float(zaehler / nenner)
         return 0, float_value
 
     def _decode_u32(self, byte3: uint8, byte4: uint8, byte6: uint8, byte7: uint8) -> Tuple[int, float]:
@@ -269,36 +275,88 @@ class Message(object):
                                                                                 hex(check_crc)))
         return False
 
-    def decode(self, answer: list) -> bool:
-        self._error = 0
+    def _decode_header(self, byte0: int, byte1: int) -> bool:
+        self._address = 255 - byte0
+        self._code = (byte1 & 0xf0) >> 4
 
-        length = self._decode_u16(answer[0], answer[1])
+        priority = (byte1 & 0x8) >> 3
+        length = (byte1 & 0x6) >> 1
+        direction = byte1 & 0x1
 
-        print(length)
+        self._priority = get_priority(priority)
+        self._length = get_length(length)
+        self._direction = get_direction(direction)
 
-        if len(answer) == 3:
-            check = self._check_crc(answer[0], answer[1], answer[2])
-            if check is False:
-                return False
-
-        if len(answer) == 6:
-            check1 = self._check_crc(answer[0], answer[1], answer[2])
-            check2 = self._check_crc(answer[3], answer[4], answer[5])
-            if (check1 is False) or (check2 is False):
-                return False
-
-        if len(answer) == 9:
-            check1 = self._check_crc(answer[0], answer[1], answer[2])
-            check2 = self._check_crc(answer[3], answer[4], answer[5])
-            check3 = self._check_crc(answer[6], answer[7], answer[8])
-            if (check1 is False) or (check2 is False) or (check3 is False):
-                return False
-
-        if len(answer) == 9:
-            error, value = self._decode_u32(answer[3], answer[4], answer[6], answer[7])
-            if error == 0:
-                self._answer.append(value)
-            else:
-                self._error = error
-
+        if (self._priority is None) or (self._length is None) or (self._direction is None):
+            return False
         return True
+
+    def decode(self, header: list):
+        self._error = 0
+        self._success = False
+
+        if len(header) != 3:
+            easyb.log.error("Header is not valid!")
+            return
+
+        check = self._check_crc(header[0], header[1], header[2])
+        if check is False:
+            easyb.log.error("Header is not valid!")
+            return False
+
+        check = self._decode_header(header[0], header[1])
+        if check is False:
+            easyb.log.error("Unable to decode header!")
+            return False
+
+        self._success = True
+        return
+
+    @data.setter
+    def data(self, data: list):
+        length = len(data)
+        self._success = False
+
+        if (self.length is MessageLength.Byte6) and (length != 3):
+            easyb.log.error("Invalid data length for Byte6")
+            return
+
+        if (self.length is MessageLength.Byte9) and (length != 6):
+            easyb.log.error("Invalid data length for Byte9")
+            return
+
+        if self.length is MessageLength.Byte6:
+            check = self._check_crc(data[0], data[1], data[2])
+            if check is False:
+                return
+
+            error, value = self._decode_u16(data[0], data[1])
+            if error != 0:
+                self._error = error
+                return
+
+            self._value = value
+
+        if self.length is MessageLength.Byte9:
+            check1 = self._check_crc(data[0], data[1], data[2])
+            check2 = self._check_crc(data[3], data[4], data[5])
+            if (check1 is False) or (check2 is False):
+                return
+
+            error, value = self._decode_u32(data[0], data[1], data[3], data[4])
+            if error != 0:
+                self._error = error
+                return
+
+            self._value = value
+
+        self._success = True
+        return
+
+    def info(self):
+        easyb.log.inform("ADDRESS", str(self.address))
+        easyb.log.inform("CODE", str(self.code))
+        easyb.log.inform("PRIORITY", str(self.priority.name))
+        easyb.log.inform("LENGTH", str(self.length.name))
+        easyb.log.inform("DIRECTION", str(self.direction.name))
+        return
