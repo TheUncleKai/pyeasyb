@@ -16,6 +16,10 @@
 #    Copyright (C) 2017, Kai Raphahn <kai.raphahn@laburec.de>
 #
 
+import coverage
+
+cov = coverage.Coverage()
+
 import easyb
 from typing import List
 from optparse import OptionParser
@@ -392,6 +396,8 @@ class TestTask(object):
 
 if __name__ == '__main__':
 
+    cov.start()
+
     main = TestTask()
 
     if main.prepare() is False:
@@ -399,5 +405,10 @@ if __name__ == '__main__':
 
     if main.run() is False:
         sys.exit(1)
+
+    cov.stop()
+    cov.save()
+
+    cov.html_report()
 
     sys.exit(0)
