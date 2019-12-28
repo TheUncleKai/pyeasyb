@@ -23,7 +23,8 @@
                 "test_encode_5",
                 "test_encode_6",
                 "test_decode_1",
-                "test_decode_2"
+                "test_decode_2",
+                "test_decode_3"
             ]
         }
     ]

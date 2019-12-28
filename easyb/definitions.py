@@ -20,44 +20,44 @@ from typing import Union
 from enum import Enum
 
 __all__ = [
-    "MessageDirection",
+    "Direction",
     "get_direction",
 
-    "MessagePriority",
+    "Priority",
     "get_priority",
 
-    "MessageLength",
+    "Length",
     "get_length"
 ]
 
 
-class MessageDirection(Enum):
+class Direction(Enum):
 
     FromSlave = 1
     FromMaster = 0
 
 
-def get_direction(value: int) -> Union[None, MessageDirection]:
-    for item in MessageDirection:
+def get_direction(value: int) -> Union[None, Direction]:
+    for item in Direction:
         if item.value == value:
             return item
     return None
 
 
-class MessagePriority(Enum):
+class Priority(Enum):
 
     Priority = 1
     NoPriority = 0
 
 
-def get_priority(value: int) -> Union[None, MessagePriority]:
-    for item in MessagePriority:
+def get_priority(value: int) -> Union[None, Priority]:
+    for item in Priority:
         if item.value == value:
             return item
     return None
 
 
-class MessageLength(Enum):
+class Length(Enum):
 
     Byte3 = 0
     Byte6 = 1
@@ -65,8 +65,8 @@ class MessageLength(Enum):
     Variable = 3
 
 
-def get_length(value: int) -> Union[None, MessageLength]:
-    for item in MessageLength:
+def get_length(value: int) -> Union[None, Length]:
+    for item in Length:
         if item.value == value:
             return item
     return None

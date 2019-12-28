@@ -21,7 +21,7 @@ import easyb
 from numpy import uint8, uint16, uint32, int32, uint64, bitwise_and, bitwise_or, bitwise_xor, left_shift, right_shift
 
 from typing import List, Any, Tuple
-from easyb.definitions import MessageDirection, get_direction, MessageLength, get_length, MessagePriority, get_priority
+from easyb.definitions import Direction, get_direction, Length, get_length, Priority, get_priority
 
 __all__ = [
     "Message"
@@ -39,15 +39,15 @@ class Message(object):
         return self._code
 
     @property
-    def priority(self) -> MessagePriority:
+    def priority(self) -> Priority:
         return self._priority
 
     @property
-    def length(self) -> MessageLength:
+    def length(self) -> Length:
         return self._length
 
     @property
-    def direction(self) -> MessageDirection:
+    def direction(self) -> Direction:
         return self._direction
 
     @property
@@ -82,9 +82,9 @@ class Message(object):
 
         self._address = 0
         self._code = 0
-        self._priority = MessagePriority.NoPriority
-        self._length = MessageLength.Byte3
-        self._direction = MessageDirection.FromMaster
+        self._priority = Priority.NoPriority
+        self._length = Length.Byte3
+        self._direction = Direction.FromMaster
         self._data = []
         self._value = None
         self._error = 0
@@ -179,12 +179,12 @@ class Message(object):
 
     def encode(self) -> List[int]:
 
-        if (self.length == MessageLength.Byte6) and (len(self.data) != 2):
+        if (self.length == Length.Byte6) and (len(self.data) != 2):
             easyb.log.error("Invald data size for Byte6: " + str(len(self.data)))
             self._success = False
             return []
 
-        if (self.length == MessageLength.Byte9) and (len(self.data) != 4):
+        if (self.length == Length.Byte9) and (len(self.data) != 4):
             easyb.log.error("Invald data size for Byte4: " + str(len(self.data)))
             self._success = False
             return []
@@ -200,10 +200,10 @@ class Message(object):
         byte = self._crc(result[0], result[1])
         result.append(byte)
 
-        if self.length == MessageLength.Byte6:
+        if self.length == Length.Byte6:
             self._encode_byte6(result)
 
-        if self.length == MessageLength.Byte9:
+        if self.length == Length.Byte9:
             self._encode_byte6(result)
             self._encode_byte9(result)
 
@@ -317,15 +317,15 @@ class Message(object):
         length = len(data)
         self._success = False
 
-        if (self.length is MessageLength.Byte6) and (length != 3):
-            easyb.log.error("Invalid data length for Byte6")
+        if (self.length is Length.Byte6) and (length != 3):
+            easyb.log.error("Invalid data length for Byte6: " + str(length))
             return
 
-        if (self.length is MessageLength.Byte9) and (length != 6):
-            easyb.log.error("Invalid data length for Byte9")
+        if (self.length is Length.Byte9) and (length != 6):
+            easyb.log.error("Invalid data length for Byte9: " + str(length))
             return
 
-        if self.length is MessageLength.Byte6:
+        if self.length is Length.Byte6:
             check = self._check_crc(data[0], data[1], data[2])
             if check is False:
                 return
@@ -337,7 +337,7 @@ class Message(object):
 
             self._value = value
 
-        if self.length is MessageLength.Byte9:
+        if self.length is Length.Byte9:
             check1 = self._check_crc(data[0], data[1], data[2])
             check2 = self._check_crc(data[3], data[4], data[5])
             if (check1 is False) or (check2 is False):

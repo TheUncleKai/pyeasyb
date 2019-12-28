@@ -21,7 +21,7 @@ import unittest
 
 import easyb.message
 
-from easyb.definitions import MessageDirection, MessageLength, MessagePriority
+from easyb.definitions import Direction, Length, Priority
 
 
 # noinspection DuplicatedCode
@@ -44,33 +44,33 @@ class TestMessage(unittest.TestCase):
         self.assertNotEqual(message, None, "Failed: constructor")
         self.assertIs(message.address, 0, "Failed: address")
         self.assertIs(message.code, 0, "Failed: code")
-        self.assertEqual(message.priority, MessagePriority.NoPriority, "Failed: priority")
-        self.assertEqual(message.length, MessageLength.Byte3, "Failed: length")
-        self.assertEqual(message.direction, MessageDirection.FromMaster, "Failed: direction")
+        self.assertEqual(message.priority, Priority.NoPriority, "Failed: priority")
+        self.assertEqual(message.length, Length.Byte3, "Failed: length")
+        self.assertEqual(message.direction, Direction.FromMaster, "Failed: direction")
         return
 
     def test_message_2(self):
-        message = easyb.message.Message(address=1, code=1, priority=MessagePriority.Priority,
-                                        length=MessageLength.Byte6, direction=MessageDirection.FromSlave)
+        message = easyb.message.Message(address=1, code=1, priority=Priority.Priority,
+                                        length=Length.Byte6, direction=Direction.FromSlave)
 
         self.assertNotEqual(message, None, "Failed: constructor")
         self.assertIs(message.address, 1, "Failed: address")
         self.assertIs(message.code, 1, "Failed: code")
-        self.assertEqual(message.priority, MessagePriority.Priority, "Failed: priority")
-        self.assertEqual(message.length, MessageLength.Byte6, "Failed: length")
-        self.assertEqual(message.direction, MessageDirection.FromSlave, "Failed: direction")
+        self.assertEqual(message.priority, Priority.Priority, "Failed: priority")
+        self.assertEqual(message.length, Length.Byte6, "Failed: length")
+        self.assertEqual(message.direction, Direction.FromSlave, "Failed: direction")
         return
 
     def test_encode_1(self):
-        message = easyb.message.Message(address=1, code=0, priority=MessagePriority.NoPriority,
-                                        length=MessageLength.Byte3, direction=MessageDirection.FromMaster)
+        message = easyb.message.Message(address=1, code=0, priority=Priority.NoPriority,
+                                        length=Length.Byte3, direction=Direction.FromMaster)
 
         self.assertNotEqual(message, None, "Failed: constructor")
         self.assertIs(message.address, 1, "Failed: address")
         self.assertIs(message.code, 0, "Failed: code")
-        self.assertEqual(message.priority, MessagePriority.NoPriority, "Failed: priority")
-        self.assertEqual(message.length, MessageLength.Byte3, "Failed: length")
-        self.assertEqual(message.direction, MessageDirection.FromMaster, "Failed: direction")
+        self.assertEqual(message.priority, Priority.NoPriority, "Failed: priority")
+        self.assertEqual(message.length, Length.Byte3, "Failed: length")
+        self.assertEqual(message.direction, Direction.FromMaster, "Failed: direction")
 
         result = message.encode()
 
@@ -86,15 +86,15 @@ class TestMessage(unittest.TestCase):
     def test_encode_2(self):
         """Test constructor.
         """
-        message = easyb.message.Message(address=2, code=3, priority=MessagePriority.NoPriority,
-                                        length=MessageLength.Byte3, direction=MessageDirection.FromMaster)
+        message = easyb.message.Message(address=2, code=3, priority=Priority.NoPriority,
+                                        length=Length.Byte3, direction=Direction.FromMaster)
 
         self.assertNotEqual(message, None, "Failed: constructor")
         self.assertIs(message.address, 2, "Failed: address")
         self.assertIs(message.code, 3, "Failed: code")
-        self.assertEqual(message.priority, MessagePriority.NoPriority, "Failed: priority")
-        self.assertEqual(message.length, MessageLength.Byte3, "Failed: length")
-        self.assertEqual(message.direction, MessageDirection.FromMaster, "Failed: direction")
+        self.assertEqual(message.priority, Priority.NoPriority, "Failed: priority")
+        self.assertEqual(message.length, Length.Byte3, "Failed: length")
+        self.assertEqual(message.direction, Direction.FromMaster, "Failed: direction")
 
         result = message.encode()
 
@@ -110,16 +110,16 @@ class TestMessage(unittest.TestCase):
     def test_encode_3(self):
         """Test constructor.
         """
-        message = easyb.message.Message(address=3, code=0xf, priority=MessagePriority.NoPriority,
-                                        length=MessageLength.Byte6, direction=MessageDirection.FromMaster,
+        message = easyb.message.Message(address=3, code=0xf, priority=Priority.NoPriority,
+                                        length=Length.Byte6, direction=Direction.FromMaster,
                                         data=[0xca, 0x00])
 
         self.assertNotEqual(message, None, "Failed: constructor")
         self.assertIs(message.address, 3, "Failed: address")
         self.assertIs(message.code, 0xf, "Failed: code")
-        self.assertEqual(message.priority, MessagePriority.NoPriority, "Failed: priority")
-        self.assertEqual(message.length, MessageLength.Byte6, "Failed: length")
-        self.assertEqual(message.direction, MessageDirection.FromMaster, "Failed: direction")
+        self.assertEqual(message.priority, Priority.NoPriority, "Failed: priority")
+        self.assertEqual(message.length, Length.Byte6, "Failed: length")
+        self.assertEqual(message.direction, Direction.FromMaster, "Failed: direction")
 
         result = message.encode()
 
@@ -143,16 +143,16 @@ class TestMessage(unittest.TestCase):
     def test_encode_4(self):
         """Test constructor.
         """
-        message = easyb.message.Message(address=3, code=0xf, priority=MessagePriority.NoPriority,
-                                        length=MessageLength.Byte9, direction=MessageDirection.FromMaster,
+        message = easyb.message.Message(address=3, code=0xf, priority=Priority.NoPriority,
+                                        length=Length.Byte9, direction=Direction.FromMaster,
                                         data=[0xca, 0x00, 0xca, 0x00])
 
         self.assertNotEqual(message, None, "Failed: constructor")
         self.assertIs(message.address, 3, "Failed: address")
         self.assertIs(message.code, 0xf, "Failed: code")
-        self.assertEqual(message.priority, MessagePriority.NoPriority, "Failed: priority")
-        self.assertEqual(message.length, MessageLength.Byte9, "Failed: length")
-        self.assertEqual(message.direction, MessageDirection.FromMaster, "Failed: direction")
+        self.assertEqual(message.priority, Priority.NoPriority, "Failed: priority")
+        self.assertEqual(message.length, Length.Byte9, "Failed: length")
+        self.assertEqual(message.direction, Direction.FromMaster, "Failed: direction")
 
         result = message.encode()
 
@@ -183,8 +183,8 @@ class TestMessage(unittest.TestCase):
         return
 
     def test_encode_5(self):
-        message = easyb.message.Message(address=3, code=0xf, priority=MessagePriority.NoPriority,
-                                        length=MessageLength.Byte6, direction=MessageDirection.FromMaster,
+        message = easyb.message.Message(address=3, code=0xf, priority=Priority.NoPriority,
+                                        length=Length.Byte6, direction=Direction.FromMaster,
                                         command=[0xca])
 
         result = message.encode()
@@ -193,8 +193,8 @@ class TestMessage(unittest.TestCase):
         return
 
     def test_encode_6(self):
-        message = easyb.message.Message(address=3, code=0xf, priority=MessagePriority.NoPriority,
-                                        length=MessageLength.Byte9, direction=MessageDirection.FromMaster,
+        message = easyb.message.Message(address=3, code=0xf, priority=Priority.NoPriority,
+                                        length=Length.Byte9, direction=Direction.FromMaster,
                                         command=[0xca])
 
         result = message.encode()
@@ -211,9 +211,9 @@ class TestMessage(unittest.TestCase):
         self.assertIs(message.success, True, "Failed: success")
         self.assertIs(message.address, 1, "Failed: address")
         self.assertIs(message.code, 0, "Failed: code")
-        self.assertEqual(message.priority, MessagePriority.Priority, "Failed: priority")
-        self.assertEqual(message.length, MessageLength.Byte9, "Failed: length")
-        self.assertEqual(message.direction, MessageDirection.FromSlave, "Failed: direction")
+        self.assertEqual(message.priority, Priority.Priority, "Failed: priority")
+        self.assertEqual(message.length, Length.Byte9, "Failed: length")
+        self.assertEqual(message.direction, Direction.FromSlave, "Failed: direction")
         return
 
     def test_decode_2(self):
@@ -227,4 +227,17 @@ class TestMessage(unittest.TestCase):
         message.data = data
         self.assertIs(message.success, True, "Failed: success")
         self.assertEqual(message.value, -0.04, "Failed: value")
+        return
+
+    def test_decode_3(self):
+        message = easyb.message.Message()
+
+        header = [0xfe, 0x0d, 0x1e]
+        data = [0x72, 0xff, 0x84, 0x00, 0xfc]
+
+        message.decode(header)
+
+        message.data = data
+        self.assertIs(message.success, False, "Failed: success")
+        self.assertIsNone(message.value, "Failed: value")
         return
