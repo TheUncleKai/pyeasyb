@@ -17,12 +17,16 @@
 #
 
 import easyb
+import sys
+
 
 from typing import Tuple
 
 from numpy import uint8, uint16, uint32, int32, uint64, bitwise_and, bitwise_or, bitwise_xor, left_shift, right_shift
 
 __all__ = [
+    "crop_u8",
+
     "convert_u16",
     "convert_u32",
 
@@ -32,6 +36,42 @@ __all__ = [
     "create_crc",
     "check_crc"
 ]
+
+
+def crop_u8(value: int) -> int:
+    size = sys.getsizeof(value)
+    result = value
+
+    if size == 16:
+        result = value & 0x00ff
+
+    if (size > 16) and (size <= 32):
+        result = value & 0x000000ff
+
+    if (size > 32) and (size <= 64):
+        result = value & 0x00000000000000ff
+    return result
+
+
+def crop_u16(value: int) -> int:
+    size = sys.getsizeof(value)
+    result = value
+
+    if (size > 16) and (size <= 32):
+        result = value & 0x0000ffff
+
+    if (size > 32) and (size <= 64):
+        result = value & 0x000000000000ffff
+    return result
+
+
+def crop_u32(value: int) -> int:
+    size = sys.getsizeof(value)
+    result = value
+
+    if size > 32:
+        result = value & 0x00000000ffffffff
+    return result
 
 
 def convert_u16(bytea: int, byteb: int) -> int:
@@ -96,16 +136,16 @@ def create_crc(byte1: int, byte2: int) -> int:
     while counter < 16:
         check_value = bitwise_and(ui16_integer, 0x8000)
         if check_value == 0x8000:
-            ui16_integer = left_shift(ui16_integer, 1)
-            ui16_integer = bitwise_xor(ui16_integer, 0x0700)
+            ui16_integer = ui16_integer << 1
+            ui16_integer = ui16_integer ^ 0x0700
         else:
-            ui16_integer = left_shift(ui16_integer, 1)
+            ui16_integer = ui16_integer << 1
 
         counter += 1
 
-    crc = uint8(255 - right_shift(ui16_integer, 8))
-    result = int(crc)
-    return result
+    crop = crop_u8(ui16_integer >> 8)
+    crc = 255 - crop
+    return crc
 
 
 def check_crc(byte1: int, byte2: int, crc: int) -> bool:
