@@ -29,6 +29,37 @@ __all__ = [
 ]
 
 
+class Command(object):
+
+    @property
+    def name(self) -> str:
+        return self._name
+
+    @property
+    def address(self) -> int:
+        return self._address
+
+    @property
+    def code(self) -> int:
+        return self._code
+
+    @property
+    def length(self) -> Length:
+        return self._length
+
+    @property
+    def param(self) -> List[int]:
+        return self._param
+
+    def __init__(self, name: str, address: int, code: int, length: Length, param: List[int]):
+        self._name = name
+        self._address = address
+        self._code = code
+        self._length = length
+        self._param = param
+        return
+
+
 class Message(object):
 
     @property
@@ -159,6 +190,15 @@ class Message(object):
         byte = create_crc(result[6], result[7])
         result.append(byte)
         return
+
+    def command(self, command: Command) -> bool:
+        self._address = command.address
+        self._code = command.code
+        self._priority = Priority.NoPriority
+        self._length = command.length
+        self._direction = Direction.FromMaster
+        self._data = command.param
+        return True
 
     def encode(self) -> Union[bytes, None]:
 

@@ -20,8 +20,10 @@ import easyb
 import serial
 
 from serial import Serial
+from typing import List
 
 from easyb.message import Message
+from easyb.definitions import Length
 
 
 class Device(object):
@@ -128,7 +130,20 @@ class Device(object):
             return False
         return True
 
-    def receive(self) -> bool:
+    def receive(self) -> Message:
         header = self.ser.read(3)
+        message = Message()
+        message.decode(header)
 
-        return True
+        data = None
+
+        if message.length is Length.Byte6:
+            data = self.ser.read(3)
+
+        if message.length is Length.Byte9:
+            data = self.ser.read(6)
+
+        if data is not None:
+            message.data = data
+
+        return message

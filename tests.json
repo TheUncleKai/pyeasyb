@@ -7,7 +7,8 @@
             "tests": [
                 "test_constructor",
                 "test_setup",
-                "test_write"
+                "test_write",
+                "test_read"
             ]
         },
         {

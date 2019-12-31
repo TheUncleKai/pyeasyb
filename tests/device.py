@@ -20,10 +20,29 @@ import unittest.mock as mock
 import unittest
 
 import easyb.device
+
 from serial import EIGHTBITS, PARITY_NONE, STOPBITS_ONE
 from easyb.definitions import Direction, Length, Priority
 
-mock_serial = mock.Mock()
+mock_read = mock.Mock()
+mock_write = mock.Mock()
+
+
+class TestRead(object):
+
+    run = 0
+
+    def test_read_1(self, count) -> bytes:
+        data = []
+
+        if self.run == 0:
+            data = [0xfe, 0x0d, 0x1e]
+        if self.run == 1:
+            data = [0x72, 0xff, 0x84, 0x00, 0xfc, 0x05]
+        result = bytes(data)
+
+        self.run += 1
+        return result
 
 
 class TestControl(unittest.TestCase):
@@ -68,13 +87,13 @@ class TestControl(unittest.TestCase):
         self.assertIsNone(device.ser.interCharTimeout)
         return
 
-    @mock.patch('easyb.device.Serial', new=mock_serial)
+    @mock.patch('easyb.device.Serial', new=mock_write)
     def test_write(self):
         device = easyb.device.Device("TEST")
 
-        device._ser = mock_serial
-        mock_serial.write = mock.Mock()
-        mock_serial.write.return_value = 3
+        device._ser = mock_write
+        mock_write.write = mock.Mock()
+        mock_write.write.return_value = 3
 
         message = easyb.message.Message(address=1, code=0, priority=Priority.NoPriority,
                                         length=Length.Byte3, direction=Direction.FromMaster)
@@ -83,9 +102,29 @@ class TestControl(unittest.TestCase):
 
         arg_check = bytes([254, 0, 61])
 
-        args, _ = mock_serial.write.call_args
+        args, _ = mock_write.write.call_args
 
         self.assertTrue(check)
-        self.assertTrue(mock_serial.write.called, 'Serial write method not called')
+        self.assertTrue(mock_write.write.called, 'Serial write method not called')
         self.assertEqual(args[0], arg_check)
+        return
+
+    @mock.patch('easyb.device.Serial', new=mock_read)
+    def test_read(self):
+        device = easyb.device.Device("TEST")
+
+        test_read = TestRead()
+
+        device._ser = mock_read
+        mock_read.read = test_read.test_read_1
+
+        message = device.receive()
+
+        self.assertIsNotNone(message)
+        self.assertEqual(message.address, 1, 'Failed: address')
+        self.assertEqual(message.length, Length.Byte9, 'Failed: length')
+        self.assertEqual(message.direction, Direction.FromSlave, 'Failed: direction')
+        self.assertEqual(message.priority, Priority.Priority, 'Failed: priority')
+        self.assertTrue(message.success, 'Failed: success')
+        self.assertEqual(message.value, -0.04)
         return
