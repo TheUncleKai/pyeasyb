@@ -60,7 +60,7 @@ class TestControl(unittest.TestCase):
         self.assertEqual(device.ser.bytesize, EIGHTBITS)
         self.assertEqual(device.ser.parity, PARITY_NONE)
         self.assertEqual(device.ser.stopbits, STOPBITS_ONE)
-        self.assertEqual(device.ser.timeout, 3)
+        self.assertEqual(device.ser.timeout, 6)
         self.assertEqual(device.ser.writeTimeout, 2)
         self.assertEqual(device.ser.rtscts, 0)
         self.assertEqual(device.ser.dsrdtr, 0)

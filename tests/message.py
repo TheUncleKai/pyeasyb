@@ -205,7 +205,7 @@ class TestMessage(unittest.TestCase):
     def test_decode_1(self):
         message = easyb.message.Message()
 
-        header = [0xfe, 0x0d, 0x1e]
+        header = bytes([0xfe, 0x0d, 0x1e])
 
         message.decode(header)
         self.assertIs(message.success, True, "Failed: success")
@@ -219,8 +219,8 @@ class TestMessage(unittest.TestCase):
     def test_decode_2(self):
         message = easyb.message.Message()
 
-        header = [0xfe, 0x0d, 0x1e]
-        data = [0x72, 0xff, 0x84, 0x00, 0xfc, 0x05]
+        header = bytes([0xfe, 0x0d, 0x1e])
+        data = bytes([0x72, 0xff, 0x84, 0x00, 0xfc, 0x05])
 
         message.decode(header)
 
@@ -232,8 +232,8 @@ class TestMessage(unittest.TestCase):
     def test_decode_3(self):
         message = easyb.message.Message()
 
-        header = [0xfe, 0x0d, 0x1e]
-        data = [0x72, 0xff, 0x84, 0x00, 0xfc]
+        header = bytes([0xfe, 0x0d, 0x1e])
+        data = bytes([0x72, 0xff, 0x84, 0x00, 0xfc])
 
         message.decode(header)
 

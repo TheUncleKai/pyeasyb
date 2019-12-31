@@ -52,7 +52,7 @@ class Message(object):
         return self._direction
 
     @property
-    def data(self) -> List[int]:
+    def data(self) -> Union[bytes, List[int]]:
         return self._data
 
     @property
@@ -211,9 +211,13 @@ class Message(object):
             return False
         return True
 
-    def decode(self, header: list):
+    def decode(self, data: bytes):
         self._error = 0
         self._success = False
+        header = []
+
+        for item in data:
+            header.append(int(item))
 
         if len(header) != 3:
             easyb.log.error("Header is not valid!")
@@ -233,7 +237,12 @@ class Message(object):
         return
 
     @data.setter
-    def data(self, data: list):
+    def data(self, in_data: bytes):
+        data = []
+
+        for item in in_data:
+            data.append(int(item))
+
         length = len(data)
         self._success = False
 

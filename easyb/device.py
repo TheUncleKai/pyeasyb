@@ -44,7 +44,7 @@ class Device(object):
     def ser(self) -> Serial:
         return self._ser
 
-    def setup(self, baudrate: int = 4800, timeout: int = 3, write_timeout: int = 2) -> bool:
+    def setup(self, baudrate: int = 4800, timeout: int = 6, write_timeout: int = 2) -> bool:
         """Setup control module
 
         :param baudrate: baudrate of serial connection
@@ -129,4 +129,6 @@ class Device(object):
         return True
 
     def receive(self) -> bool:
+        header = self.ser.read(3)
+
         return True
