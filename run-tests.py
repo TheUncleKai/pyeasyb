@@ -274,9 +274,9 @@ class TestTask(object):
         """The constructor.
         """
 
-        self.parser.add_option("-c", "--config", help="run profile", metavar="PROFILE", type="string",
+        self.parser.add_option("-c", "--config", help="run config file", metavar="PROFILE", type="string",
                                default="tests.json")
-        self.parser.add_option("-m", "--module", help="run class", metavar="CLASS", type="string", default="")
+        self.parser.add_option("-m", "--module", help="run test module", metavar="MODULE", type="string", default="")
         self.parser.add_option("-t", "--test", help="run test", metavar="TEST", type="string", default="")
 
         self._suite = None

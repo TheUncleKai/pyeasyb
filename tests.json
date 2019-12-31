@@ -26,6 +26,14 @@
                 "test_decode_2",
                 "test_decode_3"
             ]
+        },
+        {
+            "id": "BitIO",
+            "path": "tests.bit",
+            "classname": "TestBit",
+            "tests": [
+                "test_create_crc_1"
+            ]
         }
     ]
 }

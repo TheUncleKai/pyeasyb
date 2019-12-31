@@ -21,11 +21,6 @@ import easyb
 from serial import Serial, EIGHTBITS, PARITY_NONE, STOPBITS_ONE, SerialException, SerialTimeoutException
 
 
-
-
-
-
-
 class Control(object):
 
     def __init__(self, port: str):
