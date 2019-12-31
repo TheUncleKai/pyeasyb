@@ -19,7 +19,7 @@
 
 import unittest
 
-import easyb.control
+import easyb.device
 from serial import Serial, EIGHTBITS, PARITY_NONE, STOPBITS_ONE, SerialException, SerialTimeoutException
 
 
@@ -39,7 +39,7 @@ class TestControl(unittest.TestCase):
     def test_constructor(self):
         """Test constructor.
         """
-        control = easyb.control.Control("TEST")
+        control = easyb.device.Control("TEST")
 
         self.assertNotEqual(control, None, "Failed: test_constructor")
         self.assertIs(control.port, "TEST", "Failed: set port")
@@ -49,7 +49,7 @@ class TestControl(unittest.TestCase):
     def test_setup(self):
         """Test constructor.
         """
-        control = easyb.control.Control("TEST")
+        control = easyb.device.Control("TEST")
         control.setup()
 
         self.assertIsNotNone(control.ser, "Failed: serial is None")

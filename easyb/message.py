@@ -18,10 +18,11 @@
 
 import easyb
 
-from numpy import uint8, uint16, uint32, int32, uint64, bitwise_and, bitwise_or, bitwise_xor, left_shift, right_shift
+from numpy import uint8, bitwise_or
 
-from typing import List, Any, Tuple
+from typing import List, Any
 from easyb.definitions import Direction, get_direction, Length, get_length, Priority, get_priority
+from easyb.bit import decode_u16, decode_u32, check_crc, create_crc
 
 __all__ = [
     "Message"
@@ -116,24 +117,6 @@ class Message(object):
         return
 
     @staticmethod
-    def _crc(byte1: int, byte2: int) -> int:
-        ui16_integer = uint16((byte1 << 8) | byte2)
-
-        counter = 0
-        while counter < 16:
-            if bitwise_and(ui16_integer, 0x8000) == 0x8000:
-                ui16_integer = left_shift(ui16_integer, 1)
-                ui16_integer = bitwise_xor(ui16_integer, 0x0700)
-            else:
-                ui16_integer = left_shift(ui16_integer, 1)
-
-            counter += 1
-
-        crc = uint8(255 - right_shift(ui16_integer, 8))
-        result = int(crc)
-        return result
-
-    @staticmethod
     def _encode_start(data):
         u8 = uint8(255 - data)
         result = int(u8)
@@ -162,7 +145,7 @@ class Message(object):
         byte = self.data[1]
         result.append(byte)
 
-        byte = self._crc(result[3], result[4])
+        byte = create_crc(result[3], result[4])
         result.append(byte)
         return
 
@@ -173,7 +156,7 @@ class Message(object):
         byte = self.data[3]
         result.append(byte)
 
-        byte = self._crc(result[6], result[7])
+        byte = create_crc(result[6], result[7])
         result.append(byte)
         return
 
@@ -197,7 +180,7 @@ class Message(object):
         byte = self._encode_header()
         result.append(byte)
 
-        byte = self._crc(result[0], result[1])
+        byte = create_crc(result[0], result[1])
         result.append(byte)
 
         if self.length == Length.Byte6:
@@ -209,71 +192,6 @@ class Message(object):
 
         self._success = True
         return result
-
-    @staticmethod
-    def _convert_u16(bytea: int, byteb: int) -> int:
-        data = (255 - bytea) << 8
-        data = data | byteb
-        return data
-
-    @staticmethod
-    def _convert_u32(inputa: int, inputb: int) -> int:
-        data = (inputa << 16) | inputb
-        return data
-
-    def _decode_u16(self, byte3: uint8, byte4: uint8) -> Tuple[int, float]:
-        u16_integer = self._convert_u16(byte3, byte4)
-        float_pos = uint16(bitwise_and(u16_integer, 0xc000))
-        float_pos = uint16(right_shift(float_pos, 14))
-
-        u16_integer = uint16(bitwise_and(u16_integer, 0x3fff))
-
-        if (u16_integer >= 0x3fe0) and (u16_integer <= 0x3fff):
-            error = int(u16_integer) - 16352
-            return error, 0.0
-
-        nenner = 10 ** int(float_pos)
-        zaehler = float(u16_integer) - 2048.0
-
-        float_value = float(zaehler / nenner)
-        return 0, float_value
-
-    def _decode_u32(self, byte3: uint8, byte4: uint8, byte6: uint8, byte7: uint8) -> Tuple[int, float]:
-        u16_integer1 = self._convert_u16(byte3, byte4)
-        u16_integer2 = self._convert_u16(byte6, byte7)
-        u32_integer = self._convert_u32(u16_integer1, u16_integer2)
-
-        float_pos = uint16(0xff - byte3)
-        float_pos = uint16(right_shift(float_pos, 3) - 15)
-
-        u32_integer = uint32(bitwise_and(u32_integer, 0x07ffffff))
-
-        if (100000000 + 0x2000000) > u32_integer:
-            compare = uint32(bitwise_and(u32_integer, 0x04000000))
-
-            if 0x04000000 == compare:
-                u32_integer = uint32(bitwise_or(u32_integer, 0xf8000000))
-
-            u32_integer = uint32(uint64(u32_integer) + 0x02000000)
-        else:
-            error = int(u32_integer - 0x02000000 - 16352)
-            return error, 0.0
-
-        i32_integer = int32(u32_integer)
-        float_value = float(i32_integer) / float(float(10.0) ** float_pos)
-        return 0, float_value
-
-    def _check_crc(self, byte1: int, byte2: int, crc: int) -> bool:
-
-        check_crc = self._crc(byte1, byte2)
-
-        if check_crc == crc:
-            return True
-
-        easyb.log.error(
-            "CRC check failed: {0:s} {1:s}, crc {2:s}, calculated {3:s}".format(hex(byte1), hex(byte2), hex(crc),
-                                                                                hex(check_crc)))
-        return False
 
     def _decode_header(self, byte0: int, byte1: int) -> bool:
         self._address = 255 - byte0
@@ -299,7 +217,7 @@ class Message(object):
             easyb.log.error("Header is not valid!")
             return
 
-        check = self._check_crc(header[0], header[1], header[2])
+        check = check_crc(header[0], header[1], header[2])
         if check is False:
             easyb.log.error("Header is not valid!")
             return False
@@ -326,11 +244,11 @@ class Message(object):
             return
 
         if self.length is Length.Byte6:
-            check = self._check_crc(data[0], data[1], data[2])
+            check = check_crc(data[0], data[1], data[2])
             if check is False:
                 return
 
-            error, value = self._decode_u16(data[0], data[1])
+            error, value = decode_u16(data[0], data[1])
             if error != 0:
                 self._error = error
                 return
@@ -338,12 +256,12 @@ class Message(object):
             self._value = value
 
         if self.length is Length.Byte9:
-            check1 = self._check_crc(data[0], data[1], data[2])
-            check2 = self._check_crc(data[3], data[4], data[5])
+            check1 = check_crc(data[0], data[1], data[2])
+            check2 = check_crc(data[3], data[4], data[5])
             if (check1 is False) or (check2 is False):
                 return
 
-            error, value = self._decode_u32(data[0], data[1], data[3], data[4])
+            error, value = decode_u32(data[0], data[1], data[3], data[4])
             if error != 0:
                 self._error = error
                 return
