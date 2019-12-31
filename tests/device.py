@@ -80,7 +80,8 @@ class TestControl(unittest.TestCase):
                                         length=Length.Byte3, direction=Direction.FromMaster)
 
         check = device.send(message)
-        arg_check = chr(254) + chr(0) + chr(61)
+
+        arg_check = bytes([254, 0, 61])
 
         args, _ = mock_serial.write.call_args
 
