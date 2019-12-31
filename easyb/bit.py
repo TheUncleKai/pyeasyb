@@ -90,11 +90,12 @@ def decode_u32(byte3: uint8, byte4: uint8, byte6: uint8, byte7: uint8) -> Tuple[
 
 
 def create_crc(byte1: int, byte2: int) -> int:
-    ui16_integer = uint16((byte1 << 8) | byte2)
+    ui16_integer = (byte1 << 8) | byte2
 
     counter = 0
     while counter < 16:
-        if bitwise_and(ui16_integer, 0x8000) == 0x8000:
+        check_value = bitwise_and(ui16_integer, 0x8000)
+        if check_value == 0x8000:
             ui16_integer = left_shift(ui16_integer, 1)
             ui16_integer = bitwise_xor(ui16_integer, 0x0700)
         else:
