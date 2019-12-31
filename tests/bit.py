@@ -36,7 +36,7 @@ class TestBit(unittest.TestCase):
         """
         return
 
-    def test_create_crc_1(self):
+    def test_create_crc(self):
 
         byte1 = 0xfe
         byte2 = 0x00
@@ -44,4 +44,25 @@ class TestBit(unittest.TestCase):
         crc = easyb.bit.create_crc(byte1, byte2)
 
         self.assertEqual(crc, 0x3d, "Failed: crc: " + hex(crc))
+        return
+
+    def test_check_crc_1(self):
+
+        check = easyb.bit.check_crc(0xfe, 0x00, 0x3d)
+
+        self.assertIs(check, True, "Failed: crc")
+        return
+
+    def test_check_crc_2(self):
+
+        check = easyb.bit.check_crc(0xfe, 0x00, 0x3c)
+
+        self.assertIs(check, False, "Failed: crc")
+        return
+
+    def test_decode_u32(self):
+        error, value = easyb.bit.decode_u32(0x72, 0xff, 0x00, 0xfc)
+
+        self.assertEqual(error, 0, "Failed: decode 32: " + str(value))
+        self.assertEqual(value, -0.04, "Failed: decode 32: " + str(value))
         return

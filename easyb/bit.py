@@ -22,7 +22,7 @@ import sys
 
 from typing import Tuple
 
-from numpy import uint8, uint16, uint32, int32, uint64, bitwise_and, bitwise_or, bitwise_xor, left_shift, right_shift
+from numpy import uint8, uint16, bitwise_and, right_shift
 
 __all__ = [
     "crop_u8",
@@ -36,6 +36,11 @@ __all__ = [
     "create_crc",
     "check_crc"
 ]
+
+
+def to_signed32(value):
+    value = value & 0xffffffff
+    return (value ^ 0x80000000) - 0x80000000
 
 
 def crop_u8(value: int) -> int:
@@ -103,28 +108,28 @@ def decode_u16(byte3: uint8, byte4: uint8) -> Tuple[int, float]:
     return 0, float_value
 
 
-def decode_u32(byte3: uint8, byte4: uint8, byte6: uint8, byte7: uint8) -> Tuple[int, float]:
+def decode_u32(byte3: int, byte4: int, byte6: int, byte7: int) -> Tuple[int, float]:
     u16_integer1 = convert_u16(byte3, byte4)
     u16_integer2 = convert_u16(byte6, byte7)
     u32_integer = convert_u32(u16_integer1, u16_integer2)
 
-    float_pos = uint16(0xff - byte3)
-    float_pos = uint16(right_shift(float_pos, 3) - 15)
+    float_pos = crop_u16(0xff - byte3)
+    float_pos = crop_u16((float_pos >> 3) - 15)
 
-    u32_integer = uint32(bitwise_and(u32_integer, 0x07ffffff))
+    u32_integer = crop_u32(u32_integer & 0x07ffffff)
 
     if (100000000 + 0x2000000) > u32_integer:
-        compare = uint32(bitwise_and(u32_integer, 0x04000000))
+        compare = crop_u32(u32_integer & 0x04000000)
 
         if 0x04000000 == compare:
-            u32_integer = uint32(bitwise_or(u32_integer, 0xf8000000))
+            u32_integer = crop_u32(u32_integer | 0xf8000000)
 
-        u32_integer = uint32(uint64(u32_integer) + 0x02000000)
+        u32_integer = crop_u32(u32_integer + 0x02000000)
     else:
         error = int(u32_integer - 0x02000000 - 16352)
         return error, 0.0
 
-    i32_integer = int32(u32_integer)
+    i32_integer = to_signed32(u32_integer)
     float_value = float(i32_integer) / float(float(10.0) ** float_pos)
     return 0, float_value
 

@@ -32,7 +32,10 @@
             "path": "tests.bit",
             "classname": "TestBit",
             "tests": [
-                "test_create_crc_1"
+                "test_create_crc",
+                "test_check_crc_1",
+                "test_check_crc_2",
+                "test_decode_u32"
             ]
         }
     ]
