@@ -66,3 +66,11 @@ class TestBit(unittest.TestCase):
         self.assertEqual(error, 0, "Failed: decode 32: " + str(value))
         self.assertEqual(value, -0.04, "Failed: decode 32: " + str(value))
         return
+
+    def test_encode_u32(self):
+        value = -0.04
+        check = [0x72, 0xff, 0x84, 0x00, 0xfc, 0x05]
+
+        data = easyb.bit.encode_u32(value)
+        self.assertListEqual(data, check, "Failed: encode_u32")
+        return

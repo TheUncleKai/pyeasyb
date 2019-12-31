@@ -20,7 +20,9 @@ import easyb
 import sys
 
 
-from typing import Tuple
+from typing import Tuple, List
+
+import math
 
 from numpy import uint8, uint16, bitwise_and, right_shift
 
@@ -41,6 +43,11 @@ __all__ = [
 def to_signed32(value):
     value = value & 0xffffffff
     return (value ^ 0x80000000) - 0x80000000
+
+
+def to_unsigned32(value):
+    value = value & 0xffffffff
+    return value
 
 
 def crop_u8(value: int) -> int:
@@ -113,8 +120,8 @@ def decode_u32(byte3: int, byte4: int, byte6: int, byte7: int) -> Tuple[int, flo
     u16_integer2 = convert_u16(byte6, byte7)
     u32_integer = convert_u32(u16_integer1, u16_integer2)
 
-    float_pos = crop_u16(0xff - byte3)
-    float_pos = crop_u16((float_pos >> 3) - 15)
+    float_pos = 0xff - byte3
+    float_pos = (float_pos >> 3) - 15
 
     u32_integer = crop_u32(u32_integer & 0x07ffffff)
 
@@ -132,6 +139,36 @@ def decode_u32(byte3: int, byte4: int, byte6: int, byte7: int) -> Tuple[int, flo
     i32_integer = to_signed32(u32_integer)
     float_value = float(i32_integer) / float(float(10.0) ** float_pos)
     return 0, float_value
+
+
+def encode_u32(float_value: float) -> List[int]:
+    float_pos = len(str(math.floor(float_value)))
+
+    i32_integer = int(float_value * float(float(10.0) ** float_pos))
+    u32_integer = to_unsigned32(i32_integer)
+
+    u32_integer = crop_u32(u32_integer - 0x02000000)
+
+    check_integer = u32_integer & 0x7FFFFFF
+    compare = crop_u32(check_integer & 0x04000000)
+
+    if 0x04000000 == compare:
+        u32_integer = check_integer
+
+    float_value = crop_u16((float_pos + 15) << 3) << 24
+
+    u32_integer = u32_integer | float_value
+
+    byte3 = 255 - ((u32_integer & 0xff000000) >> 24)
+    byte4 = (u32_integer & 0x00ff0000) >> 16
+    byte5 = create_crc(byte3, byte4)
+
+    byte6 = 255 - ((u32_integer & 0x0000ff00) >> 8)
+    byte7 = u32_integer & 0x000000ff
+    byte8 = create_crc(byte6, byte7)
+
+    result = [byte3, byte4, byte5, byte6, byte7, byte8]
+    return result
 
 
 def create_crc(byte1: int, byte2: int) -> int:
