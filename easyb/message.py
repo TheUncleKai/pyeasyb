@@ -20,7 +20,7 @@ import easyb
 
 from numpy import uint8, bitwise_or
 
-from typing import List, Any
+from typing import List, Any, Union
 from easyb.definitions import Direction, get_direction, Length, get_length, Priority, get_priority
 from easyb.bit import decode_u16, decode_u32, check_crc, create_crc
 
@@ -160,17 +160,17 @@ class Message(object):
         result.append(byte)
         return
 
-    def encode(self) -> List[int]:
+    def encode(self) -> Union[bytes, None]:
 
         if (self.length == Length.Byte6) and (len(self.data) != 2):
             easyb.log.error("Invald data size for Byte6: " + str(len(self.data)))
             self._success = False
-            return []
+            return None
 
         if (self.length == Length.Byte9) and (len(self.data) != 4):
             easyb.log.error("Invald data size for Byte4: " + str(len(self.data)))
             self._success = False
-            return []
+            return None
 
         result = []
 
@@ -191,7 +191,9 @@ class Message(object):
             self._encode_byte9(result)
 
         self._success = True
-        return result
+
+        data = bytes(result)
+        return data
 
     def _decode_header(self, byte0: int, byte1: int) -> bool:
         self._address = 255 - byte0

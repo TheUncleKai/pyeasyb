@@ -111,7 +111,6 @@ class Device(object):
             return False
 
         for item in stream:
-            data = data + chr(item)
             if debug == "":
                 debug = "0x{:02x}".format(item)
             else:
@@ -124,7 +123,10 @@ class Device(object):
 
         easyb.log.debug2("SERIAL", debug2)
         easyb.log.debug1("SERIAL", "Write: " + debug)
-        count = self.ser.write(data)
-        if count != len(data):
+        count = self.ser.write(stream)
+        if count != len(stream):
             return False
+        return True
+
+    def receive(self) -> bool:
         return True

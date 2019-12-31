@@ -189,7 +189,7 @@ class TestMessage(unittest.TestCase):
 
         result = message.encode()
         self.assertIs(message.success, False, "Failed: success")
-        self.assertEqual(len(result), 0, "Failed: result")
+        self.assertIsNone(result, "Failed: result")
         return
 
     def test_encode_6(self):
@@ -199,7 +199,7 @@ class TestMessage(unittest.TestCase):
 
         result = message.encode()
         self.assertIs(message.success, False, "Failed: success")
-        self.assertEqual(len(result), 0, "Failed: result")
+        self.assertIsNone(result, "Failed: result")
         return
 
     def test_decode_1(self):
