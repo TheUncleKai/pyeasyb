@@ -1,12 +1,13 @@
 {
     "modules": [
         {
-            "id": "Control",
-            "path": "tests.control",
+            "id": "Device",
+            "path": "tests.device",
             "classname": "TestControl",
             "tests": [
                 "test_constructor",
-                "test_setup"
+                "test_setup",
+                "test_write"
             ]
         },
         {

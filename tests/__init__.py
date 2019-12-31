@@ -17,6 +17,6 @@
 #
 
 __all__ = [
-    "control",
+    "device.py",
     "message"
 ]

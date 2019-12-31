@@ -66,15 +66,17 @@ def _write_stderr(content, raw=False):
 
 class Log(object):
 
+    reset = colorama.Style.RESET_ALL
+    label_num = 15
+    seperator = "| "
+    level = 0
+
     def __init__(self):
         colorama.init()
-
-        self.reset = colorama.Style.RESET_ALL
-        self.LabelNum = 15
-        self.Seperator = "| "
         return
 
-    def raw(self, content: str):
+    @staticmethod
+    def raw(content: str):
         _write_stdout(content)
         return
 
@@ -82,7 +84,38 @@ class Log(object):
 
         scheme = _create_scheme("BRIGHT", "GREEN")
 
-        content = self.reset + scheme + " " + tag.ljust(self.LabelNum) + self.Seperator + self.reset + text
+        content = self.reset + scheme + " " + tag.ljust(self.label_num) + self.seperator + self.reset + text
+        _write_stdout(content)
+        return
+
+    def debug1(self, tag, text):
+
+        if self.level < 1:
+            return
+
+        scheme = _create_scheme("BRIGHT", "GREEN")
+        content = self.reset + scheme + " " + tag.ljust(self.label_num) + self.seperator + self.reset + text
+        _write_stdout(content)
+        return
+
+    def debug2(self, tag, text):
+
+        if self.level < 2:
+            return
+
+        scheme = _create_scheme("BRIGHT", "GREEN")
+        content = self.reset + scheme + " " + tag.ljust(self.label_num) + self.seperator + self.reset + text
+        _write_stdout(content)
+        return
+
+    def debug3(self, tag, text):
+
+        if self.level < 3:
+            return
+
+        scheme = _create_scheme("BRIGHT", "GREEN")
+
+        content = self.reset + scheme + " " + tag.ljust(self.label_num) + self.seperator + self.reset + text
         _write_stdout(content)
         return
 
@@ -90,7 +123,7 @@ class Log(object):
 
         scheme = _create_scheme("BRIGHT", "MAGENTA")
 
-        content = self.reset + scheme + " " + tag.ljust(self.LabelNum) + self.Seperator + self.reset + text
+        content = self.reset + scheme + " " + tag.ljust(self.label_num) + self.seperator + self.reset + text
         _write_stdout(content)
         return
 
@@ -99,7 +132,7 @@ class Log(object):
         scheme = _create_scheme("BRIGHT", "RED")
         tag = "ERROR"
 
-        content = self.reset + scheme + " " + tag.ljust(self.LabelNum) + self.Seperator + self.reset + text
+        content = self.reset + scheme + " " + tag.ljust(self.label_num) + self.seperator + self.reset + text
         _write_stderr(content)
         return
 
@@ -120,6 +153,6 @@ class Log(object):
         tag = "EXCEPTION"
         text = str(e)
 
-        content = self.reset + scheme + " " + tag.ljust(self.LabelNum) + self.Seperator + self.reset + text
+        content = self.reset + scheme + " " + tag.ljust(self.label_num) + self.seperator + self.reset + text
         _write_stderr(content)
         return

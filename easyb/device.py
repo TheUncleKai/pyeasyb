@@ -17,11 +17,14 @@
 #
 
 import easyb
+import serial
 
-from serial import Serial, EIGHTBITS, PARITY_NONE, STOPBITS_ONE, SerialException, SerialTimeoutException
+from serial import Serial
+
+from easyb.message import Message
 
 
-class Control(object):
+class Device(object):
 
     def __init__(self, port: str):
         """Control constructor
@@ -59,16 +62,16 @@ class Control(object):
 
         try:
             self._ser = Serial(baudrate=baudrate,
-                               bytesize=EIGHTBITS,
-                               parity=PARITY_NONE,
-                               stopbits=STOPBITS_ONE,
+                               bytesize=serial.EIGHTBITS,
+                               parity=serial.PARITY_NONE,
+                               stopbits=serial.STOPBITS_ONE,
                                timeout=timeout,
                                xonxoff=0,
                                rtscts=0,
                                dsrdtr=0,
                                interCharTimeout=None,
                                writeTimeout=write_timeout)
-        except SerialException as e:
+        except serial.SerialException as e:
             easyb.log.exception(e)
 
         return True
@@ -88,15 +91,40 @@ class Control(object):
 
         try:
             self.ser.open()
-        except SerialTimeoutException as e:
+        except serial.SerialTimeoutException as e:
             easyb.log.error("Timeout during opening of serial port!")
             easyb.log.exception(e)
             return False
-        except SerialException as e:
+        except serial.SerialException as e:
             easyb.log.error("Problem during opening of serial port!")
             easyb.log.exception(e)
             return False
         return True
 
-    def send(self, address: int, command: int) -> bool:
+    def send(self, message: Message) -> bool:
+
+        data = ""
+        debug = ""
+        stream = message.encode()
+
+        if message.success is False:
+            return False
+
+        for item in stream:
+            data = data + chr(item)
+            if debug == "":
+                debug = "0x{:02x}".format(item)
+            else:
+                debug = debug + " 0x{:02x}".format(item)
+
+        debug2 = "Address " + str(message.address) + ", Code: " + str(message.code)
+        debug2 += ", " + message.priority.name
+        debug2 += ", " + message.length.name
+        debug2 += ", " + message.direction.name
+
+        easyb.log.debug2("SERIAL", debug2)
+        easyb.log.debug1("SERIAL", "Write: " + debug)
+        count = self.ser.write(data)
+        if count != len(data):
+            return False
         return True
