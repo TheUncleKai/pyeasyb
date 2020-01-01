@@ -23,12 +23,10 @@ import easyb
 
 from easyb.device import Device
 from easyb.command import Command
+from serial import SerialException
 
 from serial import EIGHTBITS, PARITY_NONE, STOPBITS_ONE
 from easyb.definitions import Direction, Length, Priority
-
-mock_read = mock.Mock()
-mock_write = mock.Mock()
 
 
 class TestDevice(Device):
@@ -124,13 +122,63 @@ class TestControl(unittest.TestCase):
         self.assertIsNone(device.ser.interCharTimeout)
         return
 
-    @mock.patch('easyb.device.Serial', new=mock_write)
+    def test_open_1(self):
+        """Test constructor.
+        """
+
+        device = TestDevice()
+        device.port = "TEST"
+
+        mock_serial = mock.Mock()
+
+        device._ser = mock_serial
+        mock_serial.open = mock.Mock()
+
+        check = device.open()
+        self.assertTrue(check)
+        self.assertTrue(mock_serial.open.called, 'Serial open method not called')
+        return
+
+    def test_open_2(self):
+        """Test constructor.
+        """
+
+        device = TestDevice()
+        device.port = "TEST"
+
+        mock_serial = mock.Mock()
+
+        device._ser = mock_serial
+        mock_serial.open = mock.Mock(side_effect=SerialException('Attempting to use a port that is not open'))
+
+        check = device.open()
+        self.assertFalse(check)
+        self.assertTrue(mock_serial.open.called, 'Serial open method not called')
+        return
+
+    def test_open_3(self):
+        """Test constructor.
+        """
+
+        device = TestDevice()
+
+        mock_serial = mock.Mock()
+
+        device._ser = mock_serial
+
+        check = device.open()
+        self.assertFalse(check)
+        self.assertFalse(mock_serial.open.called, 'Serial open method not called')
+        return
+
     def test_write(self):
         device = TestDevice()
 
-        device._ser = mock_write
-        mock_write.write = mock.Mock()
-        mock_write.write.return_value = 3
+        mock_serial = mock.Mock()
+
+        device._ser = mock_serial
+        mock_serial.write = mock.Mock()
+        mock_serial.write.return_value = 3
 
         message = easyb.message.Message(address=1, code=0, priority=Priority.NoPriority,
                                         length=Length.Byte3, direction=Direction.FromMaster)
@@ -139,21 +187,22 @@ class TestControl(unittest.TestCase):
 
         arg_check = bytes([254, 0, 61])
 
-        args, _ = mock_write.write.call_args
+        args, _ = mock_serial.write.call_args
 
         self.assertTrue(check)
-        self.assertTrue(mock_write.write.called, 'Serial write method not called')
+        self.assertTrue(mock_serial.write.called, 'Serial write method not called')
         self.assertEqual(args[0], arg_check)
         return
 
-    @mock.patch('easyb.device.Serial', new=mock_read)
     def test_read(self):
         device = TestDevice()
 
+        mock_serial = mock.Mock()
+
         test_read = TestRead()
 
-        device._ser = mock_read
-        mock_read.read = test_read.test_read_1
+        device._ser = mock_serial
+        mock_serial.read = test_read.test_read_1
 
         message = device.receive()
 

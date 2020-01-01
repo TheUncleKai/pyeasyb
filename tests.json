@@ -7,6 +7,9 @@
             "tests": [
                 "test_constructor",
                 "test_setup",
+                "test_open_1",
+                "test_open_2",
+                "test_open_3",
                 "test_write",
                 "test_read"
             ]

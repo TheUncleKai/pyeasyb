@@ -82,7 +82,7 @@ class Device(metaclass=ABCMeta):
 
         return command
 
-    def setup(self, baudrate: int = 4800, timeout: int = 6, write_timeout: int = 2) -> bool:
+    def setup(self, baudrate: int = 4800, timeout: int = 6, write_timeout: int = 2):
         """Setup control module
 
         :param baudrate: baudrate of serial connection
@@ -98,21 +98,17 @@ class Device(metaclass=ABCMeta):
         :rtype: bool
         """
 
-        try:
-            self._ser = Serial(baudrate=baudrate,
-                               bytesize=serial.EIGHTBITS,
-                               parity=serial.PARITY_NONE,
-                               stopbits=serial.STOPBITS_ONE,
-                               timeout=timeout,
-                               xonxoff=0,
-                               rtscts=0,
-                               dsrdtr=0,
-                               interCharTimeout=None,
-                               writeTimeout=write_timeout)
-        except serial.SerialException as e:
-            easyb.log.exception(e)
-
-        return True
+        self._ser = Serial(baudrate=baudrate,
+                           bytesize=serial.EIGHTBITS,
+                           parity=serial.PARITY_NONE,
+                           stopbits=serial.STOPBITS_ONE,
+                           timeout=timeout,
+                           xonxoff=0,
+                           rtscts=0,
+                           dsrdtr=0,
+                           interCharTimeout=None,
+                           writeTimeout=write_timeout)
+        return
 
     def open(self) -> bool:
         """Open serial connection
@@ -129,10 +125,6 @@ class Device(metaclass=ABCMeta):
 
         try:
             self.ser.open()
-        except serial.SerialTimeoutException as e:
-            easyb.log.error("Timeout during opening of serial port!")
-            easyb.log.exception(e)
-            return False
         except serial.SerialException as e:
             easyb.log.error("Problem during opening of serial port!")
             easyb.log.exception(e)
