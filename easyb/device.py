@@ -222,7 +222,7 @@ class Device(metaclass=ABCMeta):
 
         return data
 
-    def run(self, number: int) -> bool:
+    def run_command(self, number: int) -> bool:
         command = self.get_command(number)
 
         if command is None:
@@ -246,5 +246,13 @@ class Device(metaclass=ABCMeta):
         return
 
     @abc.abstractmethod
-    def read_value(self):
+    def prepare(self):
+        return
+
+    @abc.abstractmethod
+    def run(self):
+        return
+
+    @abc.abstractmethod
+    def close(self):
         return

@@ -156,7 +156,10 @@ class GMH3710(Device):
         self.add_command(command)
         return
 
-    def read_value(self):
+    def prepare(self):
+        return
+
+    def run(self):
         command = self.get_command(0)
 
         message = self.execute(command)
@@ -164,4 +167,7 @@ class GMH3710(Device):
             return
 
         self.data.append(Data(message.value))
+        return
+
+    def close(self):
         return
