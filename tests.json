@@ -17,7 +17,10 @@
                 "test_read_receive_1",
                 "test_read_receive_2",
                 "test_read_receive_3",
-                "test_read_receive_4"
+                "test_read_receive_4",
+                "test_execute_1",
+                "test_execute_2",
+                "test_execute_3"
             ]
         },
         {

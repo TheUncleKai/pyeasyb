@@ -209,6 +209,9 @@ class Device(metaclass=ABCMeta):
         time.sleep(self.wait_time)
 
         data = self.receive()
+        if data is None:
+            return None
+
         if data.success is False:
             return None
 

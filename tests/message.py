@@ -204,7 +204,7 @@ class TestMessage(unittest.TestCase):
         return
 
     def test_command_1(self):
-        command = easyb.command.Command("Read Sensor", 1, 0, Length.Byte3, [])
+        command = easyb.command.Command(name="Read Sensor", address=1, code=0, length=Length.Byte3)
         message = easyb.message.Message()
 
         message.command(command)
