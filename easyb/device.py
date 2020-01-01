@@ -80,6 +80,9 @@ class Device(metaclass=ABCMeta):
             if item.number == number:
                 command = item
 
+        if command is None:
+            easyb.log.error("Command number is unknown: " +  str(number))
+
         return command
 
     def setup(self, baudrate: int = 4800, timeout: int = 6, write_timeout: int = 2):

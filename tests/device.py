@@ -96,10 +96,11 @@ class TestControl(unittest.TestCase):
         device = TestDevice()
         device.port = "TEST"
 
-        self.assertNotEqual(device, None, "Failed: test_constructor")
-        self.assertEqual(device.name, "TEST-DEVICE", "Failed: set port")
-        self.assertEqual(device.port, "TEST", "Failed: set port")
-        self.assertIsNone(device.ser, "Failed: serial not None")
+        self.assertNotEqual(device, None)
+        self.assertEqual(device.name, "TEST-DEVICE")
+        self.assertEqual(device.port, "TEST")
+        self.assertEqual(device.wait_time, 0.1)
+        self.assertIsNone(device.ser)
         return
 
     def test_setup(self):
@@ -169,6 +170,32 @@ class TestControl(unittest.TestCase):
         check = device.open()
         self.assertFalse(check)
         self.assertFalse(mock_serial.open.called, 'Serial open method not called')
+        return
+
+    def test_get_command_1(self):
+        """Test constructor.
+        """
+
+        device = TestDevice()
+
+        command = device.get_command(0)
+
+        self.assertIsNotNone(command)
+        self.assertEqual(command.name, "Messwert lesen")
+        self.assertEqual(command.number, 0)
+        self.assertEqual(command.address, 1)
+        self.assertEqual(command.code, 0)
+        return
+
+    def test_get_command_2(self):
+        """Test constructor.
+        """
+
+        device = TestDevice()
+
+        command = device.get_command(1)
+
+        self.assertIsNone(command)
         return
 
     def test_write(self):
