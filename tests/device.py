@@ -405,3 +405,41 @@ class TestControl(unittest.TestCase):
 
         self.assertIsNone(message)
         return
+
+    def test_run_1(self):
+        device = TestDevice()
+
+        test_read = TestRead()
+
+        mock_serial = mock.Mock()
+
+        device._ser = mock_serial
+        mock_serial.write = mock.Mock()
+        mock_serial.write.return_value = 3
+        mock_serial.read = test_read.test_read_1
+
+        check = device.run(0)
+        self.assertTrue(check)
+        return
+
+    def test_run_2(self):
+        device = TestDevice()
+
+        test_read = TestRead()
+
+        mock_serial = mock.Mock()
+
+        device._ser = mock_serial
+        mock_serial.write = mock.Mock(side_effect=SerialException('Attempting to use a port that is not open'))
+        mock_serial.read = test_read.test_read_1
+
+        check = device.run(0)
+        self.assertFalse(check)
+        return
+
+    def test_run_3(self):
+        device = TestDevice()
+
+        check = device.run(1)
+        self.assertFalse(check)
+        return

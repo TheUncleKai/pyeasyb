@@ -21,7 +21,10 @@
                 "test_execute_1",
                 "test_execute_2",
                 "test_execute_3",
-                "test_execute_4"
+                "test_execute_4",
+                "test_run_1",
+                "test_run_2",
+                "test_run_3"
             ]
         },
         {
