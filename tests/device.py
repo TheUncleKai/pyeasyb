@@ -84,6 +84,18 @@ class TestRead(object):
         result = message.encode()
         return result
 
+    def test_read_3(self, count) -> bytes:
+        data = []
+
+        if self.run == 0:
+            data = [0xfe, 0x0d, 0x1e]
+        if self.run == 1:
+            raise SerialException('Attempting to use a port that is not open')
+        result = bytes(data)
+
+        self.run += 1
+        return result
+
 
 class TestControl(unittest.TestCase):
     """Testing class for locking module."""
@@ -290,6 +302,21 @@ class TestControl(unittest.TestCase):
 
         device._ser = mock_serial
         mock_serial.read = test_read.test_read_2
+
+        message = device.receive()
+
+        self.assertIsNone(message)
+        return
+
+    def test_read_receive_4(self):
+        device = TestDevice()
+
+        test_read = TestRead()
+
+        mock_serial = mock.Mock()
+
+        device._ser = mock_serial
+        mock_serial.read = test_read.test_read_3
 
         message = device.receive()
 

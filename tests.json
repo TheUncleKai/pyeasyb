@@ -16,7 +16,8 @@
                 "test_send_2",
                 "test_read_receive_1",
                 "test_read_receive_2",
-                "test_read_receive_3"
+                "test_read_receive_3",
+                "test_read_receive_4"
             ]
         },
         {
