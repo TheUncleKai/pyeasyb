@@ -21,6 +21,7 @@ import unittest
 
 import easyb
 
+from easyb.message import Message
 from easyb.device import Device
 from easyb.command import Command
 from serial import SerialException
@@ -73,6 +74,14 @@ class TestRead(object):
         result = bytes(data)
 
         self.run += 1
+        return result
+
+    def test_read_2(self, count) -> bytes:
+
+        message = Message(code=0, address=1, priority=Priority.NoPriority, length=Length.Variable,
+                          direction=Direction.FromMaster)
+
+        result = message.encode()
         return result
 
 
@@ -238,7 +247,7 @@ class TestControl(unittest.TestCase):
         self.assertTrue(mock_serial.write.called)
         return
 
-    def test_read(self):
+    def test_read_receive_1(self):
         device = TestDevice()
 
         mock_serial = mock.Mock()
@@ -257,4 +266,32 @@ class TestControl(unittest.TestCase):
         self.assertEqual(message.priority, Priority.Priority, 'Failed: priority')
         self.assertTrue(message.success, 'Failed: success')
         self.assertEqual(message.value, -0.04)
+        return
+
+    def test_read_receive_2(self):
+        device = TestDevice()
+
+        mock_serial = mock.Mock()
+
+        device._ser = mock_serial
+        mock_serial.read = mock.Mock(side_effect=SerialException('Attempting to use a port that is not open'))
+
+        message = device.receive()
+
+        self.assertIsNone(message)
+        return
+
+    def test_read_receive_3(self):
+        device = TestDevice()
+
+        test_read = TestRead()
+
+        mock_serial = mock.Mock()
+
+        device._ser = mock_serial
+        mock_serial.read = test_read.test_read_2
+
+        message = device.receive()
+
+        self.assertIsNone(message)
         return
