@@ -19,13 +19,46 @@
 import unittest.mock as mock
 import unittest
 
-import easyb.device
+import easyb
+
+from easyb.device import Device
+from easyb.command import Command
 
 from serial import EIGHTBITS, PARITY_NONE, STOPBITS_ONE
 from easyb.definitions import Direction, Length, Priority
 
 mock_read = mock.Mock()
 mock_write = mock.Mock()
+
+
+class TestDevice(Device):
+
+    def __init__(self, **kwargs):
+        self._address = 1
+
+        item = kwargs.get("address", 1)
+        if item is not None:
+            self._address = item
+
+        Device.__init__(self, "TEST-DEVICE", 0.1)
+        return
+
+    def read_measurement(self) -> bool:
+        command = self.get_command(0)
+
+        message = self.execute(command)
+        if message is None:
+            return False
+
+        easyb.log.inform("VALUE", str(message.value))
+        return True
+
+    def init_commands(self):
+
+        command = Command(name="Messwert lesen", number=0, address=self._address, code=0,
+                          func_call=self.read_measurement)
+        self.commands.append(command)
+        return
 
 
 class TestRead(object):
@@ -62,17 +95,21 @@ class TestControl(unittest.TestCase):
     def test_constructor(self):
         """Test constructor.
         """
-        device = easyb.device.Device("TEST")
+        device = TestDevice()
+        device.port = "TEST"
 
         self.assertNotEqual(device, None, "Failed: test_constructor")
-        self.assertIs(device.port, "TEST", "Failed: set port")
+        self.assertEqual(device.name, "TEST-DEVICE", "Failed: set port")
+        self.assertEqual(device.port, "TEST", "Failed: set port")
         self.assertIsNone(device.ser, "Failed: serial not None")
         return
 
     def test_setup(self):
         """Test constructor.
         """
-        device = easyb.device.Device("TEST")
+
+        device = TestDevice()
+        device.port = "TEST"
         device.setup()
 
         self.assertIsNotNone(device.ser, "Failed: serial is None")
@@ -89,7 +126,7 @@ class TestControl(unittest.TestCase):
 
     @mock.patch('easyb.device.Serial', new=mock_write)
     def test_write(self):
-        device = easyb.device.Device("TEST")
+        device = TestDevice()
 
         device._ser = mock_write
         mock_write.write = mock.Mock()
@@ -111,7 +148,7 @@ class TestControl(unittest.TestCase):
 
     @mock.patch('easyb.device.Serial', new=mock_read)
     def test_read(self):
-        device = easyb.device.Device("TEST")
+        device = TestDevice()
 
         test_read = TestRead()
 

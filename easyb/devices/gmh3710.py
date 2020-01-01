@@ -64,8 +64,6 @@ class GMH3710(Device):
         return self._id_number
 
     def __init__(self, **kwargs):
-        Device.__init__(self, "GMH 3710", 0.1)
-
         self._address = 1
         self._data = []
 
@@ -78,6 +76,8 @@ class GMH3710(Device):
         item = kwargs.get("address", 1)
         if item is not None:
             self._address = item
+
+        Device.__init__(self, "GMH 3710", 0.1)
         return
 
     def read_measurement(self) -> bool:

@@ -33,14 +33,6 @@ from abc import ABCMeta
 
 class Device(metaclass=ABCMeta):
 
-    @property
-    def commands(self) -> List[Command]:
-        return self._commands
-
-    @property
-    def wait_time(self) -> float:
-        return self._wait_time
-
     def __init__(self, name: str, wait_time: float = 0.01):
         """Control constructor
 
@@ -52,7 +44,17 @@ class Device(metaclass=ABCMeta):
         self._port = ""
         self._wait_time = wait_time
         self._commands = []
+
+        self.init_commands()
         return
+
+    @property
+    def name(self) -> str:
+        return self._name
+
+    @property
+    def ser(self) -> Serial:
+        return self._ser
 
     @property
     def port(self) -> str:
@@ -64,11 +66,12 @@ class Device(metaclass=ABCMeta):
         return
 
     @property
-    def ser(self) -> Serial:
-        return self._ser
+    def wait_time(self) -> float:
+        return self._wait_time
 
-    def init(self):
-        return
+    @property
+    def commands(self) -> List[Command]:
+        return self._commands
 
     def get_command(self, number: int) -> Union[None, Command]:
         command = None
