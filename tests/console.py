@@ -17,8 +17,23 @@
 #
 
 import unittest
+import unittest.mock as mock
 
 from easyb.console import Console
+
+
+class TestOptions(object):
+
+    device = ""
+    command = 0
+    port = ""
+    verbose = 0
+
+    def test_1(self):
+        self.device = "GMH 3710"
+        self.command = 0
+        self.port = "TEST"
+        self.verbose = 0
 
 
 # noinspection DuplicatedCode
@@ -43,4 +58,36 @@ class TestConsole(unittest.TestCase):
         self.assertIsNone(console.device)
         self.assertIsNone(console.command)
         self.assertEqual(console.port, "")
+        return
+
+    def test_prepare_1(self):
+        """tear down test.
+        """
+        options = TestOptions()
+        options.test_1()
+
+        console = Console()
+        console._parser = mock.Mock()
+        console._parser.parse_args = mock.Mock()
+        console._parser.parse_args.return_value = (options, None)
+
+        check = console.prepare()
+
+        self.assertTrue(check)
+        return
+
+    def test_prepare_2(self):
+        """tear down test.
+        """
+        options = TestOptions()
+        options.test_1()
+
+        console = Console()
+        console._parser = mock.Mock()
+        console._parser.parse_args = mock.Mock()
+        console._parser.parse_args.return_value = (None, None)
+
+        check = console.prepare()
+
+        self.assertFalse(check)
         return

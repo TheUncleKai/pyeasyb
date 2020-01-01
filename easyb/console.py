@@ -33,17 +33,22 @@ __all__ = [
 class Console(object):
 
     options = None
-    parser = OptionParser("usage: %prog [options]")
+
+    @property
+    def parser(self) -> OptionParser:
+        return self._parser
 
     def __init__(self):
 
-        self.parser.add_option("-d", "--device", help="use device", metavar="DEVICE", type="string", default="")
-        self.parser.add_option("-c", "--command", help="run command", metavar="COMMAND", type="int", default=None)
-        self.parser.add_option("-p", "--port", help="serial port", metavar="PORT", type="string", default="")
-        self.parser.add_option("-v", "--verbose", help="run verbose level [0..3]", metavar="VERBOSE", type="int",
-                               default=0)
+        self._parser = OptionParser("usage: %prog [options]")
+        self._parser.add_option("-d", "--device", help="use device", metavar="DEVICE", type="string", default="")
+        self._parser.add_option("-c", "--command", help="run command", metavar="COMMAND", type="int", default=None)
+        self._parser.add_option("-p", "--port", help="serial port", metavar="PORT", type="string", default="")
+        self._parser.add_option("-v", "--verbose", help="run verbose level [0..3]", metavar="VERBOSE", type="int",
+                                default=0)
 
-        self.parser.add_option("-r", "--read", help="read values continuously", action="store_true", default=False)
+        self._parser.add_option("-r", "--read", help="read values continuously", action="store_true", default=False)
+
         self._device = None
         self._command = None
         self._port = ""

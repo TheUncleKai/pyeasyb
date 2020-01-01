@@ -59,6 +59,9 @@ class TestDevice(Device):
         self.commands.append(command)
         return
 
+    def read_value(self):
+        return
+
 
 class TestRead(object):
 

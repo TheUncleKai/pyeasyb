@@ -66,7 +66,9 @@
             "path": "tests.console",
             "classname": "TestConsole",
             "tests": [
-                "test_constructor"
+                "test_constructor",
+                "test_prepare_1",
+                "test_prepare_2"
             ]
         }
     ]
