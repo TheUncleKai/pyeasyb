@@ -206,7 +206,7 @@ class Message(object):
         data = bytes(result)
         return data
 
-    def _decode_header(self, byte0: int, byte1: int) -> bool:
+    def _decode_header(self, byte0: int, byte1: int):
         self._address = 255 - byte0
         self._code = (byte1 & 0xf0) >> 4
 
@@ -217,10 +217,7 @@ class Message(object):
         self._priority = get_priority(priority)
         self._length = get_length(length)
         self._direction = get_direction(direction)
-
-        if (self._priority is None) or (self._length is None) or (self._direction is None):
-            return False
-        return True
+        return
 
     def decode(self, data: bytes):
         self._error = 0
@@ -239,11 +236,7 @@ class Message(object):
             easyb.log.error("Header is not valid!")
             return False
 
-        check = self._decode_header(header[0], header[1])
-        if check is False:
-            easyb.log.error("Unable to decode header!")
-            return False
-
+        self._decode_header(header[0], header[1])
         self._success = True
         return
 

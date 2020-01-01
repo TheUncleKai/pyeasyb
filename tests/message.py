@@ -256,3 +256,21 @@ class TestMessage(unittest.TestCase):
         self.assertIs(message.success, False, "Failed: success")
         self.assertIsNone(message.value, "Failed: value")
         return
+
+    def test_decode_4(self):
+        message = easyb.message.Message()
+
+        header = bytes([0xfe, 0x0d])
+
+        message.decode(header)
+        self.assertIs(message.success, False, "Failed: success")
+        return
+
+    def test_decode_5(self):
+        message = easyb.message.Message()
+
+        header = bytes([0xfc, 0x0d, 0x1e])
+
+        message.decode(header)
+        self.assertIs(message.success, False, "Failed: success")
+        return
