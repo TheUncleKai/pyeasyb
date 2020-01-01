@@ -19,7 +19,6 @@
 import sys
 import easyb
 import easyb.devices
-from typing import Union
 from optparse import OptionParser
 
 from easyb.device import Device
@@ -38,6 +37,10 @@ class Console(object):
     def parser(self) -> OptionParser:
         return self._parser
 
+    @property
+    def device(self) -> Device:
+        return self._device
+
     def __init__(self):
 
         self._parser = OptionParser("usage: %prog [options]")
@@ -48,23 +51,32 @@ class Console(object):
                                 default=0)
 
         self._parser.add_option("-r", "--read", help="read values continuously", action="store_true", default=False)
+        self._parser.add_option("-l", "--list", help="list device and commands", action="store_true", default=False)
 
         self._device = None
         self._command = None
         self._port = ""
+        self._read = False
+        self._list = False
         return
 
-    @property
-    def device(self) -> Device:
-        return self._device
+    def _check_params(self) -> bool:
+        if self.options.list is True:
+            return True
 
-    @property
-    def command(self) -> Union[None, int]:
-        return self._command
+        if self.options.device == "":
+            easyb.log.error("No device given!")
+            return False
 
-    @property
-    def port(self) -> str:
-        return self._port
+        if (self.options.command is None) and (self.options.read is False):
+            easyb.log.error("No command given!")
+            return False
+
+        if self.options.port == "":
+            easyb.log.error("Serial port is missing!")
+            return False
+
+        return True
 
     def prepare(self) -> bool:
         """Start and prepare the test task.
@@ -88,35 +100,22 @@ class Console(object):
         easyb.log.inform(easyb.__name__, sys.platform)
         easyb.log.inform(easyb.__name__, version)
 
-        if options.port == "":
-            easyb.log.error("Serial port is missing!")
+        check = self._check_params()
+        if check is False:
             return False
 
-        self._port = options.port
-
-        if options.device == "":
-            easyb.log.error("No device given!")
+        if self.options.list is True:
             list_devices()
-            return False
+            return True
 
-        self._device = get_device(options.device)
-
+        self._device = get_device(self.options.device)
         if self.device is None:
             easyb.log.error("Device {0:s} is unknown!".format(options.device))
             return False
 
-        if options.command is None:
-            easyb.log.error("No command given!")
-            self.device.list_commands()
+        if self.options.command not in self.device.command_list:
+            easyb.log.error("Command number is unknown: {0:d}".format(self.options.command))
             return False
-
-        command = options.command
-
-        if command not in self.device.command_list:
-            easyb.log.error("Command number is unknown: {0:d}".format(command))
-            return False
-
-        self._command = command
         return True
 
     def run(self) -> bool:
@@ -125,10 +124,13 @@ class Console(object):
         :returns: True if successfull, otherwise False.
         :rtype: bool
         """
-        easyb.log.inform("Port", self.port)
-        easyb.log.inform("Device", self.device.name)
+        if self.options.list is True:
+            return True
 
-        command = self.device.get_command(self.command)
+        easyb.log.inform("Port", self.options.port)
+        easyb.log.inform("Device", self.options.device)
+
+        command = self.device.get_command(self.options.command)
 
         easyb.log.inform("Command", "{0:d}: {1:s}".format(command.number, command.name))
         return True
@@ -139,4 +141,7 @@ class Console(object):
         :returns: True if successfull, otherwise False.
         :rtype: bool
         """
+        if self.options.list is True:
+            return True
+
         return True
