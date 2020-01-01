@@ -156,18 +156,18 @@ class GMH3710(Device):
         self.add_command(command)
         return
 
-    def prepare(self):
-        return
+    def prepare(self) -> bool:
+        return True
 
-    def run(self):
+    def run(self) -> bool:
         command = self.get_command(0)
 
         message = self.execute(command)
         if message is None:
-            return
+            return False
 
         self.data.append(Data(message.value))
-        return
+        return True
 
-    def close(self):
-        return
+    def close(self) -> bool:
+        return True

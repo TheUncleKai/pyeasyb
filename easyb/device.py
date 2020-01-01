@@ -246,13 +246,13 @@ class Device(metaclass=ABCMeta):
         return
 
     @abc.abstractmethod
-    def prepare(self):
-        return
+    def prepare(self) -> bool:
+        return True
 
     @abc.abstractmethod
-    def run(self):
-        return
+    def run(self) -> bool:
+        return True
 
     @abc.abstractmethod
-    def close(self):
-        return
+    def close(self) -> bool:
+        return True

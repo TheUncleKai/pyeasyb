@@ -59,7 +59,13 @@ class TestDevice(Device):
         self.commands.append(command)
         return
 
-    def read_value(self):
+    def prepare(self):
+        return
+
+    def run(self):
+        return
+
+    def close(self):
         return
 
 
@@ -421,7 +427,7 @@ class TestControl(unittest.TestCase):
         mock_serial.write.return_value = 3
         mock_serial.read = test_read.test_read_1
 
-        check = device.run(0)
+        check = device.run_command(0)
         self.assertTrue(check)
         return
 
@@ -436,13 +442,13 @@ class TestControl(unittest.TestCase):
         mock_serial.write = mock.Mock(side_effect=SerialException('Attempting to use a port that is not open'))
         mock_serial.read = test_read.test_read_1
 
-        check = device.run(0)
+        check = device.run_command(0)
         self.assertFalse(check)
         return
 
     def test_run_3(self):
         device = TestDevice()
 
-        check = device.run(1)
+        check = device.run_command(1)
         self.assertFalse(check)
         return
