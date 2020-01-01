@@ -3,7 +3,7 @@
 omit =
     # omit everything in test
     tests/*
-    run_tests.py
+    run-tests.py
 
 [report]
 # Regexes for lines to exclude from consideration
