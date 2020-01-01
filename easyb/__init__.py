@@ -24,7 +24,7 @@ __all__ = [
     "definitions",
     "device",
     "logging",
-    "main",
+    "console.py",
     "message",
     "utils"
 ]

@@ -18,11 +18,11 @@
 
 import sys
 
-from easyb.main import MainTask
+from easyb.console import Console
 
 if __name__ == '__main__':
 
-    main = MainTask()
+    main = Console()
 
     if main.prepare() is False:
         sys.exit(1)

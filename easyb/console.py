@@ -26,11 +26,11 @@ from easyb.device import Device
 from easyb.devices import list_devices, get_device
 
 __all__ = [
-    "MainTask"
+    "Console"
 ]
 
 
-class MainTask(object):
+class Console(object):
 
     options = None
     parser = OptionParser("usage: %prog [options]")

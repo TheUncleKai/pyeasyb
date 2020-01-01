@@ -18,11 +18,11 @@
 
 import unittest
 
-from easyb.main import Main
+from easyb.console import Console
 
 
 # noinspection DuplicatedCode
-class TestMain(unittest.TestCase):
+class TestConsole(unittest.TestCase):
     """Testing class for message coding and decoding module."""
 
     def setUp(self):
@@ -33,4 +33,14 @@ class TestMain(unittest.TestCase):
     def tearDown(self):
         """tear down test.
         """
+        return
+
+    def test_constructor(self):
+        """tear down test.
+        """
+        console = Console()
+
+        self.assertIsNone(console.device)
+        self.assertIsNone(console.command)
+        self.assertEqual(console.port, "")
         return

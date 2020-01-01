@@ -60,6 +60,14 @@
                 "test_encode_u32_1",
                 "test_encode_u32_2"
             ]
+        },
+        {
+            "id": "Console",
+            "path": "tests.console",
+            "classname": "TestConsole",
+            "tests": [
+                "test_constructor"
+            ]
         }
     ]
 }
