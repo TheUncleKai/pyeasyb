@@ -198,7 +198,7 @@ class TestControl(unittest.TestCase):
         self.assertIsNone(command)
         return
 
-    def test_write(self):
+    def test_send_1(self):
         device = TestDevice()
 
         mock_serial = mock.Mock()
@@ -219,6 +219,23 @@ class TestControl(unittest.TestCase):
         self.assertTrue(check)
         self.assertTrue(mock_serial.write.called, 'Serial write method not called')
         self.assertEqual(args[0], arg_check)
+        return
+
+    def test_send_2(self):
+        device = TestDevice()
+
+        mock_serial = mock.Mock()
+
+        device._ser = mock_serial
+        mock_serial.write = mock.Mock(side_effect=SerialException('Attempting to use a port that is not open'))
+
+        message = easyb.message.Message(address=1, code=0, priority=Priority.NoPriority,
+                                        length=Length.Byte3, direction=Direction.FromMaster)
+
+        check = device.send(message)
+
+        self.assertFalse(check)
+        self.assertTrue(mock_serial.write.called)
         return
 
     def test_read(self):

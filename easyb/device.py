@@ -155,27 +155,47 @@ class Device(metaclass=ABCMeta):
 
         easyb.log.debug2("SERIAL", debug2)
         easyb.log.debug1("SERIAL", "Write: " + debug)
-        count = self.ser.write(stream)
-        if count != len(stream):
+
+        try:
+            self.ser.write(stream)
+        except serial.SerialException as e:
+            easyb.log.error("Problem during write to serial port!")
+            easyb.log.exception(e)
             return False
+
         return True
 
-    def receive(self) -> Message:
-        header = self.ser.read(3)
+    def receive(self) -> Union[None, Message]:
+        try:
+            header = self.ser.read(3)
+        except serial.SerialException as e:
+            easyb.log.error("Problem during reading of message header!")
+            easyb.log.exception(e)
+            return None
+
         message = Message()
         message.decode(header)
 
-        data = None
+        number = 0
 
         if message.length is Length.Byte6:
-            data = self.ser.read(3)
+            number = 3
 
         if message.length is Length.Byte9:
-            data = self.ser.read(6)
+            number = 6
 
-        if data is not None:
-            message.data = data
+        if number == 0:
+            easyb.log.error("Message body size is unknown!")
+            return None
 
+        try:
+            data = self.ser.read(number)
+        except serial.SerialException as e:
+            easyb.log.error("Problem during reading of message body!")
+            easyb.log.exception(e)
+            return None
+
+        message.data = data
         return message
 
     def execute(self, command: Command) -> Union[None, Message]:

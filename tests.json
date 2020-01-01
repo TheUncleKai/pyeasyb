@@ -12,7 +12,8 @@
                 "test_open_3",
                 "test_get_command_1",
                 "test_get_command_2",
-                "test_write",
+                "test_send_1",
+                "test_send_2",
                 "test_read"
             ]
         },
