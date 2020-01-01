@@ -17,6 +17,8 @@
 #
 
 __all__ = [
+    "devices",
+
     "bit",
     "device",
     "definitions",

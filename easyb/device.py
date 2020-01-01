@@ -45,6 +45,7 @@ class Device(metaclass=ABCMeta):
         self._wait_time = wait_time
         self._commands = []
 
+        self._command_list = []
         self.init_commands()
         return
 
@@ -72,6 +73,10 @@ class Device(metaclass=ABCMeta):
     @property
     def commands(self) -> List[Command]:
         return self._commands
+
+    @property
+    def command_list(self) -> List[int]:
+        return self._command_list
 
     def get_command(self, number: int) -> Union[None, Command]:
         command = None
@@ -226,6 +231,20 @@ class Device(metaclass=ABCMeta):
         check = command.call()
         return check
 
+    def list_commands(self):
+        for command in self.commands:
+            easyb.log.inform(self.name, "Command {0:d}: {1:s}".format(command.number, command.name))
+        return
+
+    def add_command(self, command: Command):
+        self.commands.append(command)
+        self.command_list.append(command.number)
+        return
+
     @abc.abstractmethod
     def init_commands(self):
+        return
+
+    @abc.abstractmethod
+    def read_value(self):
         return

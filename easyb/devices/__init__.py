@@ -16,6 +16,81 @@
 #    Copyright (C) 2017, Kai Raphahn <kai.raphahn@laburec.de>
 #
 
+import easyb
+
+from typing import List, Union, Any
+from easyb.device import Device
+
 
 __all__ = [
+    "gmh3710",
+
+    "get_device",
+    "list_devices"
 ]
+
+exception_list = [
+    "list_devices",
+    "get_device"
+]
+
+
+def get_attribute(path: str, classname: str) -> Union[Any, None]:
+    """Load module attribute from given path.
+
+    :param path: module path.
+    :type path: str
+
+    :param classname: class name.
+    :type classname: str
+
+    :return: attribute or None.
+    """
+
+    fromlist = [classname]
+
+    try:
+        m = __import__(path, globals(), locals(), fromlist)
+    except ImportError:
+        easyb.log.error("Unable to find module path: {0:s}".format(path))
+        return None
+
+    try:
+        c = getattr(m, classname)
+    except AttributeError:
+        easyb.log.error("Unable to get module attribute: {0:s} with {1:s}".format(path, classname))
+        return None
+
+    return c
+
+
+def get_device(device_name: str) -> Union[Device, None]:
+    for item in __all__:
+        if item in exception_list:
+            continue
+
+        path = "easyb.devices.{0:s}".format(item)
+        name = get_attribute(path, "device")
+
+        c = get_attribute(path, name)
+        obj = c()
+
+        if obj.name == device_name:
+            return obj
+
+    return None
+
+
+def list_devices():
+    for item in __all__:
+        if item in exception_list:
+            continue
+
+        path = "easyb.devices.{0:s}".format(item)
+        name = get_attribute(path, "device")
+
+        c = get_attribute(path, name)
+        obj = c()
+
+        easyb.log.inform("Device", obj.name)
+    return

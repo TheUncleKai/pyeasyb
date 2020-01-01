@@ -16,13 +16,18 @@
 #    Copyright (C) 2017, Kai Raphahn <kai.raphahn@laburec.de>
 #
 
-import time
-
 from typing import List
 from datetime import datetime
 
 from easyb.command import Command
 from easyb.device import Device
+
+__all__ = [
+    "Data",
+    "GMH3710"
+]
+
+device = "GMH3710"
 
 
 class Data:
@@ -134,19 +139,29 @@ class GMH3710(Device):
 
         command = Command(name="Messwert lesen", number=0, address=self._address, code=0,
                           func_call=self.read_measurement)
-        self.commands.append(command)
+        self.add_command(command)
 
         command = Command(name="Systemstatus lesen", number=1, address=self._address, code=3,
                           func_call=self.read_system_state)
-        self.commands.append(command)
+        self.add_command(command)
 
         command = Command(name="Minwert lesen", number=2, address=self._address, code=6, func_call=self.read_min_value)
-        self.commands.append(command)
+        self.add_command(command)
 
         command = Command(name="Maxwert lesen", number=3, address=self._address, code=7, func_call=self.read_max_value)
-        self.commands.append(command)
+        self.add_command(command)
 
         command = Command(name="ID-Nummer lesen", number=4, address=self._address, code=12,
                           func_call=self.read_id_number)
-        self.commands.append(command)
+        self.add_command(command)
+        return
+
+    def read_value(self):
+        command = self.get_command(0)
+
+        message = self.execute(command)
+        if message is None:
+            return
+
+        self.data.append(Data(message.value))
         return
