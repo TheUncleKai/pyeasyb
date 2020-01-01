@@ -21,43 +21,14 @@ import easyb
 from numpy import uint8, bitwise_or
 
 from typing import List, Any, Union
+
+from easyb.command import Command
 from easyb.definitions import Direction, get_direction, Length, get_length, Priority, get_priority
 from easyb.bit import decode_u16, decode_u32, check_crc, create_crc
 
 __all__ = [
     "Message"
 ]
-
-
-class Command(object):
-
-    @property
-    def name(self) -> str:
-        return self._name
-
-    @property
-    def address(self) -> int:
-        return self._address
-
-    @property
-    def code(self) -> int:
-        return self._code
-
-    @property
-    def length(self) -> Length:
-        return self._length
-
-    @property
-    def param(self) -> List[int]:
-        return self._param
-
-    def __init__(self, name: str, address: int, code: int, length: Length, param: List[int]):
-        self._name = name
-        self._address = address
-        self._code = code
-        self._length = length
-        self._param = param
-        return
 
 
 class Message(object):

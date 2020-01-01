@@ -19,6 +19,7 @@
 
 import unittest
 
+import easyb.command
 import easyb.message
 
 from easyb.definitions import Direction, Length, Priority
@@ -200,6 +201,20 @@ class TestMessage(unittest.TestCase):
         result = message.encode()
         self.assertIs(message.success, False, "Failed: success")
         self.assertIsNone(result, "Failed: result")
+        return
+
+    def test_command_1(self):
+        command = easyb.command.Command("Read Sensor", 1, 0, Length.Byte3, [])
+        message = easyb.message.Message()
+
+        message.command(command)
+
+        self.assertNotEqual(message, None, "Failed: constructor")
+        self.assertIs(message.address, 1, "Failed: address")
+        self.assertIs(message.code, 0, "Failed: code")
+        self.assertEqual(message.priority, Priority.NoPriority, "Failed: priority")
+        self.assertEqual(message.length, Length.Byte3, "Failed: length")
+        self.assertEqual(message.direction, Direction.FromMaster, "Failed: direction")
         return
 
     def test_decode_1(self):

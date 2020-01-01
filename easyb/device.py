@@ -16,35 +16,68 @@
 #    Copyright (C) 2017, Kai Raphahn <kai.raphahn@laburec.de>
 #
 
+import time
+import abc
 import easyb
 import serial
 
 from serial import Serial
-from typing import List
+from typing import List, Union
 
 from easyb.message import Message
+from easyb.command import Command
 from easyb.definitions import Length
 
+from abc import ABCMeta
 
-class Device(object):
 
-    def __init__(self, port: str):
+class Device(metaclass=ABCMeta):
+
+    @property
+    def commands(self) -> List[Command]:
+        return self._commands
+
+    @property
+    def wait_time(self) -> float:
+        return self._wait_time
+
+    def __init__(self, name: str, wait_time: float = 0.01):
         """Control constructor
 
-        :param port: serial port
-        :type port: str
+        :param name: device name
+        :type name: str
         """
+        self._name = name
         self._ser = None
-        self._port = port
+        self._port = ""
+        self._wait_time = wait_time
+        self._commands = []
         return
 
     @property
     def port(self) -> str:
         return self._port
 
+    @port.setter
+    def port(self, port: str):
+        self._port = port
+        return
+
     @property
     def ser(self) -> Serial:
         return self._ser
+
+    def init(self):
+        return
+
+    def get_command(self, number: int) -> Union[None, Command]:
+        command = None
+
+        for item in self.commands:
+            if item.number == number:
+                command = item
+
+        return command
 
     def setup(self, baudrate: int = 4800, timeout: int = 6, write_timeout: int = 2) -> bool:
         """Setup control module
@@ -105,7 +138,6 @@ class Device(object):
 
     def send(self, message: Message) -> bool:
 
-        data = ""
         debug = ""
         stream = message.encode()
 
@@ -147,3 +179,32 @@ class Device(object):
             message.data = data
 
         return message
+
+    def execute(self, command: Command) -> Union[None, Message]:
+        message = Message()
+        message.command(command)
+
+        check = self.send(message)
+        if check is False:
+            return None
+
+        time.sleep(self.wait_time)
+
+        data = self.receive()
+        if data.success is False:
+            return None
+
+        return data
+
+    def run(self, number: int) -> bool:
+        command = self.get_command(number)
+
+        if command is None:
+            return False
+
+        check = command.call()
+        return check
+
+    @abc.abstractmethod
+    def init_commands(self):
+        return
