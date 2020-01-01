@@ -96,6 +96,18 @@ class TestRead(object):
         self.run += 1
         return result
 
+    def test_read_4(self, count) -> bytes:
+        data = []
+
+        if self.run == 0:
+            data = [0xfe, 0x0d, 0x1e]
+        if self.run == 1:
+            data = [0x73, 0xff, 0x84, 0x00, 0xfc, 0x05]
+        result = bytes(data)
+
+        self.run += 1
+        return result
+
 
 class TestControl(unittest.TestCase):
     """Testing class for locking module."""
@@ -370,6 +382,24 @@ class TestControl(unittest.TestCase):
         mock_serial.write = mock.Mock()
         mock_serial.write.return_value = 3
         mock_serial.read = test_read.test_read_2
+
+        message = device.execute(command)
+
+        self.assertIsNone(message)
+        return
+
+    def test_execute_4(self):
+        device = TestDevice()
+        command = device.get_command(0)
+
+        test_read = TestRead()
+
+        mock_serial = mock.Mock()
+
+        device._ser = mock_serial
+        mock_serial.write = mock.Mock()
+        mock_serial.write.return_value = 3
+        mock_serial.read = test_read.test_read_4
 
         message = device.execute(command)
 
