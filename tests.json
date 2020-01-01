@@ -68,7 +68,14 @@
             "tests": [
                 "test_constructor",
                 "test_prepare_1",
-                "test_prepare_2"
+                "test_prepare_2",
+                "test_prepare_3",
+                "test_prepare_4",
+                "test_prepare_5",
+                "test_prepare_6",
+                "test_prepare_7",
+                "test_run_1",
+                "test_close_1"
             ]
         }
     ]
