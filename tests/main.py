@@ -16,21 +16,21 @@
 #    Copyright (C) 2017, Kai Raphahn <kai.raphahn@laburec.de>
 #
 
-import sys
+import unittest
 
-from easyb.main import MainTask
+from easyb.main import Main
 
-if __name__ == '__main__':
 
-    main = MainTask()
+# noinspection DuplicatedCode
+class TestMain(unittest.TestCase):
+    """Testing class for message coding and decoding module."""
 
-    if main.prepare() is False:
-        sys.exit(1)
+    def setUp(self):
+        """set up test.
+        """
+        return
 
-    if main.run() is False:
-        sys.exit(1)
-
-    if main.close() is False:
-        sys.exit(1)
-
-    sys.exit(0)
+    def tearDown(self):
+        """tear down test.
+        """
+        return

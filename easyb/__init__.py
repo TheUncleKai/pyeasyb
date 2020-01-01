@@ -20,9 +20,11 @@ __all__ = [
     "devices",
 
     "bit",
-    "device",
+    "command",
     "definitions",
+    "device",
     "logging",
+    "main",
     "message",
     "utils"
 ]
