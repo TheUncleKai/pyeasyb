@@ -22,7 +22,7 @@ import easyb.devices
 from optparse import OptionParser, OptionGroup
 
 from easyb.device import Device
-from easyb.devices import list_devices, get_device
+from easyb.devices import get_device, get_devices
 
 __all__ = [
     "Console"
@@ -91,6 +91,33 @@ class Console(object):
 
         return True
 
+    @staticmethod
+    def _list_devices():
+        device_list = get_devices()
+
+        for item in device_list:
+            easyb.log.inform("Device", item)
+        return
+
+    def _list_commands(self):
+        device_list = get_devices()
+
+        if self.options.device not in device_list:
+            easyb.log.error("Device not found: {0:s}".format(self.options.device))
+            return
+
+        c = get_device(self.options.device)
+        # noinspection PyCallingNonCallable
+        obj = c()
+
+        easyb.log.inform("Device", obj.name)
+
+        for command_id in obj.command_list:
+            command = obj.get_command(command_id)
+
+            easyb.log.inform(obj.name, "{0:d}: {1:s}".format(command.number, command.name))
+        return
+
     def prepare(self) -> bool:
         """Start and prepare the test task.
 
@@ -117,8 +144,12 @@ class Console(object):
         if check is False:
             return False
 
-        if self.options.list is True:
-            list_devices()
+        if (self.options.list is True) and (self.options.device == ""):
+            self._list_devices()
+            return True
+
+        if (self.options.list is True) and (self.options.device != ""):
+            self._list_commands()
             return True
 
         c = get_device(self.options.device)

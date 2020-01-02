@@ -26,11 +26,11 @@ __all__ = [
     "gmh3710",
 
     "get_device",
-    "list_devices"
+    "get_devices"
 ]
 
 exception_list = [
-    "list_devices",
+    "get_devices",
     "get_device"
 ]
 
@@ -82,16 +82,14 @@ def get_device(device_name: str) -> Union[Device, None]:
     return None
 
 
-def list_devices():
+def get_devices() -> list:
+    device_list = []
     for item in __all__:
         if item in exception_list:
             continue
 
         path = "easyb.devices.{0:s}".format(item)
-        name = get_attribute(path, "device")
+        name = get_attribute(path, "name")
+        device_list.append(name)
 
-        c = get_attribute(path, name)
-        obj = c()
-
-        easyb.log.inform("Device", obj.name)
-    return
+    return device_list

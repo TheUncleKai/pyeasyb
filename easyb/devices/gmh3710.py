@@ -75,7 +75,7 @@ class GMH3710(Device):
 
         data = Data(message.value)
 
-        debug = "{0:s}: {1:.2f}".format(data.datetime, data.value)
+        debug = "{0:s}: {1:.2f}".format(data.datetime.strftime("%Y-%m-%d %H:%M:%S"), data.value)
         easyb.log.inform(self.name, debug)
 
         self.data.append(data)
@@ -88,6 +88,7 @@ class GMH3710(Device):
         if message is None:
             return False
 
+        easyb.log.inform(self.name, str(message.value))
         self.system_state = int(message.value)
         return True
 
@@ -98,6 +99,7 @@ class GMH3710(Device):
         if message is None:
             return False
 
+        easyb.log.inform(self.name, str(message.value))
         self.min_value = int(message.value)
         return True
 
@@ -108,6 +110,7 @@ class GMH3710(Device):
         if message is None:
             return False
 
+        easyb.log.inform(self.name, str(message.value))
         self.max_value = int(message.value)
         return True
 
@@ -118,6 +121,7 @@ class GMH3710(Device):
         if message is None:
             return False
 
+        easyb.log.inform(self.name, "ID: {0:d}".format(int(message.value)))
         self.max_value = int(message.value)
         return True
 
