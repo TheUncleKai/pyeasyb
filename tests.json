@@ -84,6 +84,15 @@
                 "test_run_2",
                 "test_close_1"
             ]
+        },
+        {
+            "id": "GMH3710",
+            "path": "tests.gmh3710",
+            "classname": "TestGMH3710",
+            "tests": [
+                "test_constructor_1",
+                "test_constructor_2"
+            ]
         }
     ]
 }

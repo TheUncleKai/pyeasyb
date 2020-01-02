@@ -70,13 +70,14 @@ def get_device(device_name: str) -> Union[Device, None]:
             continue
 
         path = "easyb.devices.{0:s}".format(item)
-        name = get_attribute(path, "device")
+        name = get_attribute(path, "name")
 
-        c = get_attribute(path, name)
-        obj = c()
+        if name != device_name:
+            continue
 
-        if obj.name == device_name:
-            return obj
+        device = get_attribute(path, "device")
+        c = get_attribute(path, device)
+        return c
 
     return None
 

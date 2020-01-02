@@ -33,13 +33,7 @@ from easyb.definitions import Direction, Length, Priority
 class TestDevice(Device):
 
     def __init__(self, **kwargs):
-        self._address = 1
-
-        item = kwargs.get("address", 1)
-        if item is not None:
-            self._address = item
-
-        Device.__init__(self, "TEST-DEVICE", 0.1)
+        Device.__init__(self, name="TEST-DEVICE", wait_time=0.1, address=1, **kwargs)
         return
 
     def read_measurement(self) -> bool:
@@ -54,7 +48,7 @@ class TestDevice(Device):
 
     def init_commands(self):
 
-        command = Command(name="Messwert lesen", number=0, address=self._address, code=0,
+        command = Command(name="Messwert lesen", number=0, address=self.address, code=0,
                           func_call=self.read_measurement)
         self.commands.append(command)
         return
@@ -142,7 +136,7 @@ class TestControl(unittest.TestCase):
         self.assertEqual(device.name, "TEST-DEVICE")
         self.assertEqual(device.port, "TEST")
         self.assertEqual(device.wait_time, 0.1)
-        self.assertIsNone(device.ser)
+        self.assertIsNone(device.serial)
         return
 
     def test_setup(self):
@@ -153,16 +147,16 @@ class TestControl(unittest.TestCase):
         device.port = "TEST"
         device.setup()
 
-        self.assertIsNotNone(device.ser, "Failed: serial is None")
-        self.assertEqual(device.ser.bytesize, EIGHTBITS)
-        self.assertEqual(device.ser.parity, PARITY_NONE)
-        self.assertEqual(device.ser.stopbits, STOPBITS_ONE)
-        self.assertEqual(device.ser.timeout, 6)
-        self.assertEqual(device.ser.writeTimeout, 2)
-        self.assertEqual(device.ser.rtscts, 0)
-        self.assertEqual(device.ser.dsrdtr, 0)
-        self.assertEqual(device.ser.xonxoff, 0)
-        self.assertIsNone(device.ser.interCharTimeout)
+        self.assertIsNotNone(device.serial, "Failed: serial is None")
+        self.assertEqual(device.serial.bytesize, EIGHTBITS)
+        self.assertEqual(device.serial.parity, PARITY_NONE)
+        self.assertEqual(device.serial.stopbits, STOPBITS_ONE)
+        self.assertEqual(device.serial.timeout, 6)
+        self.assertEqual(device.serial.writeTimeout, 2)
+        self.assertEqual(device.serial.rtscts, 0)
+        self.assertEqual(device.serial.dsrdtr, 0)
+        self.assertEqual(device.serial.xonxoff, 0)
+        self.assertIsNone(device.serial.interCharTimeout)
         return
 
     def test_connect_1(self):
@@ -174,7 +168,7 @@ class TestControl(unittest.TestCase):
 
         mock_serial = mock.Mock()
 
-        device._ser = mock_serial
+        device._serial = mock_serial
         mock_serial.open = mock.Mock()
 
         check = device.connect()
@@ -191,7 +185,7 @@ class TestControl(unittest.TestCase):
 
         mock_serial = mock.Mock()
 
-        device._ser = mock_serial
+        device._serial = mock_serial
         mock_serial.open = mock.Mock(side_effect=SerialException('Attempting to use a port that is not open'))
 
         check = device.connect()
@@ -207,7 +201,7 @@ class TestControl(unittest.TestCase):
 
         mock_serial = mock.Mock()
 
-        device._ser = mock_serial
+        device._serial = mock_serial
 
         check = device.connect()
         self.assertFalse(check)
@@ -223,8 +217,8 @@ class TestControl(unittest.TestCase):
 
         mock_serial = mock.Mock()
 
-        device._ser = mock_serial
-        device._ser.is_open = True
+        device._serial = mock_serial
+        device._serial.is_open = True
         mock_serial.close = mock.Mock()
 
         device.disconnect()
@@ -240,8 +234,8 @@ class TestControl(unittest.TestCase):
 
         mock_serial = mock.Mock()
 
-        device._ser = mock_serial
-        device._ser.is_open = False
+        device._serial = mock_serial
+        device._serial.is_open = False
         mock_serial.close = mock.Mock()
 
         device.disconnect()
@@ -279,7 +273,7 @@ class TestControl(unittest.TestCase):
 
         mock_serial = mock.Mock()
 
-        device._ser = mock_serial
+        device._serial = mock_serial
         mock_serial.write = mock.Mock()
         mock_serial.write.return_value = 3
 
@@ -302,7 +296,7 @@ class TestControl(unittest.TestCase):
 
         mock_serial = mock.Mock()
 
-        device._ser = mock_serial
+        device._serial = mock_serial
         mock_serial.write = mock.Mock(side_effect=SerialException('Attempting to use a port that is not open'))
 
         message = easyb.message.Message(address=1, code=0, priority=Priority.NoPriority,
@@ -321,7 +315,7 @@ class TestControl(unittest.TestCase):
 
         test_read = TestRead()
 
-        device._ser = mock_serial
+        device._serial = mock_serial
         mock_serial.read = test_read.test_read_1
 
         message = device.receive()
@@ -340,7 +334,7 @@ class TestControl(unittest.TestCase):
 
         mock_serial = mock.Mock()
 
-        device._ser = mock_serial
+        device._serial = mock_serial
         mock_serial.read = mock.Mock(side_effect=SerialException('Attempting to use a port that is not open'))
 
         message = device.receive()
@@ -355,7 +349,7 @@ class TestControl(unittest.TestCase):
 
         mock_serial = mock.Mock()
 
-        device._ser = mock_serial
+        device._serial = mock_serial
         mock_serial.read = test_read.test_read_2
 
         message = device.receive()
@@ -370,7 +364,7 @@ class TestControl(unittest.TestCase):
 
         mock_serial = mock.Mock()
 
-        device._ser = mock_serial
+        device._serial = mock_serial
         mock_serial.read = test_read.test_read_3
 
         message = device.receive()
@@ -386,7 +380,7 @@ class TestControl(unittest.TestCase):
 
         mock_serial = mock.Mock()
 
-        device._ser = mock_serial
+        device._serial = mock_serial
         mock_serial.write = mock.Mock()
         mock_serial.write.return_value = 3
         mock_serial.read = test_read.test_read_1
@@ -404,7 +398,7 @@ class TestControl(unittest.TestCase):
 
         mock_serial = mock.Mock()
 
-        device._ser = mock_serial
+        device._serial = mock_serial
         mock_serial.write = mock.Mock(side_effect=SerialException('Attempting to use a port that is not open'))
         mock_serial.read = test_read.test_read_1
 
@@ -421,7 +415,7 @@ class TestControl(unittest.TestCase):
 
         mock_serial = mock.Mock()
 
-        device._ser = mock_serial
+        device._serial = mock_serial
         mock_serial.write = mock.Mock()
         mock_serial.write.return_value = 3
         mock_serial.read = test_read.test_read_2
@@ -439,7 +433,7 @@ class TestControl(unittest.TestCase):
 
         mock_serial = mock.Mock()
 
-        device._ser = mock_serial
+        device._serial = mock_serial
         mock_serial.write = mock.Mock()
         mock_serial.write.return_value = 3
         mock_serial.read = test_read.test_read_4
@@ -456,7 +450,7 @@ class TestControl(unittest.TestCase):
 
         mock_serial = mock.Mock()
 
-        device._ser = mock_serial
+        device._serial = mock_serial
         mock_serial.write = mock.Mock()
         mock_serial.write.return_value = 3
         mock_serial.read = test_read.test_read_1
@@ -472,7 +466,7 @@ class TestControl(unittest.TestCase):
 
         mock_serial = mock.Mock()
 
-        device._ser = mock_serial
+        device._serial = mock_serial
         mock_serial.write = mock.Mock(side_effect=SerialException('Attempting to use a port that is not open'))
         mock_serial.read = test_read.test_read_1
 

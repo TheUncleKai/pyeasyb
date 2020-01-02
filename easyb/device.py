@@ -33,19 +33,48 @@ from abc import ABCMeta
 
 class Device(metaclass=ABCMeta):
 
-    def __init__(self, name: str, wait_time: float = 0.01):
-        """Control constructor
+    port = ""
+    baudrate = 0
+    timeout = 0
+    write_timeout = 2
+    address = 0
+    wait_time = 0.0
 
-        :param name: device name
-        :type name: str
-        """
-        self._name = name
-        self._ser = None
-        self._port = ""
-        self._wait_time = wait_time
+    def __init__(self, **kwargs):
+        self._name = ""
+
+        item = kwargs.get("name", "")
+        if item is not None:
+            self._name = item
+
+        item = kwargs.get("port", "")
+        if item is not None:
+            self.port = item
+
+        item = kwargs.get("address", 0)
+        if item is not None:
+            self.address = item
+
+        item = kwargs.get("wait_time", 1)
+        if item is not None:
+            self.wait_time = item
+
+        item = kwargs.get("baudrate", 4800)
+        if item is not None:
+            self.baudrate = item
+
+        item = kwargs.get("timeout", 6)
+        if item is not None:
+            self.timeout = item
+
+        item = kwargs.get("write_timeout", 2)
+        if item is not None:
+            self.write_timeout = item
+
         self._commands = []
-
         self._command_list = []
+        self._serial = None
+
         self.init_commands()
         return
 
@@ -54,21 +83,8 @@ class Device(metaclass=ABCMeta):
         return self._name
 
     @property
-    def ser(self) -> Serial:
-        return self._ser
-
-    @property
-    def port(self) -> str:
-        return self._port
-
-    @port.setter
-    def port(self, port: str):
-        self._port = port
-        return
-
-    @property
-    def wait_time(self) -> float:
-        return self._wait_time
+    def serial(self) -> Serial:
+        return self._serial
 
     @property
     def commands(self) -> List[Command]:
@@ -86,36 +102,24 @@ class Device(metaclass=ABCMeta):
                 command = item
 
         if command is None:
-            easyb.log.error("Command number is unknown: " +  str(number))
+            easyb.log.error("Command number is unknown: " + str(number))
 
         return command
 
-    def setup(self, baudrate: int = 4800, timeout: int = 6, write_timeout: int = 2):
-        """Setup control module
+    def setup(self):
+        # baudrate: int = 4800, timeout: int = 6, write_timeout: int = 2
 
-        :param baudrate: baudrate of serial connection
-        :type baudrate: int
-
-        :param timeout: serial port timeout
-        :type timeout: int
-
-        :param write_timeout: serial port write timeout
-        :type write_timeout: int
-
-        :return: True if successfull, otherwise false
-        :rtype: bool
-        """
-
-        self._ser = Serial(baudrate=baudrate,
-                           bytesize=serial.EIGHTBITS,
-                           parity=serial.PARITY_NONE,
-                           stopbits=serial.STOPBITS_ONE,
-                           timeout=timeout,
-                           xonxoff=0,
-                           rtscts=0,
-                           dsrdtr=0,
-                           interCharTimeout=None,
-                           writeTimeout=write_timeout)
+        ser = Serial(baudrate=self.baudrate,
+                     bytesize=serial.EIGHTBITS,
+                     parity=serial.PARITY_NONE,
+                     stopbits=serial.STOPBITS_ONE,
+                     timeout=self.timeout,
+                     xonxoff=0,
+                     rtscts=0,
+                     dsrdtr=0,
+                     interCharTimeout=None,
+                     writeTimeout=self.write_timeout)
+        self._serial = ser
         return
 
     def connect(self) -> bool:
@@ -125,14 +129,18 @@ class Device(metaclass=ABCMeta):
         :rtype: bool
         """
 
-        if self._port == "":
+        if self.port == "":
             easyb.log.error("Port is missing/not configured!")
             return False
 
-        self.ser.port = self._port
+        if self.serial is None:
+            easyb.log.error("Serial port is not set up!")
+            return False
+
+        self.serial.port = self.port
 
         try:
-            self.ser.open()
+            self.serial.open()
         except serial.SerialException as e:
             easyb.log.error("Problem during opening of serial port!")
             easyb.log.exception(e)
@@ -145,11 +153,15 @@ class Device(metaclass=ABCMeta):
         """Close serial connection
         """
 
-        if self.ser.is_open is False:
+        if self.serial is None:
+            easyb.log.error("Serial port is not set up!")
+            return
+
+        if self.serial.is_open is False:
             easyb.log.warn(self.name, "Connection to {0:s} is already closed!".format(self.port))
             return
 
-        self.ser.close()
+        self.serial.close()
         easyb.log.inform(self.name, "Disconnect from {0:s}".format(self.port))
         return
 
@@ -176,7 +188,7 @@ class Device(metaclass=ABCMeta):
         easyb.log.debug1("SERIAL", "Write: " + debug)
 
         try:
-            self.ser.write(stream)
+            self.serial.write(stream)
         except serial.SerialException as e:
             easyb.log.error("Problem during write to serial port!")
             easyb.log.exception(e)
@@ -186,7 +198,7 @@ class Device(metaclass=ABCMeta):
 
     def receive(self) -> Union[None, Message]:
         try:
-            header = self.ser.read(3)
+            header = self.serial.read(3)
         except serial.SerialException as e:
             easyb.log.error("Problem during reading of message header!")
             easyb.log.exception(e)
@@ -208,7 +220,7 @@ class Device(metaclass=ABCMeta):
             return None
 
         try:
-            data = self.ser.read(number)
+            data = self.serial.read(number)
         except serial.SerialException as e:
             easyb.log.error("Problem during reading of message body!")
             easyb.log.exception(e)

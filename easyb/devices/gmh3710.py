@@ -29,6 +29,7 @@ __all__ = [
     "GMH3710"
 ]
 
+name = "GMH 3710"
 device = "GMH3710"
 
 
@@ -50,41 +51,19 @@ class Data:
 
 class GMH3710(Device):
 
+    system_state = 0
+    min_value = 0.0
+    max_value = 0.0
+    id_number = 0
+
     @property
     def data(self) -> List[Data]:
         return self._data
 
-    @property
-    def system_state(self) -> int:
-        return self._system_state
-
-    @property
-    def min_value(self) -> float:
-        return self._min_value
-
-    @property
-    def max_value(self) -> float:
-        return self._max_value
-
-    @property
-    def id_number(self) -> int:
-        return self._id_number
-
     def __init__(self, **kwargs):
-        self._address = 1
+        Device.__init__(self, name="GMH 3710", wait_time=0.1, **kwargs)
+
         self._data = []
-
-        self._system_state = 0
-        self._min_value = 0.0
-        self._max_value = 0.0
-
-        self._id_number = 0
-
-        item = kwargs.get("address", 1)
-        if item is not None:
-            self._address = item
-
-        Device.__init__(self, "GMH 3710", 0.1)
         return
 
     def read_measurement(self) -> bool:
@@ -104,7 +83,7 @@ class GMH3710(Device):
         if message is None:
             return False
 
-        self._system_state = int(message.value)
+        self.system_state = int(message.value)
         return True
 
     def read_min_value(self) -> bool:
@@ -114,7 +93,7 @@ class GMH3710(Device):
         if message is None:
             return False
 
-        self._min_value = int(message.value)
+        self.min_value = int(message.value)
         return True
 
     def read_max_value(self) -> bool:
@@ -124,7 +103,7 @@ class GMH3710(Device):
         if message is None:
             return False
 
-        self._max_value = int(message.value)
+        self.max_value = int(message.value)
         return True
 
     def read_id_number(self) -> bool:
@@ -134,26 +113,26 @@ class GMH3710(Device):
         if message is None:
             return False
 
-        self._max_value = int(message.value)
+        self.max_value = int(message.value)
         return True
 
     def init_commands(self):
 
-        command = Command(name="Messwert lesen", number=0, address=self._address, code=0,
+        command = Command(name="Messwert lesen", number=0, address=self.address, code=0,
                           func_call=self.read_measurement)
         self.add_command(command)
 
-        command = Command(name="Systemstatus lesen", number=1, address=self._address, code=3,
+        command = Command(name="Systemstatus lesen", number=1, address=self.address, code=3,
                           func_call=self.read_system_state)
         self.add_command(command)
 
-        command = Command(name="Minwert lesen", number=2, address=self._address, code=6, func_call=self.read_min_value)
+        command = Command(name="Minwert lesen", number=2, address=self.address, code=6, func_call=self.read_min_value)
         self.add_command(command)
 
-        command = Command(name="Maxwert lesen", number=3, address=self._address, code=7, func_call=self.read_max_value)
+        command = Command(name="Maxwert lesen", number=3, address=self.address, code=7, func_call=self.read_max_value)
         self.add_command(command)
 
-        command = Command(name="ID-Nummer lesen", number=4, address=self._address, code=12,
+        command = Command(name="ID-Nummer lesen", number=4, address=self.address, code=12,
                           func_call=self.read_id_number)
         self.add_command(command)
         return

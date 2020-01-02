@@ -19,7 +19,7 @@
 import sys
 import easyb
 import easyb.devices
-from optparse import OptionParser
+from optparse import OptionParser, OptionGroup
 
 from easyb.device import Device
 from easyb.devices import list_devices, get_device
@@ -43,17 +43,32 @@ class Console(object):
 
     def __init__(self):
 
-        self._parser = OptionParser("usage: %prog [options]")
-        self._parser.add_option("-d", "--device", help="use device", metavar="DEVICE", type="string", default="")
-        self._parser.add_option("-c", "--command", help="run command", metavar="COMMAND", type="int", default=None)
-        self._parser.add_option("-p", "--port", help="serial port", metavar="PORT", type="string", default="")
-        self._parser.add_option("-v", "--verbose", help="run verbose level [0..3]", metavar="VERBOSE", type="int",
-                                default=0)
+        usage = "usage: %prog [options] arg1 arg2"
 
-        self._parser.add_option("-r", "--read", help="read values continuously", action="store_true", default=False)
-        self._parser.add_option("-l", "--list", help="list device and commands", action="store_true", default=False)
-        self._parser.add_option("-i", "--interval", help="interval between measurements for read mode (in seconds)",
-                                metavar="INTERVAL", type="float", default=2.0)
+        parser = OptionParser(usage=usage)
+        parser.add_option("-v", "--verbose", help="run verbose level [0..3]", metavar="1", type="int",
+                          default=0)
+        parser.add_option("-r", "--read", help="read values continuously", action="store_true", default=False)
+        parser.add_option("-l", "--list", help="list device and commands", action="store_true", default=False)
+        parser.add_option("-i", "--interval", help="interval between measurements for read mode (in seconds)",
+                          metavar="2.0", type="float", default=2.0)
+
+        device = OptionGroup(parser, "Device Options", "Set device type, command or address to use.")
+        device.add_option("-d", "--device", help="use device", type="string", default="")
+        device.add_option("-c", "--command", help="run command", metavar="0", type="int", default=None)
+
+        parser.add_option_group(device)
+
+        serial = OptionGroup(parser, "Serial Options", "Set serial port options.")
+        serial.add_option("-p", "--port", help="serial port", metavar="/dev/ttyUSB0", type="string", default="")
+        serial.add_option("-b", "--baudrate", help="serial port baudrate", metavar="4800", type="int", default=4800)
+        serial.add_option("-t", "--timeout", help="serial port timeout (in seconds)", metavar="6", type="int",
+                          default=6)
+        serial.add_option("-w", "--writetimeout", help="serial port write timeout", metavar="2", type="int", default=2)
+
+        parser.add_option_group(serial)
+
+        self._parser = parser
 
         self._device = None
         return
@@ -106,7 +121,11 @@ class Console(object):
             list_devices()
             return True
 
-        self._device = get_device(self.options.device)
+        c = get_device(self.options.device)
+
+        # noinspection PyCallingNonCallable
+        self._device = c(address=1, port=self.options.port, baudrate=self.options.baudrate,
+                         timeout=self.options.timeout, write_timeout=self.options.writetimeout)
         if self.device is None:
             easyb.log.error("Device {0:s} is unknown!".format(options.device))
             return False
