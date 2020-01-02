@@ -55,7 +55,7 @@ class Device(metaclass=ABCMeta):
         if item is not None:
             self.address = item
 
-        item = kwargs.get("wait_time", 1)
+        item = kwargs.get("wait_time", 0.1)
         if item is not None:
             self.wait_time = item
 

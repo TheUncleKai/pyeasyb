@@ -85,8 +85,6 @@ class TestGMH3710(unittest.TestCase):
     """Testing class for locking module."""
 
     def setUp(self):
-        """set up test.
-        """
         easyb.log.level = 2
         return
 
@@ -98,25 +96,46 @@ class TestGMH3710(unittest.TestCase):
     def test_constructor_1(self):
         """Test constructor.
         """
-        device = GMH3710(port="TEST")
+        device = GMH3710()
 
         self.assertNotEqual(device, None)
         self.assertEqual(device.name, "GMH 3710")
-        self.assertEqual(device.port, "TEST")
+        self.assertEqual(device.port, "")
+        self.assertEqual(device.baudrate, 4800)
+        self.assertEqual(device.address, 0)
+        self.assertEqual(device.write_timeout, 2)
+        self.assertEqual(device.timeout, 6)
         self.assertEqual(device.wait_time, 0.1)
-        self.assertIsNone(device.ser)
+        self.assertIsNone(device.serial)
         return
 
     def test_constructor_2(self):
         """Test constructor.
         """
-        device = GMH3710(address=2)
-        device.port = "TEST"
+        device = GMH3710(port="TEST", baudrate=2400, address=2, write_timeout=3, timeout=60, wait_time=0.2)
+
+        self.assertEqual(device.name, "GMH 3710")
+        self.assertEqual(device.port, "TEST")
+        self.assertEqual(device.baudrate, 2400)
+        self.assertEqual(device.address, 2)
+        self.assertEqual(device.write_timeout, 3)
+        self.assertEqual(device.timeout, 60)
+        self.assertEqual(device.wait_time, 0.2)
+        self.assertIsNone(device.serial)
+        return
+
+    def test_constructor_1(self):
+        """Test constructor.
+        """
+        device = GMH3710()
 
         self.assertNotEqual(device, None)
         self.assertEqual(device.name, "GMH 3710")
-        self.assertEqual(device.port, "TEST")
+        self.assertEqual(device.port, "")
+        self.assertEqual(device.baudrate, 4800)
+        self.assertEqual(device.address, 0)
+        self.assertEqual(device.write_timeout, 2)
+        self.assertEqual(device.timeout, 6)
         self.assertEqual(device.wait_time, 0.1)
-        self.assertEqual(device.address, 2)
-        self.assertIsNone(device.ser)
+        self.assertIsNone(device.serial)
         return

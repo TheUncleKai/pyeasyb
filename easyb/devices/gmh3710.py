@@ -61,7 +61,7 @@ class GMH3710(Device):
         return self._data
 
     def __init__(self, **kwargs):
-        Device.__init__(self, name="GMH 3710", wait_time=0.1, **kwargs)
+        Device.__init__(self, name="GMH 3710", **kwargs)
 
         self._data = []
         return
