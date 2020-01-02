@@ -21,10 +21,11 @@ __all__ = [
 
     "bit",
     "command",
+    "config",
+    "console",
     "definitions",
     "device",
     "logging",
-    "console.py",
     "message",
     "utils"
 ]
@@ -74,5 +75,7 @@ __maintainer__ = __author__
 
 
 import easyb.logging
+import easyb.config
 
 log = easyb.logging.Log()
+conf = easyb.config.Config()

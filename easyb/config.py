@@ -54,7 +54,7 @@ class Status(object):
         if check is False:
             return False
 
-        self.bit = int(data["code"], 0)
+        self.bit = int(data["bit"], 0)
         self.text = data["text"]
         return True
 
@@ -70,7 +70,7 @@ class Unit(object):
             return False
 
         self.code = data["code"]
-        self.value = data["text"]
+        self.value = data["value"]
         return True
 
 

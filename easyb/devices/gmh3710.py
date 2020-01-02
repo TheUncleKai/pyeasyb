@@ -57,6 +57,7 @@ class GMH3710(Device):
     min_value = 0.0
     max_value = 0.0
     id_number = 0
+    unit = ""
 
     @property
     def data(self) -> List[Data]:
@@ -170,7 +171,16 @@ class GMH3710(Device):
             return False
 
         value = convert_u16(message.data[3], message.data[4])
-        easyb.log.inform(self.name, str(value))
+
+        unit = easyb.conf.get_unit(value)
+        if unit is None:
+            easyb.log.error("Unit is unknown: {0:d}".format(value))
+            return False
+
+        self.unit = unit.value
+
+        logging = "{0:d}: {1:s}".format(value, self.unit)
+        easyb.log.inform(self.name, logging)
         return True
 
     def init_commands(self):
