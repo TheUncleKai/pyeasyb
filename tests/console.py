@@ -20,6 +20,10 @@ import unittest
 import unittest.mock as mock
 
 from easyb.console import Console
+from serial import SerialException
+
+mock_serial = mock.Mock()
+mock_serial_2 = mock.Mock()
 
 
 class TestOptions(object):
@@ -87,9 +91,8 @@ class TestConsole(unittest.TestCase):
         self.assertIsNone(console.options)
         return
 
+    @mock.patch('easyb.device.Serial', new=mock_serial)
     def test_prepare_1(self):
-        """tear down test.
-        """
         options = TestOptions()
         options.test_1()
 
@@ -103,6 +106,7 @@ class TestConsole(unittest.TestCase):
         self.assertTrue(check)
         return
 
+    @mock.patch('easyb.device.Serial', new=mock_serial)
     def test_prepare_2(self):
         """tear down test.
         """
@@ -119,6 +123,7 @@ class TestConsole(unittest.TestCase):
         self.assertFalse(check)
         return
 
+    @mock.patch('easyb.device.Serial', new=mock_serial)
     def test_prepare_3(self):
         """tear down test.
         """
@@ -134,6 +139,7 @@ class TestConsole(unittest.TestCase):
         self.assertFalse(check)
         return
 
+    @mock.patch('easyb.device.Serial', new=mock_serial)
     def test_prepare_4(self):
         """tear down test.
         """
@@ -150,6 +156,7 @@ class TestConsole(unittest.TestCase):
         self.assertFalse(check)
         return
 
+    @mock.patch('easyb.device.Serial', new=mock_serial)
     def test_prepare_5(self):
         """tear down test.
         """
@@ -166,6 +173,7 @@ class TestConsole(unittest.TestCase):
         self.assertFalse(check)
         return
 
+    @mock.patch('easyb.device.Serial', new=mock_serial)
     def test_prepare_6(self):
         """tear down test.
         """
@@ -182,6 +190,7 @@ class TestConsole(unittest.TestCase):
         self.assertFalse(check)
         return
 
+    @mock.patch('easyb.device.Serial', new=mock_serial)
     def test_prepare_7(self):
         """tear down test.
         """
@@ -198,6 +207,7 @@ class TestConsole(unittest.TestCase):
         self.assertFalse(check)
         return
 
+    @mock.patch('easyb.device.Serial', new=mock_serial)
     def test_prepare_8(self):
         """tear down test.
         """
@@ -214,6 +224,7 @@ class TestConsole(unittest.TestCase):
         self.assertTrue(check)
         return
 
+    @mock.patch('easyb.device.Serial', new=mock_serial)
     def test_prepare_9(self):
         """tear down test.
         """
@@ -230,6 +241,24 @@ class TestConsole(unittest.TestCase):
         self.assertFalse(check)
         return
 
+    @mock.patch('easyb.device.Serial', new=mock_serial_2)
+    def test_prepare_10(self):
+        options = TestOptions()
+        options.test_1()
+
+        mock_serial_2.open = mock.Mock(side_effect=SerialException('Attempting to use a port that is not open'))
+
+        console = Console()
+        console._parser = mock.Mock()
+        console._parser.parse_args = mock.Mock()
+        console._parser.parse_args.return_value = (options, None)
+
+        check = console.prepare()
+
+        self.assertFalse(check)
+        return
+
+    @mock.patch('easyb.device.Serial', new=mock_serial)
     def test_run_1(self):
         """tear down test.
         """
@@ -248,6 +277,7 @@ class TestConsole(unittest.TestCase):
         self.assertTrue(check2)
         return
 
+    @mock.patch('easyb.device.Serial', new=mock_serial)
     def test_run_2(self):
         """tear down test.
         """
@@ -266,6 +296,7 @@ class TestConsole(unittest.TestCase):
         self.assertTrue(check2)
         return
 
+    @mock.patch('easyb.device.Serial', new=mock_serial)
     def test_close_1(self):
         """tear down test.
         """

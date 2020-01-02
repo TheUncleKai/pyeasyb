@@ -117,8 +117,12 @@ class Console(object):
             easyb.log.error("Command number is unknown: {0:d}".format(self.options.command))
             return False
 
-        self.device.
+        self.device.setup()
+        self.device.port = self.options.port
 
+        check = self.device.connect()
+        if check is False:
+            return False
 
         return True
 
