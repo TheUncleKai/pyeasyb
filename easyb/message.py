@@ -325,9 +325,9 @@ class Message(object):
         return True
 
     def info(self):
-        easyb.log.inform("ADDRESS", str(self.address))
-        easyb.log.inform("CODE", str(self.code))
-        easyb.log.inform("PRIORITY", str(self.priority.name))
-        easyb.log.inform("LENGTH", str(self.length.name))
-        easyb.log.inform("DIRECTION", str(self.direction.name))
+        easyb.log.debug2("ADDRESS", str(self.address))
+        easyb.log.debug2("CODE", str(self.code))
+        easyb.log.debug2("PRIORITY", str(self.priority.name))
+        easyb.log.debug2("LENGTH", str(self.length.name))
+        easyb.log.debug2("DIRECTION", str(self.direction.name))
         return

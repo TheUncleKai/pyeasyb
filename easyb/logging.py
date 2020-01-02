@@ -16,9 +16,11 @@
 #    Copyright (C) 2017, Kai Raphahn <kai.raphahn@laburec.de>
 #
 
+import os
 import colorama
 import sys
 import traceback
+from datetime import datetime
 
 
 def _create_scheme(style="", fore="", back=""):
@@ -70,9 +72,34 @@ class Log(object):
     label_num = 15
     seperator = "| "
     level = 0
+    file_name = ""
+    file = None
 
-    def __init__(self):
+    def _write_file(self, content, raw=False):
+        if self.file_name == "":
+            return
+
+        if self.file is None:
+            file_path = os.path.abspath(os.path.normpath(self.file_name))
+            self.file = open(file_path, "a")
+        self.file.write(content)
+        if raw is True:
+            return
+        self.file.write("\n")
+        return
+
+    def __init__(self, **kwargs):
         colorama.init()
+
+        item = kwargs.get("file", "")
+        if item is not None:
+            self.file_name = item
+        return
+
+    def __del__(self):
+        if self.file is None:
+            return
+        self.file.close()
         return
 
     @staticmethod
@@ -86,6 +113,10 @@ class Log(object):
 
         content = self.reset + scheme + " " + tag.ljust(self.label_num) + self.seperator + self.reset + text
         _write_stdout(content)
+
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        text = timestamp + ": INFORM".ljust(self.label_num) + tag.ljust(self.label_num) + " - " + text
+        self._write_file(text)
         return
 
     def debug1(self, tag, text):
@@ -93,9 +124,13 @@ class Log(object):
         if self.level < 1:
             return
 
-        scheme = _create_scheme("BRIGHT", "GREEN")
+        scheme = _create_scheme("BRIGHT", "CYAN")
         content = self.reset + scheme + " " + tag.ljust(self.label_num) + self.seperator + self.reset + text
         _write_stdout(content)
+
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        text = timestamp + ": DEBUG1".ljust(self.label_num) + tag.ljust(self.label_num) + " - " + text
+        self._write_file(text)
         return
 
     def debug2(self, tag, text):
@@ -103,9 +138,13 @@ class Log(object):
         if self.level < 2:
             return
 
-        scheme = _create_scheme("BRIGHT", "GREEN")
+        scheme = _create_scheme("BRIGHT", "MAGENTA")
         content = self.reset + scheme + " " + tag.ljust(self.label_num) + self.seperator + self.reset + text
         _write_stdout(content)
+
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        text = timestamp + ": DEBUG2".ljust(self.label_num) + tag.ljust(self.label_num) + " - " + text
+        self._write_file(text)
         return
 
     def debug3(self, tag, text):
@@ -113,10 +152,14 @@ class Log(object):
         if self.level < 3:
             return
 
-        scheme = _create_scheme("BRIGHT", "GREEN")
+        scheme = _create_scheme("BRIGHT", "BLACK")
 
         content = self.reset + scheme + " " + tag.ljust(self.label_num) + self.seperator + self.reset + text
         _write_stdout(content)
+
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        text = timestamp + ": DEBUG3".ljust(self.label_num) + tag.ljust(self.label_num) + " - " + text
+        self._write_file(text)
         return
 
     def warn(self, tag, text):
@@ -125,6 +168,10 @@ class Log(object):
 
         content = self.reset + scheme + " " + tag.ljust(self.label_num) + self.seperator + self.reset + text
         _write_stdout(content)
+
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        text = timestamp + ": WARN".ljust(self.label_num) + tag.ljust(self.label_num) + " - " + text
+        self._write_file(text)
         return
 
     def error(self, text):
@@ -134,17 +181,22 @@ class Log(object):
 
         content = self.reset + scheme + " " + tag.ljust(self.label_num) + self.seperator + self.reset + text
         _write_stderr(content)
+
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        text = timestamp + ": " + tag.ljust(self.label_num) + " - " + text
+        self._write_file(text)
         return
 
     def log_traceback(self):
         ttype, value, tb = sys.exc_info()
         self.error("Uncaught exception")
-        self.error("Type:      " + str(ttype))
-        self.error("Value:     " + str(value))
+        self.error("Type:  " + str(ttype))
+        self.error("Value: " + str(value))
 
         lines = traceback.format_tb(tb)
         for line in lines:
             _write_stderr(line, True)
+            self._write_file(line, True)
         return
 
     def exception(self, e):
@@ -155,4 +207,8 @@ class Log(object):
 
         content = self.reset + scheme + " " + tag.ljust(self.label_num) + self.seperator + self.reset + text
         _write_stderr(content)
+
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        text = timestamp + ": " + tag.ljust(self.label_num) + " - " + text
+        self._write_file(text)
         return

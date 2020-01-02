@@ -17,10 +17,13 @@
 #
 
 import sys
+import easyb
 
 from easyb.console import Console
 
 if __name__ == '__main__':
+
+    easyb.log.file_name = "easyb-tool.log"
 
     main = Console()
 
