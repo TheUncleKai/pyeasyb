@@ -212,6 +212,15 @@ class Device(metaclass=ABCMeta):
         message = Message()
         message.decode(header)
 
+        if message.code == 5:
+            easyb.log.warn(self.name, "Command not supported!")
+            return None
+
+        if message.success is False:
+            return None
+
+        message.info()
+
         number = 0
 
         if message.length is Length.Byte6:
@@ -220,9 +229,19 @@ class Device(metaclass=ABCMeta):
         if message.length is Length.Byte9:
             number = 6
 
+        if message.length is Length.Variable:
+            number = -1
+
         if number == 0:
-            easyb.log.error("Message body size is unknown!")
-            return None
+            message.info()
+            easyb.log.warn(self.name, "Message body has no size!")
+            message.data = header
+            return message
+
+        if number == -1:
+            message.info()
+            easyb.log.warn(self.name, "Message body is variable!")
+            return message
 
         try:
             data = self.serial.read(number)
@@ -231,6 +250,7 @@ class Device(metaclass=ABCMeta):
             easyb.log.exception(e)
             return None
 
+        debug = debug_data(data)
         easyb.log.debug1("SERIAL", "Body {0:d}: {1:s}".format(number, debug))
         message.data = data
         return message

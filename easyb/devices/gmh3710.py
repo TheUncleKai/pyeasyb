@@ -21,8 +21,10 @@ import easyb
 from typing import List
 from datetime import datetime
 
+from easyb.definitions import Length
 from easyb.command import Command
 from easyb.device import Device
+from easyb.bit import convert_u16
 
 __all__ = [
     "Data",
@@ -73,6 +75,16 @@ class GMH3710(Device):
         if message is None:
             return False
 
+        if message.length is Length.Byte6:
+            message.value_16()
+
+        if message.length is Length.Byte9:
+            message.value_32()
+
+        if message.value is None:
+            easyb.log.warn(self.name, "No value!")
+            return False
+
         data = Data(message.value)
 
         debug = "{0:s}: {1:.2f}".format(data.datetime.strftime("%Y-%m-%d %H:%M:%S"), data.value)
@@ -88,6 +100,8 @@ class GMH3710(Device):
         if message is None:
             return False
 
+        message.decode_16()
+
         easyb.log.inform(self.name, str(message.value))
         self.system_state = int(message.value)
         return True
@@ -99,8 +113,18 @@ class GMH3710(Device):
         if message is None:
             return False
 
+        if message.length is Length.Byte6:
+            message.value_16()
+
+        if message.length is Length.Byte9:
+            message.value_32()
+
+        if message.value is None:
+            easyb.log.warn(self.name, "No value!")
+            return False
+
         easyb.log.inform(self.name, str(message.value))
-        self.min_value = int(message.value)
+        self.min_value = message.value
         return True
 
     def maxwert_lesen(self) -> bool:
@@ -110,8 +134,18 @@ class GMH3710(Device):
         if message is None:
             return False
 
+        if message.length is Length.Byte6:
+            message.value_16()
+
+        if message.length is Length.Byte9:
+            message.value_32()
+
+        if message.value is None:
+            easyb.log.warn(self.name, "No value!")
+            return False
+
         easyb.log.inform(self.name, str(message.value))
-        self.max_value = int(message.value)
+        self.max_value = message.value
         return True
 
     def id_nummer_lesen(self) -> bool:
@@ -121,41 +155,22 @@ class GMH3710(Device):
         if message is None:
             return False
 
-        easyb.log.inform(self.name, "ID: {0:d}".format(int(message.value)))
-        self.max_value = int(message.value)
+        message.decode_32()
+
+        self.id_number = message.value
+
+        easyb.log.inform(self.name, "ID: {0:x}".format(self.id_number))
         return True
 
-    def min_messbereich_lesen(self) -> bool:
-        command = self.get_command(5)
+    def anzeige_einheit_lesen(self) -> bool:
+        command = self.get_command(9)
 
         message = self.execute(command)
         if message is None:
             return False
 
-        easyb.log.inform(self.name, str(message.value))
-        self.max_value = int(message.value)
-        return True
-
-    def max_messbereich_lesen(self) -> bool:
-        command = self.get_command(6)
-
-        message = self.execute(command)
-        if message is None:
-            return False
-
-        easyb.log.inform(self.name, str(message.value))
-        self.max_value = int(message.value)
-        return True
-
-    def messbereich_einheit_lesen(self) -> bool:
-        command = self.get_command(7)
-
-        message = self.execute(command)
-        if message is None:
-            return False
-
-        easyb.log.inform(self.name, str(message.value))
-        self.max_value = int(message.value)
+        value = convert_u16(message.data[3], message.data[4])
+        easyb.log.inform(self.name, str(value))
         return True
 
     def init_commands(self):
@@ -178,16 +193,8 @@ class GMH3710(Device):
                           func_call=self.id_nummer_lesen)
         self.add_command(command)
 
-        command = Command(name="Min. Messbereich lesen", number=5, address=self.address, code=176,
-                          func_call=self.min_messbereich_lesen)
-        self.add_command(command)
-
-        command = Command(name="Max. Messbereich lesen", number=6, address=self.address, code=177,
-                          func_call=self.max_messbereich_lesen)
-        self.add_command(command)
-
-        command = Command(name="Messbereich Einheit lesen", number=7, address=self.address, code=178,
-                          func_call=self.messbereich_einheit_lesen)
+        command = Command(name="Anzeige Einheit lesen", number=9, address=self.address, code=15, length=Length.Byte6,
+                          param=[202, 0], func_call=self.anzeige_einheit_lesen)
         self.add_command(command)
         return
 

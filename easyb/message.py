@@ -24,7 +24,7 @@ from typing import List, Any, Union
 
 from easyb.command import Command
 from easyb.definitions import Direction, get_direction, Length, get_length, Priority, get_priority
-from easyb.bit import decode_u16, decode_u32, check_crc, create_crc
+from easyb.bit import decode_u16, decode_u32, check_crc, create_crc, convert_u16, convert_u32
 
 __all__ = [
     "Message"
@@ -242,49 +242,87 @@ class Message(object):
 
     @data.setter
     def data(self, in_data: bytes):
-        data = []
 
         for item in in_data:
-            data.append(int(item))
+            self.data.append(int(item))
+        return
 
-        length = len(data)
+    def decode_16(self) -> bool:
+        length = len(self.data)
         self._success = False
 
         if (self.length is Length.Byte6) and (length != 3):
             easyb.log.error("Invalid data length for Byte6: " + str(length))
-            return
+            return False
+
+        check = check_crc(self.data[0], self.data[1], self.data[2])
+        if check is False:
+            return False
+
+        self._value = int(convert_u16(self.data[0], self.data[1]))
+        return True
+
+    def decode_32(self) -> bool:
+        length = len(self.data)
+        self._success = False
 
         if (self.length is Length.Byte9) and (length != 6):
             easyb.log.error("Invalid data length for Byte9: " + str(length))
-            return
+            return False
 
-        if self.length is Length.Byte6:
-            check = check_crc(data[0], data[1], data[2])
-            if check is False:
-                return
+        check1 = check_crc(self.data[0], self.data[1], self.data[2])
+        check2 = check_crc(self.data[3], self.data[4], self.data[5])
+        if (check1 is False) or (check2 is False):
+            return False
 
-            error, value = decode_u16(data[0], data[1])
-            if error != 0:
-                self._error = error
-                return
+        value1 = int(convert_u16(self.data[0], self.data[1]))
+        value2 = int(convert_u16(self.data[3], self.data[4]))
 
-            self._value = value
+        self._value = int(convert_u32(value1, value2))
+        return True
 
-        if self.length is Length.Byte9:
-            check1 = check_crc(data[0], data[1], data[2])
-            check2 = check_crc(data[3], data[4], data[5])
-            if (check1 is False) or (check2 is False):
-                return
+    def value_16(self) -> bool:
+        length = len(self.data)
+        self._success = False
 
-            error, value = decode_u32(data[0], data[1], data[3], data[4])
-            if error != 0:
-                self._error = error
-                return
+        if (self.length is Length.Byte6) and (length != 3):
+            easyb.log.error("Invalid data length for Byte6: " + str(length))
+            return False
 
-            self._value = value
+        check = check_crc(self.data[0], self.data[1], self.data[2])
+        if check is False:
+            return False
 
+        error, value = decode_u16(self.data[0], self.data[1])
+        if error != 0:
+            self._error = error
+            return False
+
+        self._value = value
         self._success = True
-        return
+        return True
+
+    def value_32(self) -> bool:
+        length = len(self.data)
+        self._success = False
+
+        if (self.length is Length.Byte9) and (length != 6):
+            easyb.log.error("Invalid data length for Byte9: " + str(length))
+            return False
+
+        check1 = check_crc(self.data[0], self.data[1], self.data[2])
+        check2 = check_crc(self.data[3], self.data[4], self.data[5])
+        if (check1 is False) or (check2 is False):
+            return False
+
+        error, value = decode_u32(self.data[0], self.data[1], self.data[3], self.data[4])
+        if error != 0:
+            self._error = error
+            return False
+
+        self._value = value
+        self._success = True
+        return True
 
     def info(self):
         easyb.log.inform("ADDRESS", str(self.address))
