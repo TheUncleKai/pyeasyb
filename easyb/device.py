@@ -40,6 +40,7 @@ class Device(metaclass=ABCMeta):
     write_timeout = 2
     address = 0
     wait_time = 0.0
+    counter = 0
 
     def __init__(self, **kwargs):
         self._name = ""
@@ -281,8 +282,27 @@ class Device(metaclass=ABCMeta):
             return False
 
         easyb.log.inform(self.name, "Run {0:s}".format(command.name))
-        check = command.call()
+
+        message = self.execute(command)
+        if message is None:
+            return False
+
+        check = command.call(message)
         return check
+
+    def default_command(self, message: Message):
+        if message.length is Length.Byte6:
+            message.value_16()
+
+        if message.length is Length.Byte9:
+            message.value_32()
+
+        if message.value is None:
+            easyb.log.warn(self.name, "No value!")
+            return False
+
+        easyb.log.inform(self.name, str(message.value))
+        return True
 
     def list_commands(self):
         for command in self.commands:
@@ -290,8 +310,11 @@ class Device(metaclass=ABCMeta):
         return
 
     def add_command(self, command: Command):
+        command.number = self.counter
+        command.address = self.address
         self.commands.append(command)
         self.command_list.append(command.number)
+        self.counter += 1
         return
 
     @abc.abstractmethod
