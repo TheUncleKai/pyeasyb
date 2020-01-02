@@ -137,6 +137,12 @@ class Device(metaclass=ABCMeta):
             easyb.log.error("Serial port is not set up!")
             return False
 
+        easyb.log.debug1(self.name, "Port:          {0:s}".format(self.port))
+        easyb.log.debug1(self.name, "Baudrate:      {0:d}".format(self.baudrate))
+        easyb.log.debug1(self.name, "Address:       {0:d}".format(self.address))
+        easyb.log.debug1(self.name, "Timeout:       {0:d}".format(self.timeout))
+        easyb.log.debug1(self.name, "Write timeout: {0:d}".format(self.write_timeout))
+
         self.serial.port = self.port
 
         try:
