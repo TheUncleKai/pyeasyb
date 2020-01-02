@@ -74,7 +74,10 @@
                 "test_prepare_5",
                 "test_prepare_6",
                 "test_prepare_7",
+                "test_prepare_8",
+                "test_prepare_9",
                 "test_run_1",
+                "test_run_2",
                 "test_close_1"
             ]
         }

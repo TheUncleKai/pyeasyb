@@ -28,6 +28,8 @@ class TestOptions(object):
     command = 0
     port = ""
     verbose = 0
+    list = False
+    read = False
 
     def test_1(self):
         self.device = "GMH 3710"
@@ -52,6 +54,15 @@ class TestOptions(object):
         self.device = "GMH 3710"
         self.command = 12
 
+    def test_6(self):
+        self.list = True
+
+    def test_7(self):
+        self.device = "GMH 3710"
+        self.command = 0
+        self.port = ""
+        self.verbose = 0
+
 
 # noinspection DuplicatedCode
 class TestConsole(unittest.TestCase):
@@ -73,8 +84,7 @@ class TestConsole(unittest.TestCase):
         console = Console()
 
         self.assertIsNone(console.device)
-        self.assertIsNone(console.command)
-        self.assertEqual(console.port, "")
+        self.assertIsNone(console.options)
         return
 
     def test_prepare_1(self):
@@ -188,11 +198,61 @@ class TestConsole(unittest.TestCase):
         self.assertFalse(check)
         return
 
+    def test_prepare_8(self):
+        """tear down test.
+        """
+        options = TestOptions()
+        options.test_6()
+
+        console = Console()
+        console._parser = mock.Mock()
+        console._parser.parse_args = mock.Mock()
+        console._parser.parse_args.return_value = (options, None)
+
+        check = console.prepare()
+
+        self.assertTrue(check)
+        return
+
+    def test_prepare_9(self):
+        """tear down test.
+        """
+        options = TestOptions()
+        options.test_7()
+
+        console = Console()
+        console._parser = mock.Mock()
+        console._parser.parse_args = mock.Mock()
+        console._parser.parse_args.return_value = (options, None)
+
+        check = console.prepare()
+
+        self.assertFalse(check)
+        return
+
     def test_run_1(self):
         """tear down test.
         """
         options = TestOptions()
         options.test_1()
+
+        console = Console()
+        console._parser = mock.Mock()
+        console._parser.parse_args = mock.Mock()
+        console._parser.parse_args.return_value = (options, None)
+
+        check1 = console.prepare()
+        check2 = console.run()
+
+        self.assertTrue(check1)
+        self.assertTrue(check2)
+        return
+
+    def test_run_2(self):
+        """tear down test.
+        """
+        options = TestOptions()
+        options.test_6()
 
         console = Console()
         console._parser = mock.Mock()
