@@ -24,6 +24,7 @@ import serial
 from serial import Serial
 from typing import List, Union
 
+from easyb.bit import debug_data
 from easyb.message import Message
 from easyb.command import Command
 from easyb.definitions import Length
@@ -179,11 +180,7 @@ class Device(metaclass=ABCMeta):
         if message.success is False:
             return False
 
-        for item in stream:
-            if debug == "":
-                debug = "0x{:02x}".format(item)
-            else:
-                debug = debug + " 0x{:02x}".format(item)
+        debug = debug_data(stream)
 
         debug2 = "Address " + str(message.address) + ", Code: " + str(message.code)
         debug2 += ", " + message.priority.name
@@ -210,6 +207,9 @@ class Device(metaclass=ABCMeta):
             easyb.log.exception(e)
             return None
 
+        debug = debug_data(header)
+        easyb.log.debug1("SERIAL", "Header: {0:s}".format(debug))
+
         message = Message()
         message.decode(header)
 
@@ -232,6 +232,7 @@ class Device(metaclass=ABCMeta):
             easyb.log.exception(e)
             return None
 
+        easyb.log.debug1("SERIAL", "Body {0:d}: {1:s}".format(number, debug))
         message.data = data
         return message
 

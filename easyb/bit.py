@@ -27,6 +27,7 @@ import math
 from numpy import uint8, uint16, bitwise_and, right_shift
 
 __all__ = [
+    "debug_data",
     "crop_u8",
 
     "convert_u16",
@@ -38,6 +39,18 @@ __all__ = [
     "create_crc",
     "check_crc"
 ]
+
+
+def debug_data(data: bytes) -> str:
+    debug = ""
+    for item in data:
+        value = int(item)
+        if debug == "":
+            debug = "0x{:02x}".format(value)
+        else:
+            debug = debug + " 0x{:02x}".format(value)
+
+    return debug
 
 
 def to_signed32(value):

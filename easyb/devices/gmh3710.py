@@ -73,7 +73,12 @@ class GMH3710(Device):
         if message is None:
             return False
 
-        self.data.append(Data(message.value))
+        data = Data(message.value)
+
+        debug = "{0:s}: {1:.2f}".format(data.datetime, data.value)
+        easyb.log.inform(self.name, debug)
+
+        self.data.append(data)
         return True
 
     def read_system_state(self) -> bool:

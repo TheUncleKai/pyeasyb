@@ -148,6 +148,13 @@ class Console(object):
 
         return True
 
+    def run_command(self, command: int) -> bool:
+        command_item = self.device.get_command(command)
+        easyb.log.inform("Command", "{0:d}: {1:s}".format(command_item.number, command_item.name))
+
+        check = self.device.run_command(command)
+        return check
+
     def run(self) -> bool:
         """Run the test task.
 
@@ -160,9 +167,10 @@ class Console(object):
         easyb.log.inform("Port", self.options.port)
         easyb.log.inform("Device", self.options.device)
 
-        command = self.device.get_command(self.options.command)
+        if self.options.read is False:
+            check = self.run_command(self.options.command)
+            return check
 
-        easyb.log.inform("Command", "{0:d}: {1:s}".format(command.number, command.name))
         return True
 
     def close(self) -> bool:
@@ -173,5 +181,8 @@ class Console(object):
         """
         if self.options.list is True:
             return True
+
+        if self.device is not None:
+            self.device.disconnect()
 
         return True
