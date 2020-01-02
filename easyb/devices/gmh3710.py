@@ -53,7 +53,7 @@ class Data:
 
 class GMH3710(Device):
 
-    system_state = 0
+    system_state = []
     min_value = 0.0
     max_value = 0.0
     id_number = 0
@@ -103,8 +103,14 @@ class GMH3710(Device):
 
         message.decode_16()
 
-        easyb.log.inform(self.name, str(message.value))
-        self.system_state = int(message.value)
+        self.system_state = easyb.conf.get_status(int(message.value))
+
+        for item in self.system_state:
+            easyb.log.warn(self.name, item.text)
+
+        if len(self.system_state) == 0:
+            easyb.log.inform(self.name, "Nothing to report!")
+
         return True
 
     def minwert_lesen(self) -> bool:
