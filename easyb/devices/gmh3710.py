@@ -66,7 +66,7 @@ class GMH3710(Device):
         self._data = []
         return
 
-    def read_measurement(self) -> bool:
+    def messwert_lesen(self) -> bool:
         command = self.get_command(0)
 
         message = self.execute(command)
@@ -81,7 +81,7 @@ class GMH3710(Device):
         self.data.append(data)
         return True
 
-    def read_system_state(self) -> bool:
+    def systemstatus_lesen(self) -> bool:
         command = self.get_command(1)
 
         message = self.execute(command)
@@ -92,7 +92,7 @@ class GMH3710(Device):
         self.system_state = int(message.value)
         return True
 
-    def read_min_value(self) -> bool:
+    def minwert_lesen(self) -> bool:
         command = self.get_command(2)
 
         message = self.execute(command)
@@ -103,7 +103,7 @@ class GMH3710(Device):
         self.min_value = int(message.value)
         return True
 
-    def read_max_value(self) -> bool:
+    def maxwert_lesen(self) -> bool:
         command = self.get_command(3)
 
         message = self.execute(command)
@@ -114,7 +114,7 @@ class GMH3710(Device):
         self.max_value = int(message.value)
         return True
 
-    def read_id_number(self) -> bool:
+    def id_nummer_lesen(self) -> bool:
         command = self.get_command(4)
 
         message = self.execute(command)
@@ -125,24 +125,69 @@ class GMH3710(Device):
         self.max_value = int(message.value)
         return True
 
+    def min_messbereich_lesen(self) -> bool:
+        command = self.get_command(5)
+
+        message = self.execute(command)
+        if message is None:
+            return False
+
+        easyb.log.inform(self.name, str(message.value))
+        self.max_value = int(message.value)
+        return True
+
+    def max_messbereich_lesen(self) -> bool:
+        command = self.get_command(6)
+
+        message = self.execute(command)
+        if message is None:
+            return False
+
+        easyb.log.inform(self.name, str(message.value))
+        self.max_value = int(message.value)
+        return True
+
+    def messbereich_einheit_lesen(self) -> bool:
+        command = self.get_command(7)
+
+        message = self.execute(command)
+        if message is None:
+            return False
+
+        easyb.log.inform(self.name, str(message.value))
+        self.max_value = int(message.value)
+        return True
+
     def init_commands(self):
 
         command = Command(name="Messwert lesen", number=0, address=self.address, code=0,
-                          func_call=self.read_measurement)
+                          func_call=self.messwert_lesen)
         self.add_command(command)
 
         command = Command(name="Systemstatus lesen", number=1, address=self.address, code=3,
-                          func_call=self.read_system_state)
+                          func_call=self.systemstatus_lesen)
         self.add_command(command)
 
-        command = Command(name="Minwert lesen", number=2, address=self.address, code=6, func_call=self.read_min_value)
+        command = Command(name="Minwert lesen", number=2, address=self.address, code=6, func_call=self.minwert_lesen)
         self.add_command(command)
 
-        command = Command(name="Maxwert lesen", number=3, address=self.address, code=7, func_call=self.read_max_value)
+        command = Command(name="Maxwert lesen", number=3, address=self.address, code=7, func_call=self.maxwert_lesen)
         self.add_command(command)
 
         command = Command(name="ID-Nummer lesen", number=4, address=self.address, code=12,
-                          func_call=self.read_id_number)
+                          func_call=self.id_nummer_lesen)
+        self.add_command(command)
+
+        command = Command(name="Min. Messbereich lesen", number=5, address=self.address, code=176,
+                          func_call=self.min_messbereich_lesen)
+        self.add_command(command)
+
+        command = Command(name="Max. Messbereich lesen", number=6, address=self.address, code=177,
+                          func_call=self.max_messbereich_lesen)
+        self.add_command(command)
+
+        command = Command(name="Messbereich Einheit lesen", number=7, address=self.address, code=178,
+                          func_call=self.messbereich_einheit_lesen)
         self.add_command(command)
         return
 

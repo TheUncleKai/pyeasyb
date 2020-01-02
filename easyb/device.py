@@ -174,7 +174,6 @@ class Device(metaclass=ABCMeta):
 
     def send(self, message: Message) -> bool:
 
-        debug = ""
         stream = message.encode()
 
         if message.success is False:
@@ -261,6 +260,7 @@ class Device(metaclass=ABCMeta):
         if command is None:
             return False
 
+        easyb.log.inform(self.name, "Run {0:s}".format(command.name))
         check = command.call()
         return check
 
