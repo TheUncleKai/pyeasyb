@@ -118,7 +118,7 @@ class Device(metaclass=ABCMeta):
                            writeTimeout=write_timeout)
         return
 
-    def open(self) -> bool:
+    def connect(self) -> bool:
         """Open serial connection
 
         :return: True if successfull, otherwise false
@@ -137,7 +137,21 @@ class Device(metaclass=ABCMeta):
             easyb.log.error("Problem during opening of serial port!")
             easyb.log.exception(e)
             return False
+
+        easyb.log.inform(self.name, "Establish connection to {0:s}".format(self.port))
         return True
+
+    def disconnect(self):
+        """Close serial connection
+        """
+
+        if self.ser.is_open is False:
+            easyb.log.warn(self.name, "Connection to {0:s} is already closed!".format(self.port))
+            return
+
+        self.ser.close()
+        easyb.log.inform(self.name, "Disconnect from {0:s}".format(self.port))
+        return
 
     def send(self, message: Message) -> bool:
 

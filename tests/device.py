@@ -165,7 +165,7 @@ class TestControl(unittest.TestCase):
         self.assertIsNone(device.ser.interCharTimeout)
         return
 
-    def test_open_1(self):
+    def test_connect_1(self):
         """Test constructor.
         """
 
@@ -177,12 +177,12 @@ class TestControl(unittest.TestCase):
         device._ser = mock_serial
         mock_serial.open = mock.Mock()
 
-        check = device.open()
+        check = device.connect()
         self.assertTrue(check)
         self.assertTrue(mock_serial.open.called, 'Serial open method not called')
         return
 
-    def test_open_2(self):
+    def test_connect_2(self):
         """Test constructor.
         """
 
@@ -194,12 +194,12 @@ class TestControl(unittest.TestCase):
         device._ser = mock_serial
         mock_serial.open = mock.Mock(side_effect=SerialException('Attempting to use a port that is not open'))
 
-        check = device.open()
+        check = device.connect()
         self.assertFalse(check)
         self.assertTrue(mock_serial.open.called, 'Serial open method not called')
         return
 
-    def test_open_3(self):
+    def test_connect_3(self):
         """Test constructor.
         """
 
@@ -209,9 +209,43 @@ class TestControl(unittest.TestCase):
 
         device._ser = mock_serial
 
-        check = device.open()
+        check = device.connect()
         self.assertFalse(check)
         self.assertFalse(mock_serial.open.called, 'Serial open method not called')
+        return
+
+    def test_disconnect_1(self):
+        """Test constructor.
+        """
+
+        device = TestDevice()
+        device.port = "TEST"
+
+        mock_serial = mock.Mock()
+
+        device._ser = mock_serial
+        device._ser.is_open = True
+        mock_serial.close = mock.Mock()
+
+        device.disconnect()
+        self.assertTrue(mock_serial.close.called, 'Serial close method not called')
+        return
+
+    def test_disconnect_2(self):
+        """Test constructor.
+        """
+
+        device = TestDevice()
+        device.port = "TEST"
+
+        mock_serial = mock.Mock()
+
+        device._ser = mock_serial
+        device._ser.is_open = False
+        mock_serial.close = mock.Mock()
+
+        device.disconnect()
+        self.assertFalse(mock_serial.close.called, 'Serial close method not called')
         return
 
     def test_get_command_1(self):

@@ -116,6 +116,10 @@ class Console(object):
         if self.options.command not in self.device.command_list:
             easyb.log.error("Command number is unknown: {0:d}".format(self.options.command))
             return False
+
+        self.device.
+
+
         return True
 
     def run(self) -> bool:
