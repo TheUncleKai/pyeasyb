@@ -16,6 +16,8 @@
 #    Copyright (C) 2017, Kai Raphahn <kai.raphahn@laburec.de>
 #
 
+import easyb
+
 from typing import List
 from datetime import datetime
 
@@ -157,6 +159,7 @@ class GMH3710(Device):
         return
 
     def prepare(self) -> bool:
+        easyb.log.warn(self.name, "Need to implement!")
         return True
 
     def run(self) -> bool:

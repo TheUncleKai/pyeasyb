@@ -67,6 +67,13 @@ class TestOptions(object):
         self.port = ""
         self.verbose = 0
 
+    def test_8(self):
+        self.device = "GMH 3710"
+        self.command = 0
+        self.port = "TEST"
+        self.verbose = 0
+        self.read = True
+
 
 # noinspection DuplicatedCode
 class TestConsole(unittest.TestCase):
@@ -241,12 +248,12 @@ class TestConsole(unittest.TestCase):
         self.assertFalse(check)
         return
 
-    @mock.patch('easyb.device.Serial', new=mock_serial_2)
+    @mock.patch('easyb.device.Serial.open', new=mock.Mock(side_effect=SerialException('Attempting to use a port that is not open')))
     def test_prepare_10(self):
         options = TestOptions()
         options.test_1()
 
-        mock_serial_2.open = mock.Mock(side_effect=SerialException('Attempting to use a port that is not open'))
+        # mock_serial_2.open = mock.Mock(side_effect=SerialException('Attempting to use a port that is not open'))
 
         console = Console()
         console._parser = mock.Mock()
@@ -256,6 +263,21 @@ class TestConsole(unittest.TestCase):
         check = console.prepare()
 
         self.assertFalse(check)
+        return
+
+    @mock.patch('easyb.device.Serial', new=mock_serial)
+    def test_prepare_11(self):
+        options = TestOptions()
+        options.test_8()
+
+        console = Console()
+        console._parser = mock.Mock()
+        console._parser.parse_args = mock.Mock()
+        console._parser.parse_args.return_value = (options, None)
+
+        check = console.prepare()
+
+        self.assertTrue(check)
         return
 
     @mock.patch('easyb.device.Serial', new=mock_serial)

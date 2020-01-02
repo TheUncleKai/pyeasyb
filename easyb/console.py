@@ -52,12 +52,10 @@ class Console(object):
 
         self._parser.add_option("-r", "--read", help="read values continuously", action="store_true", default=False)
         self._parser.add_option("-l", "--list", help="list device and commands", action="store_true", default=False)
+        self._parser.add_option("-i", "--interval", help="interval between measurements for read mode (in seconds)",
+                                metavar="INTERVAL", type="float", default=2.0)
 
         self._device = None
-        self._command = None
-        self._port = ""
-        self._read = False
-        self._list = False
         return
 
     def _check_params(self) -> bool:
@@ -123,6 +121,11 @@ class Console(object):
         check = self.device.connect()
         if check is False:
             return False
+
+        if self.options.read is True:
+            check = self.device.prepare()
+            if check is False:
+                return False
 
         return True
 
