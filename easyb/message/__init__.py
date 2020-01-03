@@ -18,9 +18,7 @@
 
 import easyb
 
-from numpy import uint8, bitwise_or
-
-from typing import List, Union
+from typing import List
 
 from easyb.command import Command
 from easyb.message.stream import Stream
@@ -136,17 +134,17 @@ class Message(object):
         return True
 
     def _encode_header(self):
-        u8 = uint8(0)
+        u8 = 0
 
-        direction = uint8(self.direction.value)
-        length = uint8(self.length.value << 1)
-        priority = uint8(self.priority.value << 3)
-        code = uint8(self.code << 4)
+        direction = crop_u8(self.direction.value)
+        length = crop_u8(self.length.value << 1)
+        priority = crop_u8(self.priority.value << 3)
+        code = crop_u8(self.code << 4)
 
-        u8 = bitwise_or(u8, direction)
-        u8 = bitwise_or(u8, length)
-        u8 = bitwise_or(u8, priority)
-        u8 = bitwise_or(u8, code)
+        u8 = crop_u8(u8 | direction)
+        u8 = crop_u8(u8 | length)
+        u8 = crop_u8(u8 | priority)
+        u8 = crop_u8(u8 | code)
 
         result = int(u8)
         return result
