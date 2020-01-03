@@ -36,20 +36,19 @@ class TestDevice(Device):
         Device.__init__(self, name="TEST-DEVICE", wait_time=0.1, address=1, **kwargs)
         return
 
-    def read_measurement(self) -> bool:
-        command = self.get_command(0)
+    def read_measurement(self, message: Message) -> bool:
+        if message.length is Length.Byte6:
+            message.value_16()
 
-        message = self.execute(command)
-        if message is None:
-            return False
+        if message.length is Length.Byte9:
+            message.value_32()
 
         easyb.log.inform("VALUE", str(message.value))
         return True
 
     def init_commands(self):
 
-        command = Command(name="Messwert lesen", number=0, address=self.address, code=0,
-                          func_call=self.read_measurement)
+        command = Command(name="Messwert lesen", code=0, func_call=self.read_measurement)
         self.commands.append(command)
         return
 
@@ -67,7 +66,7 @@ class TestRead(object):
 
     run = 0
 
-    def test_read_1(self, count) -> bytes:
+    def test_read_1(self, count=0) -> bytes:
         data = []
 
         if self.run == 0:
@@ -79,15 +78,27 @@ class TestRead(object):
         self.run += 1
         return result
 
-    def test_read_2(self, count) -> bytes:
+    def test_read_2(self, count=0) -> bytes:
+        result = bytes([])
+        data = [0x72, 0xff, 0x84, 0x00, 0xfc, 0x05, 0x00, 0xfc, 0x05]
 
-        message = Message(code=0, address=1, priority=Priority.NoPriority, length=Length.Variable,
-                          direction=Direction.FromMaster)
+        if self.run == 0:
+            message = Message(code=0, address=1, priority=Priority.NoPriority, length=Length.Variable,
+                              direction=Direction.FromMaster)
 
-        result = message.encode()
+            result = message.encode()
+
+        if (self.run > 0) and (self.run < 10):
+            value = data[self.run - 1]
+            result = bytes([value])
+
+        if self.run > 9:
+            result = bytes([])
+
+        self.run += 1
         return result
 
-    def test_read_3(self, count) -> bytes:
+    def test_read_3(self, count=0) -> bytes:
         data = []
 
         if self.run == 0:
@@ -99,7 +110,7 @@ class TestRead(object):
         self.run += 1
         return result
 
-    def test_read_4(self, count) -> bytes:
+    def test_read_4(self, count=0) -> bytes:
         data = []
 
         if self.run == 0:
@@ -151,7 +162,7 @@ class TestControl(unittest.TestCase):
         self.assertEqual(device.serial.bytesize, EIGHTBITS)
         self.assertEqual(device.serial.parity, PARITY_NONE)
         self.assertEqual(device.serial.stopbits, STOPBITS_ONE)
-        self.assertEqual(device.serial.timeout, 6)
+        self.assertEqual(device.serial.timeout, 2)
         self.assertEqual(device.serial.writeTimeout, 2)
         self.assertEqual(device.serial.rtscts, 0)
         self.assertEqual(device.serial.dsrdtr, 0)
@@ -319,6 +330,7 @@ class TestControl(unittest.TestCase):
         mock_serial.read = test_read.test_read_1
 
         message = device.receive()
+        message.value_32()
 
         self.assertIsNotNone(message)
         self.assertEqual(message.address, 1, 'Failed: address')
@@ -346,6 +358,7 @@ class TestControl(unittest.TestCase):
         device = TestDevice()
 
         test_read = TestRead()
+        test_read.run = 0
 
         mock_serial = mock.Mock()
 
@@ -354,7 +367,8 @@ class TestControl(unittest.TestCase):
 
         message = device.receive()
 
-        self.assertIsNone(message)
+        self.assertIsNotNone(message)
+
         return
 
     def test_read_receive_4(self):
@@ -422,7 +436,7 @@ class TestControl(unittest.TestCase):
 
         message = device.execute(command)
 
-        self.assertIsNone(message)
+        self.assertIsNotNone(message)
         return
 
     def test_execute_4(self):
@@ -447,7 +461,6 @@ class TestControl(unittest.TestCase):
         device = TestDevice()
 
         test_read = TestRead()
-
         mock_serial = mock.Mock()
 
         device._serial = mock_serial

@@ -247,6 +247,41 @@ class Message(object):
             self.data.append(int(item))
         return
 
+    def verify_data(self) -> bool:
+        length = len(self.data)
+
+        if length == 0:
+            return True
+
+        check = length % 3
+        if check != 0:
+            easyb.log.error("Data size is not a triplet! ({0:d})".format(length))
+            return False
+
+        if (self.length is Length.Byte6) and (length != 3):
+            easyb.log.error("Invalid data length for Byte6: " + str(length))
+            return False
+
+        if (self.length is Length.Byte9) and (length != 6):
+            easyb.log.error("Invalid data length for Byte9: " + str(length))
+            return False
+
+        pos_set = 0
+        while True:
+            if pos_set >= length:
+                break
+
+            byte1 = self.data[pos_set + 0]
+            byte2 = self.data[pos_set + 1]
+            crc = self.data[pos_set + 3]
+
+            check = check_crc(byte1, byte2, crc)
+            if check is False:
+                return False
+
+            pos_set += 3
+        return True
+
     def decode_16(self) -> bool:
         length = len(self.data)
         self._success = False
