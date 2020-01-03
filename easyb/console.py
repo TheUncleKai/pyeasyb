@@ -62,8 +62,8 @@ class Console(object):
         serial = OptionGroup(parser, "Serial Options", "Set serial port options.")
         serial.add_option("-p", "--port", help="serial port", metavar="/dev/ttyUSB0", type="string", default="")
         serial.add_option("-b", "--baudrate", help="serial port baudrate", metavar="4800", type="int", default=4800)
-        serial.add_option("-t", "--timeout", help="serial port timeout (in seconds)", metavar="6", type="int",
-                          default=6)
+        serial.add_option("-t", "--timeout", help="serial port timeout (in seconds)", metavar="2", type="int",
+                          default=2)
         serial.add_option("-w", "--writetimeout", help="serial port write timeout", metavar="2", type="int", default=2)
 
         parser.add_option_group(serial)

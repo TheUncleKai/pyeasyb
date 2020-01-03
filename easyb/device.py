@@ -36,7 +36,7 @@ class Device(metaclass=ABCMeta):
 
     port = ""
     baudrate = 0
-    timeout = 0
+    timeout = 2
     write_timeout = 2
     address = 0
     wait_time = 0.0
@@ -65,7 +65,7 @@ class Device(metaclass=ABCMeta):
         if item is not None:
             self.baudrate = item
 
-        item = kwargs.get("timeout", 6)
+        item = kwargs.get("timeout", 2)
         if item is not None:
             self.timeout = item
 
@@ -199,6 +199,30 @@ class Device(metaclass=ABCMeta):
 
         return True
 
+    def read_unit_timeout(self) -> bytes:
+        result = []
+
+        while True:
+            check = False
+            try:
+                _in = self.serial.read()
+
+                for item in _in:
+                    check = True
+                    value = int(item)
+                    result.append(value)
+
+            except serial.SerialException as e:
+                easyb.log.error("Problem during reading of message body!")
+                easyb.log.exception(e)
+                break
+
+            if check is False:
+                break
+
+        res = bytes(result)
+        return res
+
     def receive(self) -> Union[None, Message]:
         try:
             header = self.serial.read(3)
@@ -242,17 +266,17 @@ class Device(metaclass=ABCMeta):
         if number == -1:
             message.info()
             easyb.log.warn(self.name, "Message body is variable!")
-            return message
-
-        try:
-            data = self.serial.read(number)
-        except serial.SerialException as e:
-            easyb.log.error("Problem during reading of message body!")
-            easyb.log.exception(e)
-            return None
+            data = self.read_unit_timeout()
+        else:
+            try:
+                data = self.serial.read(number)
+            except serial.SerialException as e:
+                easyb.log.error("Problem during reading of message body!")
+                easyb.log.exception(e)
+                return None
 
         debug = debug_data(data)
-        easyb.log.debug1("SERIAL", "Body {0:d}: {1:s}".format(number, debug))
+        easyb.log.debug1("SERIAL", "{0:s}: {1:s}".format(message.length.name, debug))
         message.data = data
         return message
 

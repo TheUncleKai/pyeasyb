@@ -191,10 +191,6 @@ class GMH3710(Device):
                           param=[178, 0], func_call=self.default_command)
         self.add_command(command)
 
-        command = Command(name="Messbereich Dezimalpunkt lesen", code=15, length=Length.Byte6,
-                          param=[179, 0], func_call=self.default_command)
-        self.add_command(command)
-
         command = Command(name="Messbereichs Messart lesen", code=15, length=Length.Byte6,
                           param=[180, 0], func_call=self.default_command)
         self.add_command(command)
@@ -213,6 +209,26 @@ class GMH3710(Device):
 
         command = Command(name="Anzeige Einheit lesen", code=15, length=Length.Byte6,
                           param=[202, 0], func_call=self.anzeige_einheit_lesen)
+        self.add_command(command)
+
+        command = Command(name="Kanalzahl lesen", code=15, length=Length.Byte6,
+                          param=[208, 0], func_call=self.default_command)
+        self.add_command(command)
+
+        command = Command(name="Steigungskorrektur lesen", code=15, length=Length.Byte6,
+                          param=[214, 0], func_call=self.default_command)
+        self.add_command(command)
+
+        command = Command(name="Offset lesen", code=15, length=Length.Byte6,
+                          param=[216, 0], func_call=self.default_command)
+        self.add_command(command)
+
+        command = Command(name="Abschaltverzoegerung lesen", code=15, length=Length.Byte6,
+                          param=[222, 0], func_call=self.default_command)
+        self.add_command(command)
+
+        command = Command(name="Programmkennung lesen", code=15, length=Length.Byte6,
+                          param=[254, 0], func_call=self.default_command)
         self.add_command(command)
         return
 
