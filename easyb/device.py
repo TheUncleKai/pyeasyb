@@ -305,7 +305,7 @@ class Device(metaclass=ABCMeta):
         if command is None:
             return False
 
-        easyb.log.inform(self.name, "Run {0:s}".format(command.name))
+        easyb.log.inform(self.name, "Run {0:d}: {1:s}".format(command.number, command.name))
 
         message = self.execute(command)
         if message is None:

@@ -140,6 +140,7 @@ class GMH3710(Device):
         easyb.log.inform(self.name, "ID: {0:x}".format(self.id_number))
         return True
 
+    # noinspection PyUnusedLocal
     def anzeige_einheit_lesen(self, message: Message) -> bool:
         command = self.get_command(9)
 
