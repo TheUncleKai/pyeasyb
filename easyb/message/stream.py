@@ -17,20 +17,39 @@
 
 import easyb
 
-from typing import List
+from typing import List, Union
 from easyb.definitions import Length
 from easyb.bit import debug_data, check_crc, crop_u8, create_crc
 
 __all__ = [
-    "Data"
+    "Stream"
 ]
 
 
-class Data(object):
+class Stream(object):
+
+    def __init__(self, length: Length):
+        self._data = []
+        self.length = length
+        return
 
     @property
     def length(self) -> Length:
         return self._length
+
+    @length.setter
+    def length(self, in_length: Length):
+        self._length = in_length
+
+        if self._length is Length.Byte3:
+            self._expand_data(3)
+
+        if self._length is Length.Byte6:
+            self._expand_data(6)
+
+        if self._length is Length.Byte9:
+            self._expand_data(9)
+        return
 
     @property
     def data(self) -> List[int]:
@@ -38,12 +57,12 @@ class Data(object):
 
     @property
     def bytes(self) -> bytes:
-        res = bytes(self.data)
+        res = bytes(self._data)
         return res
 
     @property
     def len(self) -> int:
-        return len(self.data)
+        return len(self._data)
 
     def __str__(self):
         return debug_data(self.bytes)
@@ -51,17 +70,14 @@ class Data(object):
     def __repr__(self):
         return self.bytes
 
-    def __init__(self, length: Length):
-        self._length = length
+    def _expand_data(self, number):
+        if number == self.len:
+            return
 
-        if self.length is Length.Byte3:
-            self._data = [0, 0, 0]
-
-        if self.length is Length.Byte6:
-            self._data = [0, 0, 0, 0, 0, 0]
-
-        if self.length is Length.Byte9:
-            self._data = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        n = self.len
+        while n < number:
+            self._data.append(0)
+            n += 1
         return
 
     def encode(self):
@@ -87,6 +103,44 @@ class Data(object):
             pos_set += 3
         return
 
+    def decode(self, data_input: bytes):
+        self._data = []
+
+        for item in data_input:
+            self._data.append(int(item))
+
+        length = len(self.data)
+
+        if length == 0:
+            easyb.log.error("Data packet is empty!")
+            return False
+
+        check = length % 3
+        if check != 0:
+            easyb.log.error("Data size is not a triplet! ({0:d})".format(length))
+            return False
+
+        check = self.verify_crc()
+        return check
+
+    def append(self, data_input: bytes):
+        for item in data_input:
+            self._data.append(int(item))
+
+        length = len(self.data)
+
+        if length == 0:
+            easyb.log.error("Data packet is empty!")
+            return False
+
+        check = length % 3
+        if check != 0:
+            easyb.log.error("Data size is not a triplet! ({0:d})".format(length))
+            return False
+
+        check = self.verify_crc()
+        return check
+
     def verify_length(self) -> bool:
         length = len(self.data)
 
@@ -98,11 +152,15 @@ class Data(object):
             easyb.log.error("Data size is not a triplet! ({0:d})".format(length))
             return False
 
-        if (self.length is Length.Byte6) and (length != 3):
+        if (self.length is Length.Byte3) and (length != 3):
             easyb.log.error("Invalid data length for Byte6: " + str(length))
             return False
 
-        if (self.length is Length.Byte9) and (length != 6):
+        if (self.length is Length.Byte6) and (length != 6):
+            easyb.log.error("Invalid data length for Byte6: " + str(length))
+            return False
+
+        if (self.length is Length.Byte9) and (length != 9):
             easyb.log.error("Invalid data length for Byte9: " + str(length))
             return False
 
@@ -127,7 +185,7 @@ class Data(object):
             pos_set += 3
         return True
 
-    def set_data(self, data_input: bytes):
+    def set_data(self, data_input):
 
         if len(data_input) != self.len:
             return

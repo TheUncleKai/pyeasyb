@@ -175,20 +175,13 @@ class Device(metaclass=ABCMeta):
 
     def send(self, message: Message) -> bool:
 
-        stream = message.encode()
-
-        if message.success is False:
+        check = message.encode()
+        if check is False:
             return False
 
-        debug = debug_data(stream)
+        message.info("SEND")
 
-        debug2 = "Address " + str(message.address) + ", Code: " + str(message.code)
-        debug2 += ", " + message.priority.name
-        debug2 += ", " + message.length.name
-        debug2 += ", " + message.direction.name
-
-        easyb.log.debug2("SERIAL", debug2)
-        easyb.log.debug1("SERIAL", "Write: " + debug)
+        stream = message.stream.bytes
 
         try:
             self.serial.write(stream)
@@ -235,16 +228,15 @@ class Device(metaclass=ABCMeta):
         easyb.log.debug1("SERIAL", "Header: {0:s}".format(debug))
 
         message = Message()
-        message.decode(header)
+        check = message.decode(header)
+        if check is False:
+            return None
 
         if message.code == 5:
             easyb.log.warn(self.name, "Command not supported!")
             return None
 
-        if message.success is False:
-            return None
-
-        message.info()
+        message.info("RECEIVE")
 
         number = 0
 
@@ -258,13 +250,11 @@ class Device(metaclass=ABCMeta):
             number = -1
 
         if number == 0:
-            message.info()
             easyb.log.warn(self.name, "Message body has no size!")
             message.data = header
             return message
 
         if number == -1:
-            message.info()
             easyb.log.warn(self.name, "Message body is variable!")
             data = self.read_unit_timeout()
         else:
@@ -275,9 +265,20 @@ class Device(metaclass=ABCMeta):
                 easyb.log.exception(e)
                 return None
 
+        stream = message.stream
+
         debug = debug_data(data)
         easyb.log.debug1("SERIAL", "{0:s}: {1:s}".format(message.length.name, debug))
-        message.data = data
+
+        check = stream.append(data)
+        if check is False:
+            return None
+
+        stream.length = message.length
+        check = stream.verify_length()
+        if check is False:
+            return None
+
         return message
 
     def execute(self, command: Command) -> Union[None, Message]:
@@ -292,9 +293,6 @@ class Device(metaclass=ABCMeta):
 
         data = self.receive()
         if data is None:
-            return None
-
-        if data.success is False:
             return None
 
         return data
@@ -315,17 +313,8 @@ class Device(metaclass=ABCMeta):
         return check
 
     def default_command(self, message: Message):
-        if message.length is Length.Byte6:
-            message.value_16()
-
-        if message.length is Length.Byte9:
-            message.value_32()
-
-        if message.value is None:
-            easyb.log.warn(self.name, "No value!")
-            return False
-
-        easyb.log.inform(self.name, str(message.value))
+        logging = debug_data(message.stream.bytes)
+        easyb.log.inform(self.name, logging)
         return True
 
     def list_commands(self):

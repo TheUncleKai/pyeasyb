@@ -20,16 +20,16 @@ import easyb
 
 from numpy import uint8, bitwise_or
 
-from typing import List, Any, Union
+from typing import List, Union
 
 from easyb.command import Command
-from easyb.message.data import Data
+from easyb.message.stream import Stream
 
 from easyb.definitions import Direction, get_direction, Length, get_length, Priority, get_priority
-from easyb.bit import decode_u16, decode_u32, check_crc, create_crc, convert_u16, convert_u32, debug_data, crop_u8
+from easyb.bit import debug_data, crop_u8
 
 __all__ = [
-    "data",
+    "stream",
 
     "Message"
 ]
@@ -58,10 +58,6 @@ class Message(object):
         return self._direction
 
     @property
-    def data(self) -> Data:
-        return self._data
-
-    @property
     def param(self) -> List[int]:
         return self._param
 
@@ -70,23 +66,10 @@ class Message(object):
         return self._error
 
     @property
-    def success(self) -> bool:
-        return self._success
+    def stream(self) -> Stream:
+        return self._stream
 
     def __init__(self, **kwargs):
-        """Initialise the Message.
-
-        :Arguments:
-        * address: address of unit to read
-        * code: F1 command code
-        * priority: message priority
-        * length: message length
-        * data: data for message > 3 bytes
-
-        :param kwargs: keyworded variable length of arguments.
-        :type kwargs: **dict
-        """
-
         self._address = 0
         self._code = 0
         self._priority = Priority.NoPriority
@@ -94,8 +77,8 @@ class Message(object):
         self._direction = Direction.FromMaster
         self._value = None
         self._error = 0
-        self._success = False
         self._param = []
+        self._stream = None
 
         item = kwargs.get("address", None)
         if item is not None:
@@ -120,8 +103,6 @@ class Message(object):
         item = kwargs.get("param", None)
         if item is not None:
             self._param = item
-
-        self._data = Data(self.length)
         return
 
     def command(self, command: Command) -> bool:
@@ -130,7 +111,7 @@ class Message(object):
         self._priority = Priority.NoPriority
         self._length = command.length
         self._direction = Direction.FromMaster
-        self._data = command.param
+        self._param = command.param
         return True
 
     def _verify_param(self) -> bool:
@@ -170,42 +151,10 @@ class Message(object):
         result = int(u8)
         return result
 
-    def encode(self) -> Union[bytes, None]:
+    def _decode_header(self):
+        byte0 = self.stream.data[0]
+        byte1 = self.stream.data[1]
 
-        check = self._verify_param()
-        if check is False:
-            return None
-
-        result = []
-
-        byte = crop_u8(self.address)
-        result.append(byte)
-
-        byte = self._encode_header()
-        result.append(byte)
-
-        result.append(0)
-
-        if self.length == Length.Byte6:
-            result.append(self.param[0])
-            result.append(self.param[1])
-            result.append(0)
-
-        if self.length == Length.Byte9:
-            result.append(self.param[0])
-            result.append(self.param[1])
-            result.append(0)
-
-            result.append(self.param[2])
-            result.append(self.param[3])
-            result.append(0)
-
-        self._success = True
-
-        data = bytes(result)
-        return data
-
-    def _decode_header(self, byte0: int, byte1: int):
         self._address = 255 - byte0
         self._code = (byte1 & 0xf0) >> 4
 
@@ -218,39 +167,61 @@ class Message(object):
         self._direction = get_direction(direction)
         return
 
-    def decode(self, data: bytes):
+    def encode(self) -> bool:
+        check = self._verify_param()
+        if check is False:
+            return False
+
+        data = []
+
+        byte = crop_u8(self.address)
+        data.append(byte)
+
+        byte = self._encode_header()
+        data.append(byte)
+
+        data.append(0)
+
+        if self.length == Length.Byte6:
+            data.append(self.param[0])
+            data.append(self.param[1])
+            data.append(0)
+
+        if self.length == Length.Byte9:
+            data.append(self.param[0])
+            data.append(self.param[1])
+            data.append(0)
+
+            data.append(self.param[2])
+            data.append(self.param[3])
+            data.append(0)
+
+        self._stream = Stream(self.length)
+        self._stream.set_data(data)
+
+        check = self._stream.encode()
+        if check is False:
+            return False
+
+        return True
+
+    def decode(self, data: bytes) -> bool:
         self._error = 0
-        self._success = False
-        header = []
 
-        for item in data:
-            header.append(int(item))
-
-        if len(header) != 3:
-            easyb.log.error("Header is not valid!")
-            return
-
-        check = check_crc(header[0], header[1], header[2])
+        self._stream = Stream(Length.Byte3)
+        check = self._stream.decode(data)
         if check is False:
             easyb.log.error("Header is not valid!")
             return False
 
-        self._decode_header(header[0], header[1])
-        self._success = True
+        self._decode_header()
+        return True
+
+    def info(self, debug: str):
+        logging = "Address {0:d}, Code {1:d}, {2:s}, {3:s}, {4:s}".format(self.address, self.code, self.priority.name,
+                                                                          self.length.name, self.direction.name)
+        easyb.log.debug2(debug, logging)
+
+        logging = debug_data(self.stream.bytes)
+        easyb.log.debug2(debug, logging)
         return
-
-    @data.setter
-    def data(self, in_data: bytes):
-
-        for item in in_data:
-            self.data.append(int(item))
-        return
-
-    def info(self):
-        easyb.log.debug2("ADDRESS", str(self.address))
-        easyb.log.debug2("CODE", str(self.code))
-        easyb.log.debug2("PRIORITY", str(self.priority.name))
-        easyb.log.debug2("LENGTH", str(self.length.name))
-        easyb.log.debug2("DIRECTION", str(self.direction.name))
-        return
-
