@@ -1,0 +1,98 @@
+{
+    "modules": [
+        {
+            "id": "Device",
+            "path": "tests.device",
+            "classname": "TestControl",
+            "tests": [
+                "test_constructor",
+                "test_setup",
+                "test_connect_1",
+                "test_connect_2",
+                "test_connect_3",
+                "test_disconnect_1",
+                "test_disconnect_2",
+                "test_get_command_1",
+                "test_get_command_2",
+                "test_send_1",
+                "test_send_2",
+                "test_read_receive_1",
+                "test_read_receive_2",
+                "test_read_receive_3",
+                "test_read_receive_4",
+                "test_execute_1",
+                "test_execute_2",
+                "test_execute_3",
+                "test_execute_4",
+                "test_run_1",
+                "test_run_2",
+                "test_run_3"
+            ]
+        },
+        {
+            "id": "Message",
+            "path": "tests.message",
+            "classname": "TestMessage",
+            "tests": [
+                "test_message_1",
+                "test_message_2",
+                "test_encode_1",
+                "test_encode_2",
+                "test_encode_3",
+                "test_encode_4",
+                "test_encode_5",
+                "test_encode_6",
+                "test_command_1",
+                "test_decode_1",
+                "test_decode_2",
+                "test_decode_3",
+                "test_decode_4",
+                "test_decode_5"
+            ]
+        },
+        {
+            "id": "BitIO",
+            "path": "tests.bit",
+            "classname": "TestBit",
+            "tests": [
+                "test_create_crc",
+                "test_check_crc_1",
+                "test_check_crc_2",
+                "test_decode_u32",
+                "test_encode_u32_1",
+                "test_encode_u32_2"
+            ]
+        },
+        {
+            "id": "Console",
+            "path": "tests.console",
+            "classname": "TestConsole",
+            "tests": [
+                "test_constructor",
+                "test_prepare_1",
+                "test_prepare_2",
+                "test_prepare_3",
+                "test_prepare_4",
+                "test_prepare_5",
+                "test_prepare_6",
+                "test_prepare_7",
+                "test_prepare_8",
+                "test_prepare_9",
+                "test_prepare_10",
+                "test_prepare_11",
+                "test_run_1",
+                "test_run_2",
+                "test_close_1"
+            ]
+        },
+        {
+            "id": "GMH3710",
+            "path": "tests.gmh3710",
+            "classname": "TestGMH3710",
+            "tests": [
+                "test_constructor_1",
+                "test_constructor_2"
+            ]
+        }
+    ]
+}
