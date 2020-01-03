@@ -232,11 +232,11 @@ class Device(metaclass=ABCMeta):
         if check is False:
             return None
 
+        message.info("RECEIVE")
+
         if message.code == 5:
             easyb.log.warn(self.name, "Command not supported!")
             return None
-
-        message.info("RECEIVE")
 
         number = 0
 

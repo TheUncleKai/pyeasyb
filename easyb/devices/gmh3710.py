@@ -162,15 +162,13 @@ class GMH3710(Device):
 
     def init_commands(self):
 
-        command = Command(name="Messwert lesen", number=0, address=self.address, code=0,
-                          func_call=self.messwert_lesen)
+        command = Command(name="Messwert lesen", code=0, func_call=self.messwert_lesen)
         self.add_command(command)
 
-        command = Command(name="Systemstatus lesen", number=1, address=self.address, code=3,
-                          func_call=self.systemstatus_lesen)
+        command = Command(name="Systemstatus lesen", code=3, func_call=self.systemstatus_lesen)
         self.add_command(command)
 
-        command = Command(name="Minwert lesen", number=2, address=self.address, code=6, func_call=self.minwert_lesen)
+        command = Command(name="Minwert lesen", code=6, func_call=self.minwert_lesen)
         self.add_command(command)
 
         command = Command(name="Maxwert lesen", code=7, func_call=self.maxwert_lesen)
