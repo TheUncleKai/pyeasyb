@@ -98,7 +98,6 @@ class GMH3710(Device):
 
         if len(self.system_state) == 0:
             easyb.log.inform(self.name, "Nothing to report!")
-
         return True
 
     def minwert_lesen(self, message: Message) -> bool:
@@ -231,7 +230,19 @@ class GMH3710(Device):
         return
 
     def prepare(self) -> bool:
-        easyb.log.warn(self.name, "Need to implement!")
+        check = self.run_command(1)
+        length = len(self.system_state)
+
+        if (check is False) and (length != 0):
+            return False
+
+        check = self.run_command(4)
+        if check is False:
+            return False
+
+        check = self.run_command(12)
+        if check is False:
+            return False
         return True
 
     def run(self) -> bool:
@@ -258,4 +269,13 @@ class GMH3710(Device):
         return True
 
     def close(self) -> bool:
+
+        check = self.run_command(2)
+        if check is False:
+            return False
+
+        check = self.run_command(3)
+        if check is False:
+            return False
+
         return True

@@ -38,9 +38,13 @@ class Device(metaclass=ABCMeta):
     baudrate = 0
     timeout = 2
     write_timeout = 2
+    interval = 2.0
     address = 0
     wait_time = 0.0
     counter = 0
+    abort = False
+    status = False
+    active = False
 
     def __init__(self, **kwargs):
         self._name = ""
@@ -68,6 +72,10 @@ class Device(metaclass=ABCMeta):
         item = kwargs.get("timeout", 2)
         if item is not None:
             self.timeout = item
+
+        item = kwargs.get("interval", 2.0)
+        if item is not None:
+            self.interval = item
 
         item = kwargs.get("write_timeout", 2)
         if item is not None:
@@ -330,6 +338,10 @@ class Device(metaclass=ABCMeta):
         self.counter += 1
         return
 
+    def do_abort(self, signum, frame):
+        self.abort = True
+        return
+
     @abc.abstractmethod
     def init_commands(self):
         return
@@ -341,6 +353,22 @@ class Device(metaclass=ABCMeta):
     @abc.abstractmethod
     def run(self) -> bool:
         return True
+
+    def run_loop(self):
+        self.active = True
+        easyb.log.inform(self.name, "Start measurements")
+
+        while True:
+            self.status = self.run()
+
+            time.sleep(self.interval)
+
+            if self.abort is True:
+                easyb.log.inform(self.name, "Stop measurements")
+                break
+
+        self.active = False
+        return
 
     @abc.abstractmethod
     def close(self) -> bool:
