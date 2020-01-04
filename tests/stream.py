@@ -172,3 +172,96 @@ class TestStream(unittest.TestCase):
         self.assertTrue(check4)
         self.assertEqual(stream.data, all_data)
         return
+
+    def test_verify_length_1(self):
+        stream = easyb.message.stream.Stream(Length.Byte3)
+
+        stream.data[0] = 1
+        stream.data[1] = 0
+        stream.data[2] = 0
+
+        check1 = stream.verify_length()
+
+        self.assertTrue(check1)
+        return
+
+    def test_verify_length_2(self):
+        stream = easyb.message.stream.Stream(Length.Byte3)
+
+        stream.data[0] = 1
+        stream.data[1] = 0
+        stream.data[2] = 0
+
+        stream.data.append(0)
+
+        check1 = stream.verify_length()
+
+        self.assertFalse(check1)
+        return
+
+    def test_verify_length_3(self):
+        stream = easyb.message.stream.Stream(Length.Byte3)
+
+        stream._data = []
+
+        check1 = stream.verify_length()
+
+        self.assertFalse(check1)
+        return
+
+    def test_verify_length_4(self):
+        stream = easyb.message.stream.Stream(Length.Byte3)
+
+        stream.data[0] = 1
+        stream.data[1] = 0
+        stream.data[2] = 0
+
+        stream.data.append(1)
+        stream.data.append(0)
+        stream.data.append(0)
+
+        check1 = stream.verify_length()
+
+        self.assertFalse(check1)
+        return
+
+    def test_verify_length_5(self):
+        stream = easyb.message.stream.Stream(Length.Byte6)
+
+        stream.data[0] = 1
+        stream.data[1] = 0
+        stream.data[2] = 0
+        stream.data[3] = 1
+        stream.data[4] = 0
+        stream.data[5] = 0
+
+        stream.data.append(1)
+        stream.data.append(0)
+        stream.data.append(0)
+
+        check1 = stream.verify_length()
+
+        self.assertFalse(check1)
+        return
+
+    def test_verify_length_6(self):
+        stream = easyb.message.stream.Stream(Length.Byte9)
+
+        stream.data[0] = 1
+        stream.data[1] = 0
+        stream.data[2] = 0
+        stream.data[3] = 1
+        stream.data[4] = 0
+        stream.data[5] = 0
+        stream.data[6] = 1
+        stream.data[7] = 0
+        stream.data[8] = 0
+
+        stream.data.append(1)
+        stream.data.append(0)
+        stream.data.append(0)
+
+        check1 = stream.verify_length()
+
+        self.assertFalse(check1)
+        return

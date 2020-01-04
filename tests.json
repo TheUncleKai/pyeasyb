@@ -44,7 +44,13 @@
                 "test_decode_2",
                 "test_decode_3",
                 "test_decode_4",
-                "test_set_data_1"
+                "test_set_data_1",
+                "test_verify_length_1",
+                "test_verify_length_2",
+                "test_verify_length_3",
+                "test_verify_length_4",
+                "test_verify_length_5",
+                "test_verify_length_6"
             ]
         },
         {

@@ -133,10 +133,7 @@ class Stream(object):
         return check
 
     def append(self, data_input: bytes):
-        for item in data_input:
-            self._data.append(int(item))
-
-        length = len(self.data)
+        length = len(data_input)
 
         if length == 0:
             easyb.log.error("Data packet is empty!")
@@ -147,6 +144,9 @@ class Stream(object):
             easyb.log.error("Data size is not a triplet! ({0:d})".format(length))
             return False
 
+        for item in data_input:
+            self._data.append(int(item))
+
         check = self.verify_crc()
         return check
 
@@ -154,7 +154,8 @@ class Stream(object):
         length = len(self.data)
 
         if length == 0:
-            return True
+            easyb.log.error("Data is empty!")
+            return False
 
         check = length % 3
         if check != 0:
