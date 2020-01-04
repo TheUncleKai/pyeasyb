@@ -19,12 +19,9 @@
 import easyb
 import sys
 
-
 from typing import Tuple, List
 
 import math
-
-from numpy import uint8, uint16, bitwise_and, right_shift
 
 __all__ = [
     "debug_data",
@@ -110,12 +107,14 @@ def convert_u32(inputa: int, inputb: int) -> int:
     return data
 
 
-def decode_u16(byte3: uint8, byte4: uint8) -> Tuple[int, float]:
+def decode_u16(byte3: int, byte4: int) -> Tuple[int, float]:
     u16_integer = convert_u16(byte3, byte4)
-    float_pos = uint16(bitwise_and(u16_integer, 0xc000))
-    float_pos = uint16(right_shift(float_pos, 14))
 
-    u16_integer = uint16(bitwise_and(u16_integer, 0x3fff))
+    float_pos = crop_u16(u16_integer & 0xc000)
+
+    float_pos = crop_u16(float_pos >> 14)
+
+    u16_integer = crop_u16(u16_integer & 0x3fff)
 
     if (u16_integer >= 0x3fe0) and (u16_integer <= 0x3fff):
         error = int(u16_integer) - 16352
@@ -189,7 +188,7 @@ def create_crc(byte1: int, byte2: int) -> int:
 
     counter = 0
     while counter < 16:
-        check_value = bitwise_and(ui16_integer, 0x8000)
+        check_value = crop_u16(ui16_integer & 0x8000)
         if check_value == 0x8000:
             ui16_integer = ui16_integer << 1
             ui16_integer = ui16_integer ^ 0x0700
