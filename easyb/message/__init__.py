@@ -195,7 +195,9 @@ class Message(object):
             data.append(0)
 
         self._stream = Stream(self.length)
-        self._stream.set_data(data)
+        check = self._stream.set_data(data)
+        if check is False:
+            return False
 
         check = self._stream.encode()
         if check is False:

@@ -68,3 +68,107 @@ class TestStream(unittest.TestCase):
         self.assertEqual(repr(stream), data3)
         self.assertEqual(str(stream), data3)
         return
+
+    def test_encode_1(self):
+        data = [1, 0, 0]
+
+        stream = easyb.message.stream.Stream(Length.Byte3)
+        check1 = stream.set_data(data)
+        check2 = stream.encode()
+
+        self.assertTrue(check1)
+        self.assertTrue(check2)
+        self.assertEqual(stream.data, [0xfe, 0, 0x3d])
+        return
+
+    def test_encode_2(self):
+        data = [0x3, 0xf2, 0x0, 0xca, 0x0, 0x0]
+
+        stream = easyb.message.stream.Stream(Length.Byte6)
+        check1 = stream.set_data(data)
+        check2 = stream.encode()
+
+        self.assertTrue(check1)
+        self.assertTrue(check2)
+        self.assertEqual(stream.data, [0xfc, 0xf2, 0xc7, 0x35, 0x0, 0x47])
+        return
+
+    def test_encode_3(self):
+        data = [0x3, 0xf2, 0x0, 0xca, 0x0]
+
+        stream = easyb.message.stream.Stream(Length.Byte6)
+        check1 = stream.set_data(data)
+        check2 = stream.encode()
+
+        self.assertFalse(check1)
+        self.assertFalse(check2)
+        self.assertEqual(stream.data, [0, 0, 0, 0, 0, 0])
+        return
+
+    def test_decode_1(self):
+        header = [0xfe, 0x05, 0x26]
+
+        stream = easyb.message.stream.Stream(Length.Byte3)
+
+        check1 = stream.decode(bytes(header))
+        check2 = stream.verify_length()
+
+        self.assertTrue(check1)
+        self.assertTrue(check2)
+        self.assertEqual(stream.data, header)
+        return
+
+    def test_decode_2(self):
+        header = []
+
+        stream = easyb.message.stream.Stream(Length.Byte3)
+
+        check1 = stream.decode(bytes(header))
+
+        self.assertFalse(check1)
+        return
+
+    def test_decode_3(self):
+        header = [0xfe, 0x05]
+
+        stream = easyb.message.stream.Stream(Length.Byte3)
+
+        check1 = stream.decode(bytes(header))
+
+        self.assertFalse(check1)
+        return
+
+    def test_decode_4(self):
+        header = [0xfe, 0x05, 0x27]
+
+        stream = easyb.message.stream.Stream(Length.Byte3)
+
+        check1 = stream.decode(bytes(header))
+
+        self.assertFalse(check1)
+        return
+
+    def test_set_data_1(self):
+        header = [0xfe, 0x05, 0x26]
+        data = [0x71, 0x00, 0x48, 0xe3, 0x54, 0x28]
+        all_data = [0xfe, 0x05, 0x26, 0x71, 0x00, 0x48, 0xe3, 0x54, 0x28]
+
+        stream = easyb.message.stream.Stream(Length.Byte3)
+
+        check1 = stream.decode(bytes(header))
+        check2 = stream.verify_length()
+
+        self.assertTrue(check1)
+        self.assertTrue(check2)
+        self.assertEqual(stream.data, header)
+
+        stream.append(bytes(data))
+        stream.length = Length.Byte9
+
+        check3 = stream.verify_length()
+        check4 = stream.verify_crc()
+
+        self.assertTrue(check3)
+        self.assertTrue(check4)
+        self.assertEqual(stream.data, all_data)
+        return
