@@ -165,21 +165,27 @@ class Device(metaclass=ABCMeta):
         easyb.log.inform(self.name, "Establish connection to {0:s}".format(self.port))
         return True
 
-    def disconnect(self):
+    def disconnect(self) -> bool:
         """Close serial connection
         """
 
         if self.serial is None:
             easyb.log.error("Serial port is not set up!")
-            return
+            return False
 
         if self.serial.is_open is False:
             easyb.log.warn(self.name, "Connection to {0:s} is already closed!".format(self.port))
-            return
+            return False
 
-        self.serial.close()
+        try:
+            self.serial.close()
+        except serial.SerialException as e:
+            easyb.log.error("Problem during closing of serial port!")
+            easyb.log.exception(e)
+            return False
+
         easyb.log.inform(self.name, "Disconnect from {0:s}".format(self.port))
-        return
+        return True
 
     def send(self, message: Message) -> bool:
 
@@ -338,6 +344,7 @@ class Device(metaclass=ABCMeta):
         self.counter += 1
         return
 
+    # noinspection PyUnusedLocal
     def do_abort(self, signum, frame):
         self.abort = True
         return
