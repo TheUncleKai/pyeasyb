@@ -68,7 +68,7 @@ class Stream(object):
         return debug_data(self.bytes)
 
     def __repr__(self):
-        return self.bytes
+        return debug_data(self.bytes)
 
     def _expand_data(self, number):
         if number == self.len:

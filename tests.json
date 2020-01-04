@@ -30,6 +30,16 @@
             ]
         },
         {
+            "id": "Stream",
+            "path": "tests.stream",
+            "classname": "TestStream",
+            "tests": [
+                "test_stream_1",
+                "test_stream_2",
+                "test_stream_3"
+            ]
+        },
+        {
             "id": "Message",
             "path": "tests.message",
             "classname": "TestMessage",
