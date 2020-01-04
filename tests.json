@@ -63,18 +63,17 @@
             "tests": [
                 "test_message_1",
                 "test_message_2",
+                "test_command_1",
                 "test_encode_1",
                 "test_encode_2",
                 "test_encode_3",
                 "test_encode_4",
                 "test_encode_5",
                 "test_encode_6",
-                "test_command_1",
+                "test_encode_7",
                 "test_decode_1",
                 "test_decode_2",
-                "test_decode_3",
-                "test_decode_4",
-                "test_decode_5"
+                "test_decode_3"
             ]
         },
         {
