@@ -265,3 +265,46 @@ class TestStream(unittest.TestCase):
 
         self.assertFalse(check1)
         return
+
+    def test_append_1(self):
+        header = [0xfe, 0x05, 0x26]
+        data = [0x71, 0x00, 0x48, 0xe3, 0x54, 0x28]
+
+        stream = easyb.message.stream.Stream(Length.Byte3)
+        check1 = stream.decode(bytes(header))
+        self.assertTrue(check1)
+
+        check2 = stream.append(bytes(data))
+        self.assertTrue(check2)
+
+        stream.length = Length.Byte9
+        check3 = stream.verify_length()
+        self.assertTrue(check3)
+
+        check4 = stream.verify_crc()
+        self.assertTrue(check4)
+        return
+
+    def test_append_2(self):
+        header = [0xfe, 0x05, 0x26]
+        data = [0x71, 0x00, 0x48, 0xe3, 0x54]
+
+        stream = easyb.message.stream.Stream(Length.Byte3)
+        check1 = stream.decode(bytes(header))
+        self.assertTrue(check1)
+
+        check2 = stream.append(bytes(data))
+        self.assertFalse(check2)
+        return
+
+    def test_append_3(self):
+        header = [0xfe, 0x05, 0x26]
+        data = []
+
+        stream = easyb.message.stream.Stream(Length.Byte3)
+        check1 = stream.decode(bytes(header))
+        self.assertTrue(check1)
+
+        check2 = stream.append(bytes(data))
+        self.assertFalse(check2)
+        return

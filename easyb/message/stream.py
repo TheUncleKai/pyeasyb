@@ -17,7 +17,7 @@
 
 import easyb
 
-from typing import List, Union
+from typing import List
 from easyb.definitions import Length
 from easyb.bit import debug_data, check_crc, crop_u8, create_crc
 

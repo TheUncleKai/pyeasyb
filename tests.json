@@ -50,7 +50,10 @@
                 "test_verify_length_3",
                 "test_verify_length_4",
                 "test_verify_length_5",
-                "test_verify_length_6"
+                "test_verify_length_6",
+                "test_append_1",
+                "test_append_2",
+                "test_append_3"
             ]
         },
         {
