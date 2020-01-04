@@ -16,9 +16,14 @@
 #    Copyright (C) 2017, Kai Raphahn <kai.raphahn@laburec.de>
 #
 
+import time
 import sys
+import signal
+import threading
+
 import easyb
 import easyb.devices
+
 from optparse import OptionParser, OptionGroup
 
 from easyb.device import Device
@@ -161,9 +166,10 @@ class Console(object):
             easyb.log.error("Device {0:s} is unknown!".format(options.device))
             return False
 
-        if self.options.command not in self.device.command_list:
-            easyb.log.error("Command number is unknown: {0:d}".format(self.options.command))
-            return False
+        if self.options.read is False:
+            if self.options.command not in self.device.command_list:
+                easyb.log.error("Command number is unknown: {0:d}".format(self.options.command))
+                return False
 
         self.device.setup()
         self.device.port = self.options.port
@@ -172,12 +178,11 @@ class Console(object):
         if check is False:
             return False
 
-        if self.options.read is True:
-            check = self.device.prepare()
-            if check is False:
-                return False
+        if self.options.read is False:
+            return True
 
-        return True
+        check = self.device.prepare()
+        return check
 
     def run_command(self, command: int) -> bool:
         command_item = self.device.get_command(command)
@@ -185,6 +190,24 @@ class Console(object):
 
         check = self.device.run_command(command)
         return check
+
+    def run_continuously(self) -> bool:
+
+        signal.signal(signal.SIGINT, self.device.do_abort)
+
+        thread = threading.Thread(target=self.device.run_loop)
+        thread.start()
+
+        while True:
+            check = self.device.active
+
+            if check is False:
+                break
+
+            time.sleep(0.1)
+
+        status = self.device.status
+        return status
 
     def run(self) -> bool:
         """Run the test task.
@@ -202,7 +225,8 @@ class Console(object):
             check = self.run_command(self.options.command)
             return check
 
-        return True
+        check = self.run_continuously()
+        return check
 
     def close(self) -> bool:
         """Run the test task.
@@ -212,6 +236,13 @@ class Console(object):
         """
         if self.options.list is True:
             return True
+
+        if self.options.read is False:
+            return True
+
+        check = self.device.close()
+        if check is False:
+            return False
 
         if self.device is not None:
             self.device.disconnect()

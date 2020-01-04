@@ -25,7 +25,7 @@ from easyb.definitions import Length
 from easyb.command import Command
 from easyb.message import Message
 from easyb.device import Device
-from easyb.bit import convert_u16
+from easyb.bit import convert_u16, convert_u32, decode_u16, decode_u32
 
 __all__ = [
     "Data",
@@ -71,84 +71,82 @@ class GMH3710(Device):
         return
 
     def messwert_lesen(self, message: Message) -> bool:
+        data = message.stream.data
+        error = 0
+        value = 0.0
+
         if message.length is Length.Byte6:
-            message.value_16()
+            error, value = decode_u16(data[3], data[4])
 
         if message.length is Length.Byte9:
-            message.value_32()
+            error, value = decode_u32(data[3], data[4], data[6], data[7])
 
-        if message.value is None:
-            easyb.log.warn(self.name, "No value!")
-            return False
-
-        data = Data(message.value)
-
+        data = Data(value)
         debug = "{0:s}: {1:.2f}".format(data.datetime.strftime("%Y-%m-%d %H:%M:%S"), data.value)
         easyb.log.inform(self.name, debug)
-
-        self.data.append(data)
         return True
 
     def systemstatus_lesen(self, message: Message) -> bool:
-        message.decode_16()
+        data = message.stream.data
 
-        self.system_state = easyb.conf.get_status(int(message.value))
+        value = convert_u16(data[3], data[4])
+
+        self.system_state = easyb.conf.get_status(value)
 
         for item in self.system_state:
             easyb.log.warn(self.name, item.text)
 
         if len(self.system_state) == 0:
             easyb.log.inform(self.name, "Nothing to report!")
-
         return True
 
     def minwert_lesen(self, message: Message) -> bool:
+        data = message.stream.data
+        error = 0
+        value = 0.0
+
         if message.length is Length.Byte6:
-            message.value_16()
+            error, value = decode_u16(data[3], data[4])
 
         if message.length is Length.Byte9:
-            message.value_32()
+            error, value = decode_u32(data[3], data[4], data[6], data[7])
 
-        if message.value is None:
-            easyb.log.warn(self.name, "No value!")
-            return False
-
-        easyb.log.inform(self.name, str(message.value))
-        self.min_value = message.value
+        easyb.log.inform(self.name, str(value))
+        self.min_value = value
         return True
 
     def maxwert_lesen(self, message: Message) -> bool:
+        data = message.stream.data
+        error = 0
+        value = 0.0
+
         if message.length is Length.Byte6:
-            message.value_16()
+            error, value = decode_u16(data[3], data[4])
 
         if message.length is Length.Byte9:
-            message.value_32()
+            error, value = decode_u32(data[3], data[4], data[6], data[7])
 
-        if message.value is None:
-            easyb.log.warn(self.name, "No value!")
-            return False
-
-        easyb.log.inform(self.name, str(message.value))
-        self.max_value = message.value
+        easyb.log.inform(self.name, str(value))
+        self.max_value = value
         return True
 
     def id_nummer_lesen(self, message: Message) -> bool:
-        message.decode_32()
+        data = message.stream.data
 
-        self.id_number = message.value
+        input1 = convert_u16(data[3], data[4])
+        input2 = convert_u16(data[6], data[7])
+        value = convert_u32(input1, input2)
+
+        self.id_number = value
 
         easyb.log.inform(self.name, "ID: {0:x}".format(self.id_number))
         return True
 
     # noinspection PyUnusedLocal
     def anzeige_einheit_lesen(self, message: Message) -> bool:
-        command = self.get_command(9)
+        data = message.stream.data
 
-        message = self.execute(command)
-        if message is None:
-            return False
-
-        value = convert_u16(message.data[3], message.data[4])
+        value = convert_u16(data[6], data[7])
 
         unit = easyb.conf.get_unit(value)
         if unit is None:
@@ -163,15 +161,13 @@ class GMH3710(Device):
 
     def init_commands(self):
 
-        command = Command(name="Messwert lesen", number=0, address=self.address, code=0,
-                          func_call=self.messwert_lesen)
+        command = Command(name="Messwert lesen", code=0, func_call=self.messwert_lesen)
         self.add_command(command)
 
-        command = Command(name="Systemstatus lesen", number=1, address=self.address, code=3,
-                          func_call=self.systemstatus_lesen)
+        command = Command(name="Systemstatus lesen", code=3, func_call=self.systemstatus_lesen)
         self.add_command(command)
 
-        command = Command(name="Minwert lesen", number=2, address=self.address, code=6, func_call=self.minwert_lesen)
+        command = Command(name="Minwert lesen", code=6, func_call=self.minwert_lesen)
         self.add_command(command)
 
         command = Command(name="Maxwert lesen", code=7, func_call=self.maxwert_lesen)
@@ -234,7 +230,19 @@ class GMH3710(Device):
         return
 
     def prepare(self) -> bool:
-        easyb.log.warn(self.name, "Need to implement!")
+        check = self.run_command(1)
+        length = len(self.system_state)
+
+        if (check is False) and (length != 0):
+            return False
+
+        check = self.run_command(4)
+        if check is False:
+            return False
+
+        check = self.run_command(12)
+        if check is False:
+            return False
         return True
 
     def run(self) -> bool:
@@ -244,8 +252,30 @@ class GMH3710(Device):
         if message is None:
             return False
 
-        self.data.append(Data(message.value))
+        data = message.stream.data
+        error = 0
+        value = 0.0
+
+        if message.length is Length.Byte6:
+            error, value = decode_u16(data[3], data[4])
+
+        if message.length is Length.Byte9:
+            error, value = decode_u32(data[3], data[4], data[6], data[7])
+
+        data = Data(value)
+        debug = "{0:s}: {1:.2f}".format(data.datetime.strftime("%Y-%m-%d %H:%M:%S"), data.value)
+        easyb.log.inform(self.name, debug)
+        self.data.append(Data(value))
         return True
 
     def close(self) -> bool:
+
+        check = self.run_command(2)
+        if check is False:
+            return False
+
+        check = self.run_command(3)
+        if check is False:
+            return False
+
         return True
