@@ -312,29 +312,63 @@ class TestControl(unittest.TestCase):
         self.assertIsNone(command)
         return
 
-    # def test_send_1(self):
-    #     device = TestDevice()
-    #
-    #     mock_serial = mock.Mock()
-    #
-    #     device._serial = mock_serial
-    #     mock_serial.write = mock.Mock()
-    #     mock_serial.write.return_value = 3
-    #
-    #     message = easyb.message.Message(address=1, code=0, priority=Priority.NoPriority,
-    #                                     length=Length.Byte3, direction=Direction.FromMaster)
-    #
-    #     check = device.send(message)
-    #
-    #     arg_check = bytes([254, 0, 61])
-    #
-    #     args, _ = mock_serial.write.call_args
-    #
-    #     self.assertTrue(check)
-    #     self.assertTrue(mock_serial.write.called, 'Serial write method not called')
-    #     self.assertEqual(args[0], arg_check)
-    #     return
-    #
+    def test_send_1(self):
+        device = TestDevice()
+
+        mock_serial = mock.Mock()
+
+        device._serial = mock_serial
+        mock_serial.write = mock.Mock()
+        mock_serial.write.return_value = 3
+
+        message = easyb.message.Message(address=1, code=0, priority=Priority.NoPriority,
+                                        length=Length.Byte3, direction=Direction.FromMaster)
+
+        check = device.send(message)
+
+        arg_check = bytes([254, 0, 61])
+
+        args, _ = mock_serial.write.call_args
+
+        self.assertTrue(check)
+        self.assertTrue(mock_serial.write.called, 'Serial write method not called')
+        self.assertEqual(args[0], arg_check)
+        return
+
+    def test_send_2(self):
+        device = TestDevice()
+
+        mock_serial = mock.Mock()
+
+        device._serial = mock_serial
+        mock_serial.write = mock.Mock()
+        mock_serial.write.return_value = 3
+
+        message = easyb.message.Message(address=1, code=0, priority=Priority.NoPriority,
+                                        length=Length.Byte6, direction=Direction.FromMaster)
+
+        check = device.send(message)
+
+        self.assertFalse(check)
+        return
+
+    def test_send_3(self):
+        device = TestDevice()
+
+        mock_serial = mock.Mock()
+
+        device._serial = mock_serial
+        mock_serial.write = mock.Mock(side_effect=SerialException('Attempting to use a port that is not open'))
+        mock_serial.write.return_value = 3
+
+        message = easyb.message.Message(address=1, code=0, priority=Priority.NoPriority,
+                                        length=Length.Byte3, direction=Direction.FromMaster)
+
+        check = device.send(message)
+
+        self.assertFalse(check)
+        return
+
     # def test_send_2(self):
     #     device = TestDevice()
     #
