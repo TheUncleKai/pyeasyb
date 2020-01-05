@@ -17,7 +17,9 @@
 #
 
 __all__ = [
+    "data",
     "devices",
+    "message",
 
     "bit",
     "command",
@@ -26,7 +28,6 @@ __all__ = [
     "definitions",
     "device",
     "logging",
-    "message",
     "utils"
 ]
 

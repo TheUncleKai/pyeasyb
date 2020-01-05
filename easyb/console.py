@@ -247,4 +247,6 @@ class Console(object):
         if self.device is not None:
             self.device.disconnect()
 
+        check = self.device.store()
+
         return True

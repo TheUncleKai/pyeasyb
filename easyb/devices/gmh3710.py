@@ -18,9 +18,9 @@
 
 import easyb
 
-from typing import List
 from datetime import datetime
 
+from easyb.data import Type
 from easyb.definitions import Length
 from easyb.command import Command
 from easyb.message import Message
@@ -28,28 +28,11 @@ from easyb.device import Device
 from easyb.bit import convert_u16, convert_u32, decode_u16, decode_u32
 
 __all__ = [
-    "Data",
     "GMH3710"
 ]
 
 name = "GMH 3710"
 device = "GMH3710"
-
-
-class Data:
-
-    @property
-    def datetime(self) -> datetime:
-        return self._datetime
-
-    @property
-    def value(self) -> float:
-        return self._value
-
-    def __init__(self, value: float):
-        self._datetime = datetime.now()
-        self._value = value
-        return
 
 
 class GMH3710(Device):
@@ -60,14 +43,10 @@ class GMH3710(Device):
     id_number = 0
     unit = ""
 
-    @property
-    def data(self) -> List[Data]:
-        return self._data
-
     def __init__(self, **kwargs):
         Device.__init__(self, name="GMH 3710", **kwargs)
 
-        self._data = []
+        self.data.add_column("value", "Temperature", Type.float)
         return
 
     def messwert_lesen(self, message: Message) -> bool:
@@ -81,8 +60,9 @@ class GMH3710(Device):
         if message.length is Length.Byte9:
             error, value = decode_u32(data[3], data[4], data[6], data[7])
 
-        data = Data(value)
-        debug = "{0:s}: {1:.2f}".format(data.datetime.strftime("%Y-%m-%d %H:%M:%S"), data.value)
+        now = datetime.now()
+
+        debug = "{0:s}: {1:.2f}".format(now.strftime("%Y-%m-%d %H:%M:%S"), value)
         easyb.log.inform(self.name, debug)
         return True
 
@@ -154,6 +134,9 @@ class GMH3710(Device):
             return False
 
         self.unit = unit.value
+
+        column = self.data.get_column("value")
+        column.description = "Temperature [{0:s}]".format(self.unit)
 
         logging = "{0:d}: {1:s}".format(value, self.unit)
         easyb.log.inform(self.name, logging)
@@ -262,10 +245,11 @@ class GMH3710(Device):
         if message.length is Length.Byte9:
             error, value = decode_u32(data[3], data[4], data[6], data[7])
 
-        data = Data(value)
-        debug = "{0:s}: {1:.2f}".format(data.datetime.strftime("%Y-%m-%d %H:%M:%S"), data.value)
+        row = self.create_row()
+
+        row.value = value
+        debug = "{0:s}: {1:.2f}".format(row.datetime.strftime("%Y-%m-%d %H:%M:%S"), row.value)
         easyb.log.inform(self.name, debug)
-        self.data.append(Data(value))
         return True
 
     def close(self) -> bool:
