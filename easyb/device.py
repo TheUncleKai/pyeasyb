@@ -373,9 +373,10 @@ class Device(metaclass=ABCMeta):
         self.active = False
         return
 
-    def store(self) -> bool:
+    def store(self, file_type: str, filename: str) -> bool:
         easyb.log.inform(self.name, "Number of data points: {0:d}".format(self.data.len))
-        return True
+        ret = self.data.store(file_type, filename)
+        return ret
 
     @abc.abstractmethod
     def init_commands(self):

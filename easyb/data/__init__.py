@@ -23,11 +23,18 @@ from typing import List, Any
 
 __all__ = [
     "base",
+    "excel",
 
     "Data"
 ]
 
+__storage__ = [
+    "excel"
+]
+
+
 from easyb.data.base import Type, Column, Row
+from easyb.utils import get_attribute
 
 
 class Data:
@@ -35,7 +42,6 @@ class Data:
     rows: List[Row] = []
     columns: List[Column] = []
     counter: int = 0
-    filename: str = ""
 
     @property
     def len(self) -> int:
@@ -97,10 +103,33 @@ class Data:
         self.rows.append(row)
         return row
 
-    def store(self) -> bool:
-        if self.filename == "":
+    def store(self, file_type: str, filename: str) -> bool:
+
+        if file_type == "":
             raise ValueError("Filename is missing!")
 
+        if filename == "":
+            raise ValueError("Filename is missing!")
 
+        c = None
 
-        return True
+        for item in __storage__:
+            path = "easyb.data.{0:s}".format(item)
+            name = get_attribute(path, "storage")
+
+            if name is None:
+                continue
+
+            if name != file_type:
+                continue
+
+            classname = get_attribute(path, "classname")
+            c = get_attribute(path, classname)
+
+        if c is None:
+            easyb.log.error("Unable to find storge format: {0:s}".format(file_type))
+            return False
+
+        storage = c(self.columns, self.rows, filename)
+        check = storage.store()
+        return check

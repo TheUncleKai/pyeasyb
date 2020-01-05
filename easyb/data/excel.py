@@ -15,6 +15,8 @@
 #    Copyright (C) 2017, Kai Raphahn <kai.raphahn@laburec.de>
 #
 
+import os
+import easyb
 from typing import List
 
 from easyb.data.base import Storage, Column, Row
@@ -24,7 +26,8 @@ __all__ = [
     "ExportExcel"
 ]
 
-storage = "ExportExcel"
+storage = "EXCEL"
+classname = "ExportExcel"
 
 
 class ExportExcel(Storage):
@@ -35,10 +38,13 @@ class ExportExcel(Storage):
     row: int = 0
 
     def __init__(self, columns: List[Column], rows: List[Row], filename: str):
-        Storage.__init__(self, columns, rows, filename)
+        Storage.__init__(self, "EXCEL", columns, rows, filename)
         return
 
     def _prepare(self):
+
+        self.filename = os.path.abspath(os.path.normpath(self.filename + ".xlsx"))
+        easyb.log.inform(self.name, "Open {0:s}".format(self.filename))
         self.workbook = xlsxwriter.Workbook(self.filename, {'constant_memory': True})
         self.info = self.workbook.add_worksheet("Information")
         self.data = self.workbook.add_worksheet("Data")
@@ -56,7 +62,14 @@ class ExportExcel(Storage):
         self.row += 1
         return
 
+    def _close(self):
+        if self.workbook is None:
+            return
+        self.workbook.close()
+        return
+
     def store(self) -> bool:
         self._prepare()
         self._create_header()
+        self._close()
         return True

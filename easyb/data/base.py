@@ -66,8 +66,10 @@ class Storage(metaclass=ABCMeta):
     columns: List[Column] = None
     rows: List[Row] = None
     filename: str = ""
+    name: str = ""
 
-    def __init__(self, columns: List[Column], rows: List[Row], filename: str):
+    def __init__(self, name: str, columns: List[Column], rows: List[Row], filename: str):
+        self.name = name
         self.columns = columns
         self.rows = rows
         self.filename = filename
