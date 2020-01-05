@@ -84,67 +84,67 @@ _error = [
 
 _status = [
     {
-        "bit": "0x0001",
+        "bit": 0x0001,
         "text": "Max. alarm"
     },
     {
-        "bit": "0x0002",
+        "bit": 0x0002,
         "text": "Min. alarm"
     },
     {
-        "bit": "0x0004",
+        "bit": 0x0004,
         "text": "Value over presentable area"
     },
     {
-        "bit": "0x0008",
+        "bit": 0x0008,
         "text": "Value under presentable area"
     },
     {
-        "bit": "0x0010",
+        "bit": 0x0010,
         "text": "reserved"
     },
     {
-        "bit": "0x0020",
+        "bit": 0x0020,
         "text": "reserved"
     },
     {
-        "bit": "0x0040",
+        "bit": 0x0040,
         "text": "reserved"
     },
     {
-        "bit": "0x0080",
+        "bit": 0x0080,
         "text": "reserved"
     },
     {
-        "bit": "0x0100",
+        "bit": 0x0100,
         "text": "Value over measurement range"
     },
     {
-        "bit": "0x0200",
+        "bit": 0x0200,
         "text": "Value under measurement range"
     },
     {
-        "bit": "0x0400",
+        "bit": 0x0400,
         "text": "Sensor error"
     },
     {
-        "bit": "0x0800",
+        "bit": 0x0800,
         "text": "reserved"
     },
     {
-        "bit": "0x1000",
+        "bit": 0x1000,
         "text": "System error"
     },
     {
-        "bit": "0x2000",
+        "bit": 0x2000,
         "text": "Calculation impossible"
     },
     {
-        "bit": "0x4000",
+        "bit": 0x4000,
         "text": "reserved"
     },
     {
-        "bit": "0x8000",
+        "bit": 0x8000,
         "text": "Battery low"
     }
 ]
@@ -547,7 +547,7 @@ class Status(object):
         if check is False:
             raise ValueError("Invalid status code: {0:s}".format(str(data)))
 
-        self.bit = int(data["bit"], 0)
+        self.bit = data["bit"]
         self.text = data["text"]
         return
 
