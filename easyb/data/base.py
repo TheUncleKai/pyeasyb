@@ -25,7 +25,8 @@ from abc import ABCMeta
 __all__ = [
     "Type",
     "Column",
-    "Row"
+    "Row",
+    "Storage"
 ]
 
 

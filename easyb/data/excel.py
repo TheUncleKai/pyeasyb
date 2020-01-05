@@ -14,3 +14,49 @@
 #
 #    Copyright (C) 2017, Kai Raphahn <kai.raphahn@laburec.de>
 #
+
+from typing import List
+
+from easyb.data.base import Storage, Column, Row
+import xlsxwriter
+
+__all__ = [
+    "ExportExcel"
+]
+
+storage = "ExportExcel"
+
+
+class ExportExcel(Storage):
+
+    workbook: xlsxwriter.Workbook = None
+    info: xlsxwriter.workbook.Worksheet = None
+    data: xlsxwriter.workbook.Worksheet = None
+    row: int = 0
+
+    def __init__(self, columns: List[Column], rows: List[Row], filename: str):
+        Storage.__init__(self, columns, rows, filename)
+        return
+
+    def _prepare(self):
+        self.workbook = xlsxwriter.Workbook(self.filename, {'constant_memory': True})
+        self.info = self.workbook.add_worksheet("Information")
+        self.data = self.workbook.add_worksheet("Data")
+        return
+
+    def _create_header(self):
+        cell_format = self.workbook.add_format()
+        cell_format.set_bottom(5)
+        cell_format.set_font_name("Arial")
+        cell_format.set_font_size(10)
+        cell_format.set_bold()
+
+        for column in self.columns:
+            self.data.write_string(self.row, column.index, column.description, cell_format)
+        self.row += 1
+        return
+
+    def store(self) -> bool:
+        self._prepare()
+        self._create_header()
+        return True

@@ -17,12 +17,15 @@
 #
 
 import json
-from typing import Union
+from typing import Union, Any
 
 __all__ = [
     "check_dict",
-    "openjson"
+    "openjson",
+    "get_attribute"
 ]
+
+import easyb
 
 
 def check_dict(checkdict: dict, keylist: list) -> bool:
@@ -61,3 +64,32 @@ def openjson(filename: str) -> Union[dict, None]:
     data = json.load(f)
     f.close()
     return data
+
+
+def get_attribute(path: str, classname: str) -> Union[Any, None]:
+    """Load module attribute from given path.
+
+    :param path: module path.
+    :type path: str
+
+    :param classname: class name.
+    :type classname: str
+
+    :return: attribute or None.
+    """
+
+    fromlist = [classname]
+
+    try:
+        m = __import__(path, globals(), locals(), fromlist)
+    except ImportError:
+        easyb.log.error("Unable to find module path: {0:s}".format(path))
+        return None
+
+    try:
+        c = getattr(m, classname)
+    except AttributeError:
+        easyb.log.error("Unable to get module attribute: {0:s} with {1:s}".format(path, classname))
+        return None
+
+    return c

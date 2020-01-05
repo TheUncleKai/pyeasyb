@@ -35,6 +35,7 @@ class Data:
     rows: List[Row] = []
     columns: List[Column] = []
     counter: int = 0
+    filename: str = ""
 
     @property
     def len(self) -> int:
@@ -96,4 +97,10 @@ class Data:
         self.rows.append(row)
         return row
 
+    def store(self) -> bool:
+        if self.filename == "":
+            raise ValueError("Filename is missing!")
 
+
+
+        return True
