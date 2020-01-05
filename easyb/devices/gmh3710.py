@@ -46,6 +46,7 @@ class GMH3710(Device):
         Device.__init__(self, name="GMH 3710", **kwargs)
 
         self.data.add_column("value", "Temperature", Type.float)
+        self.data.add_column("error", "Error", Type.string)
         return
 
     def messwert_lesen(self, message: Message) -> bool:
@@ -85,7 +86,7 @@ class GMH3710(Device):
 
     def minwert_lesen(self, message: Message) -> bool:
         data = message.stream.data
-        error = 0
+        error = None
         value = 0.0
 
         if message.length is Length.Byte6:
@@ -94,13 +95,16 @@ class GMH3710(Device):
         if message.length is Length.Byte9:
             error, value = decode_u32(data[3], data[4], data[6], data[7])
 
-        easyb.log.inform("Min. value", str(value))
-        self.min_value = value
+        if error is not None:
+            easyb.log.warn(self.name, "Error: {0:s}".format(error.text))
+        else:
+            easyb.log.inform("Min. value", str(value))
+            self.min_value = value
         return True
 
     def maxwert_lesen(self, message: Message) -> bool:
         data = message.stream.data
-        error = 0
+        error = None
         value = 0.0
 
         if message.length is Length.Byte6:
@@ -109,8 +113,11 @@ class GMH3710(Device):
         if message.length is Length.Byte9:
             error, value = decode_u32(data[3], data[4], data[6], data[7])
 
-        easyb.log.inform("Max. value", str(value))
-        self.max_value = value
+        if error is not None:
+            easyb.log.warn(self.name, "Error: {0:s}".format(error.text))
+        else:
+            easyb.log.inform("Max. value", str(value))
+            self.max_value = value
         return True
 
     def id_nummer_lesen(self, message: Message) -> bool:
@@ -252,11 +259,15 @@ class GMH3710(Device):
         if message.length is Length.Byte9:
             error, value = decode_u32(data[3], data[4], data[6], data[7])
 
+        row = self.create_row()
+
         if error is not None:
             easyb.log.warn(self.name, "Error: {0:s}".format(error.text))
+            row.value = 0.0
+            row.error = error.text
         else:
-            row = self.create_row()
             row.value = value
+            row.error = ""
             debug = "{0:06d} {1:s}: {2:.2f}".format(self.interval_counter, row.datetime.strftime("%H:%M:%S"), row.value)
             easyb.log.inform(self.name, debug)
         return True
@@ -290,5 +301,6 @@ class GMH3710(Device):
         self.data.infos.append(info)
 
         for item in self.device_status:
-            name = item.text
+            info = Info(item.text, Type.bool, item.is_set)
+            self.data.status.append(info)
         return True

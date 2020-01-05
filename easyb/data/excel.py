@@ -64,22 +64,23 @@ class ExportExcel(Storage):
         self.row += 1
         return
 
-    def _get_writer(self, data_type: Type) -> Any:
+    @staticmethod
+    def _get_writer(sheet: xlsxwriter.workbook.Worksheet, data_type: Type) -> Any:
         writer = None
         if data_type is Type.datetime:
-            writer = self.data_sheet.write_datetime
+            writer = sheet.write_datetime
 
         if data_type is Type.float:
-            writer = self.data_sheet.write_number
+            writer = sheet.write_number
 
         if data_type is Type.integer:
-            writer = self.data_sheet.write_number
+            writer = sheet.write_number
 
         if data_type is Type.string:
-            writer = self.data_sheet.write_string
+            writer = sheet.write_string
 
         if data_type is Type.bool:
-            writer = self.data_sheet.write_boolean
+            writer = sheet.write_boolean
 
         if writer is None:
             raise ValueError("Unknown type: {0:s}".format(data_type.name))
@@ -104,11 +105,43 @@ class ExportExcel(Storage):
         for row in self.data.rows:
 
             for column in self.data.columns:
-                writer = self._get_writer(column.type)
+                writer = self._get_writer(self.data_sheet, column.type)
                 value = getattr(row, column.name)
 
                 self._write_cell(self.row, column.index, column.type, value, writer)
             self.row += 1
+        return
+
+    def _write_infos(self):
+        header = self.workbook.add_format()
+        header.set_bottom(5)
+        header.set_font_name("Arial")
+        header.set_font_size(10)
+        header.set_bold()
+
+        value_text = self.workbook.add_format()
+        value_text.set_font_name("Arial")
+        value_text.set_font_size(10)
+        value_text.set_bold()
+
+        self.info_sheet.write_string(0, 0, "Name", header)
+        self.info_sheet.write_string(0, 1, "Value", header)
+
+        row = 1
+
+        for item in self.data.infos:
+            writer = self._get_writer(self.info_sheet, item.type)
+            self.info_sheet.write_string(row, 0, item.name, value_text)
+            self._write_cell(row, 1, item.type, item.value, writer)
+            row += 1
+
+        row += 1
+
+        for item in self.data.status:
+            writer = self._get_writer(self.info_sheet, item.type)
+            self.info_sheet.write_string(row, 0, item.name, value_text)
+            self._write_cell(row, 1, item.type, item.value, writer)
+            row += 1
         return
 
     def _close(self):
@@ -120,6 +153,7 @@ class ExportExcel(Storage):
 
     def store(self) -> bool:
         self._prepare()
+        self._write_infos()
         self._create_header()
         self._write_data()
         self._close()
