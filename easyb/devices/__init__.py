@@ -16,9 +16,7 @@
 #    Copyright (C) 2017, Kai Raphahn <kai.raphahn@laburec.de>
 #
 
-import easyb
-
-from typing import List, Union, Any
+from typing import Union
 from easyb.device import Device
 
 
@@ -29,39 +27,12 @@ __all__ = [
     "get_devices"
 ]
 
+from easyb.utils import get_attribute
+
 exception_list = [
     "get_devices",
     "get_device"
 ]
-
-
-def get_attribute(path: str, classname: str) -> Union[Any, None]:
-    """Load module attribute from given path.
-
-    :param path: module path.
-    :type path: str
-
-    :param classname: class name.
-    :type classname: str
-
-    :return: attribute or None.
-    """
-
-    fromlist = [classname]
-
-    try:
-        m = __import__(path, globals(), locals(), fromlist)
-    except ImportError:
-        easyb.log.error("Unable to find module path: {0:s}".format(path))
-        return None
-
-    try:
-        c = getattr(m, classname)
-    except AttributeError:
-        easyb.log.error("Unable to get module attribute: {0:s} with {1:s}".format(path, classname))
-        return None
-
-    return c
 
 
 def get_device(device_name: str) -> Union[Device, None]:

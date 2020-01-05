@@ -22,36 +22,53 @@ import easyb
 import serial
 
 from serial import Serial
-from typing import List, Union
+from typing import List, Union, Any
 
+from easyb.data import Data
+from easyb.data.base import Type
 from easyb.bit import debug_data
 from easyb.message import Message
 from easyb.command import Command
 from easyb.definitions import Length
+from easyb.config import Status
 
 from abc import ABCMeta
 
 
 class Device(metaclass=ABCMeta):
 
-    port = ""
-    baudrate = 0
-    timeout = 2
-    write_timeout = 2
-    interval = 2.0
-    address = 0
-    wait_time = 0.0
-    counter = 0
-    abort = False
-    status = False
-    active = False
+    # device members
+    name: str = ""
+    address: int = 0
+    commands: List[Command] = []
+    command_list: List[int] = []
+    command_counter: int = 0
+    device_status: List[Status] = []
+
+    # members for serial communication
+    serial: Serial = None
+    port: str = ""
+    baudrate: int = 0
+    timeout: int = 2
+    write_timeout: int = 2
+    wait_time: float = 0.0
+
+    # members for reading via thread
+    interval: float = 2.0
+    abort: bool = False
+    status: bool = False
+    active: bool = False
+    interval_counter: int = 0
+
+    # data type members
+    data: Data = Data()
 
     def __init__(self, **kwargs):
         self._name = ""
 
         item = kwargs.get("name", "")
         if item is not None:
-            self._name = item
+            self.name = item
 
         item = kwargs.get("port", "")
         if item is not None:
@@ -81,28 +98,32 @@ class Device(metaclass=ABCMeta):
         if item is not None:
             self.write_timeout = item
 
-        self._commands = []
-        self._command_list = []
-        self._serial = None
-
         self.init_commands()
+
+        self.data.add_column("datetime", "Time", Type.datetime)
+        self.data.add_column("number", "Number", Type.integer)
+
+        for item in easyb.conf.status:
+            self.device_status.append(item)
         return
 
-    @property
-    def name(self) -> str:
-        return self._name
+    def get_status(self) -> List[Status]:
+        status = []
 
-    @property
-    def serial(self) -> Serial:
-        return self._serial
+        for item in self.device_status:
+            if item.is_set is False:
+                continue
+            status.append(item)
+        return status
 
-    @property
-    def commands(self) -> List[Command]:
-        return self._commands
+    def set_status(self, value: int) -> int:
+        counter = 0
+        for item in self.device_status:
+            if item.bit & value:
+                item.is_set = True
+                counter += 1
 
-    @property
-    def command_list(self) -> List[int]:
-        return self._command_list
+        return counter
 
     def get_command(self, number: int) -> Union[None, Command]:
         command = None
@@ -129,7 +150,7 @@ class Device(metaclass=ABCMeta):
                      dsrdtr=0,
                      interCharTimeout=None,
                      writeTimeout=self.write_timeout)
-        self._serial = ser
+        self.serial = ser
         return
 
     def connect(self) -> bool:
@@ -311,13 +332,20 @@ class Device(metaclass=ABCMeta):
 
         return data
 
+    def create_row(self) -> Any:
+        row = self.data.create_row()
+
+        if row is None:
+            raise ValueError("Data row is empty!")
+
+        row.number = self.interval_counter
+        return row
+
     def run_command(self, number: int) -> bool:
         command = self.get_command(number)
 
         if command is None:
             return False
-
-        easyb.log.inform(self.name, "Run {0:d}: {1:s}".format(command.number, command.name))
 
         message = self.execute(command)
         if message is None:
@@ -337,17 +365,39 @@ class Device(metaclass=ABCMeta):
         return
 
     def add_command(self, command: Command):
-        command.number = self.counter
+        command.number = self.command_counter
         command.address = self.address
         self.commands.append(command)
         self.command_list.append(command.number)
-        self.counter += 1
+        self.command_counter += 1
         return
 
     # noinspection PyUnusedLocal
     def do_abort(self, signum, frame):
         self.abort = True
         return
+
+    def run_loop(self):
+        self.active = True
+        easyb.log.inform(self.name, "Start measurements")
+
+        while True:
+            self.status = self.run()
+            self.interval_counter += 1
+
+            time.sleep(self.interval)
+
+            if self.abort is True:
+                easyb.log.inform(self.name, "Stop measurements")
+                break
+
+        self.active = False
+        return
+
+    def store(self, file_type: str, filename: str) -> bool:
+        easyb.log.inform(self.name, "Number of data points: {0:d}".format(self.data.len))
+        ret = self.data.store(file_type, filename)
+        return ret
 
     @abc.abstractmethod
     def init_commands(self):
@@ -360,22 +410,6 @@ class Device(metaclass=ABCMeta):
     @abc.abstractmethod
     def run(self) -> bool:
         return True
-
-    def run_loop(self):
-        self.active = True
-        easyb.log.inform(self.name, "Start measurements")
-
-        while True:
-            self.status = self.run()
-
-            time.sleep(self.interval)
-
-            if self.abort is True:
-                easyb.log.inform(self.name, "Stop measurements")
-                break
-
-        self.active = False
-        return
 
     @abc.abstractmethod
     def close(self) -> bool:

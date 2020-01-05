@@ -31,8 +31,8 @@ __all__ = [
 
 class Error(object):
 
-    code = 0
-    text = ""
+    code: int = 0
+    text: str = ""
 
     def load(self, data: dict) -> bool:
         check = check_dict(data, ["code", "text"])
@@ -46,8 +46,9 @@ class Error(object):
 
 class Status(object):
 
-    bit = 0
-    text = ""
+    bit: int = 0
+    text: str = ""
+    is_set: bool = False
 
     def load(self, data: dict) -> bool:
         check = check_dict(data, ["bit", "text"])
@@ -61,8 +62,8 @@ class Status(object):
 
 class Unit(object):
 
-    code = 0
-    value = ""
+    code: int = 0
+    value: str = ""
 
     def load(self, data: dict) -> bool:
         check = check_dict(data, ["code", "value"])
@@ -76,23 +77,9 @@ class Unit(object):
 
 class Config(object):
 
-    @property
-    def error(self) -> List[Error]:
-        return self._error
-
-    @property
-    def status(self) -> List[Status]:
-        return self._status
-
-    @property
-    def units(self) -> List[Unit]:
-        return self._units
-
-    def __init__(self):
-        self._error = []
-        self._status = []
-        self._units = []
-        return
+    error: List[Error] = []
+    status: List[Status] = []
+    units: List[Unit] = []
 
     def get_error(self, code: int) -> Union[None, Error]:
         for item in self.error:
