@@ -24,10 +24,6 @@ from easyb.console import Console
 if __name__ == '__main__':
 
     easyb.log.file_name = "easyb-tool.log"
-    check = easyb.conf.load("config.json")
-    if check is False:
-        easyb.log.error("Unable to load config!")
-        sys.exit(1)
 
     main = Console()
 
