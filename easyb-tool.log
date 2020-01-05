@@ -2702,3 +2702,1181 @@
 2020-01-03 23:41:42: INFORM       GMH 3710        - Run 3: Maxwert lesen
 2020-01-03 23:41:42: INFORM       GMH 3710        - 81.02
 2020-01-03 23:41:42: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB1
+2020-01-05 00:23:11: INFORM       easyb           - linux
+2020-01-05 00:23:11: INFORM       easyb           - python 3.6.9.final
+2020-01-05 00:23:11: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB0
+2020-01-05 00:23:11: INFORM       GMH 3710        - Run 1: Systemstatus lesen
+2020-01-05 00:23:11: INFORM       GMH 3710        - Nothing to report!
+2020-01-05 00:23:11: INFORM       GMH 3710        - Run 4: ID-Nummer lesen
+2020-01-05 00:23:11: INFORM       GMH 3710        - ID: 32407008
+2020-01-05 00:23:11: INFORM       GMH 3710        - Run 12: Anzeige Einheit lesen
+2020-01-05 00:23:11: INFORM       GMH 3710        - 1: °C
+2020-01-05 00:23:11: INFORM       Port            - /dev/ttyUSB0
+2020-01-05 00:23:11: INFORM       Device          - GMH 3710
+2020-01-05 00:23:11: INFORM       GMH 3710        - Start measurements
+2020-01-05 00:23:11: INFORM       GMH 3710        - 2020-01-05 00:23:11: 17.20
+2020-01-05 00:23:14: INFORM       GMH 3710        - 2020-01-05 00:23:14: 17.20
+2020-01-05 00:23:16: INFORM       GMH 3710        - 2020-01-05 00:23:16: 17.20
+2020-01-05 00:23:18: INFORM       GMH 3710        - Stop measurements
+2020-01-05 00:23:18: INFORM       GMH 3710        - Run 2: Minwert lesen
+2020-01-05 00:23:18: INFORM       GMH 3710        - 17.07
+2020-01-05 00:23:18: INFORM       GMH 3710        - Run 3: Maxwert lesen
+2020-01-05 00:23:18: INFORM       GMH 3710        - 17.23
+2020-01-05 00:23:18: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB0
+2020-01-05 01:10:29: INFORM       easyb           - linux
+2020-01-05 01:10:29: INFORM       easyb           - python 3.6.9.final
+2020-01-05 01:10:29: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB0
+2020-01-05 01:10:29: INFORM       GMH 3710        - Run 1: Systemstatus lesen
+2020-01-05 01:10:30: INFORM       GMH 3710        - Nothing to report!
+2020-01-05 01:10:30: INFORM       GMH 3710        - Run 4: ID-Nummer lesen
+2020-01-05 01:10:30: INFORM       GMH 3710        - ID: 32407008
+2020-01-05 01:10:30: INFORM       GMH 3710        - Run 12: Anzeige Einheit lesen
+2020-01-05 01:10:30: INFORM       GMH 3710        - 1: °C
+2020-01-05 01:10:30: INFORM       Port            - /dev/ttyUSB0
+2020-01-05 01:10:30: INFORM       Device          - GMH 3710
+2020-01-05 01:10:30: INFORM       GMH 3710        - Start measurements
+2020-01-05 01:10:30: INFORM       GMH 3710        - 2020-01-05 01:10:30: 17.57
+2020-01-05 01:10:32: INFORM       GMH 3710        - 2020-01-05 01:10:32: 17.57
+2020-01-05 01:10:34: INFORM       GMH 3710        - 2020-01-05 01:10:34: 17.57
+2020-01-05 01:10:36: INFORM       GMH 3710        - 2020-01-05 01:10:36: 17.56
+2020-01-05 01:10:38: INFORM       GMH 3710        - Stop measurements
+2020-01-05 01:10:38: INFORM       GMH 3710        - Run 2: Minwert lesen
+2020-01-05 01:10:38: INFORM       GMH 3710        - 17.07
+2020-01-05 01:10:38: INFORM       GMH 3710        - Run 3: Maxwert lesen
+2020-01-05 01:10:38: INFORM       GMH 3710        - 17.62
+2020-01-05 01:10:38: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB0
+2020-01-05 01:13:20: INFORM       easyb           - linux
+2020-01-05 01:13:20: INFORM       easyb           - python 3.6.9.final
+2020-01-05 01:13:20: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB0
+2020-01-05 01:13:20: INFORM       GMH 3710        - Run 1: Systemstatus lesen
+2020-01-05 01:13:20: INFORM       GMH 3710        - Nothing to report!
+2020-01-05 01:13:20: INFORM       GMH 3710        - Run 4: ID-Nummer lesen
+2020-01-05 01:13:20: INFORM       GMH 3710        - ID: 32407008
+2020-01-05 01:13:20: INFORM       GMH 3710        - Run 12: Anzeige Einheit lesen
+2020-01-05 01:13:20: INFORM       GMH 3710        - 1: °C
+2020-01-05 01:13:20: INFORM       Port            - /dev/ttyUSB0
+2020-01-05 01:13:20: INFORM       Device          - GMH 3710
+2020-01-05 01:13:20: INFORM       GMH 3710        - Start measurements
+2020-01-05 01:13:20: INFORM       GMH 3710        - 2020-01-05 01:13:20: 17.53
+2020-01-05 01:13:22: INFORM       GMH 3710        - 2020-01-05 01:13:22: 17.52
+2020-01-05 01:13:24: INFORM       GMH 3710        - 2020-01-05 01:13:24: 17.53
+2020-01-05 01:13:26: INFORM       GMH 3710        - 2020-01-05 01:13:26: 17.53
+2020-01-05 01:13:28: INFORM       GMH 3710        - Stop measurements
+2020-01-05 01:13:28: INFORM       GMH 3710        - Run 2: Minwert lesen
+2020-01-05 01:13:28: INFORM       GMH 3710        - 17.07
+2020-01-05 01:13:28: INFORM       GMH 3710        - Run 3: Maxwert lesen
+2020-01-05 01:13:28: INFORM       GMH 3710        - 17.62
+2020-01-05 01:13:28: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB0
+2020-01-05 01:16:38: INFORM       easyb           - linux
+2020-01-05 01:16:38: INFORM       easyb           - python 3.6.9.final
+2020-01-05 01:16:38: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB0
+2020-01-05 01:16:38: INFORM       GMH 3710        - Run 1: Systemstatus lesen
+2020-01-05 01:16:38: INFORM       GMH 3710        - Nothing to report!
+2020-01-05 01:16:38: INFORM       GMH 3710        - Run 4: ID-Nummer lesen
+2020-01-05 01:16:38: INFORM       GMH 3710        - ID: 32407008
+2020-01-05 01:16:38: INFORM       GMH 3710        - Run 12: Anzeige Einheit lesen
+2020-01-05 01:16:38: INFORM       GMH 3710        - 1: °C
+2020-01-05 01:16:38: INFORM       Port            - /dev/ttyUSB0
+2020-01-05 01:16:38: INFORM       Device          - GMH 3710
+2020-01-05 01:16:38: INFORM       GMH 3710        - Start measurements
+2020-01-05 01:16:39: INFORM       GMH 3710        - 2020-01-05 01:16:39: 17.55
+2020-01-05 01:16:41: INFORM       GMH 3710        - 2020-01-05 01:16:41: 17.55
+2020-01-05 01:16:43: INFORM       GMH 3710        - 2020-01-05 01:16:43: 17.55
+2020-01-05 01:16:45: INFORM       GMH 3710        - Stop measurements
+2020-01-05 01:16:45: INFORM       GMH 3710        - Run 2: Minwert lesen
+2020-01-05 01:16:45: INFORM       GMH 3710        - 17.07
+2020-01-05 01:16:45: INFORM       GMH 3710        - Run 3: Maxwert lesen
+2020-01-05 01:16:45: INFORM       GMH 3710        - 17.62
+2020-01-05 01:16:45: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB0
+2020-01-05 01:16:45: INFORM       GMH 3710        - Number of data points: 3
+2020-01-05 01:24:30: INFORM       easyb           - linux
+2020-01-05 01:24:30: INFORM       easyb           - python 3.6.9.final
+2020-01-05 01:24:30: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB0
+2020-01-05 01:24:30: INFORM       GMH 3710        - Run 1: Systemstatus lesen
+2020-01-05 01:24:30: INFORM       GMH 3710        - Nothing to report!
+2020-01-05 01:24:30: INFORM       GMH 3710        - Run 4: ID-Nummer lesen
+2020-01-05 01:24:30: INFORM       GMH 3710        - ID: 32407008
+2020-01-05 01:24:30: INFORM       GMH 3710        - Run 12: Anzeige Einheit lesen
+2020-01-05 01:24:30: INFORM       GMH 3710        - 1: °C
+2020-01-05 01:24:30: INFORM       Port            - /dev/ttyUSB0
+2020-01-05 01:24:30: INFORM       Device          - GMH 3710
+2020-01-05 01:24:30: INFORM       GMH 3710        - Start measurements
+2020-01-05 01:24:30: INFORM       GMH 3710        - 2020-01-05 01:24:30: 17.52
+2020-01-05 01:24:33: INFORM       GMH 3710        - 2020-01-05 01:24:33: 17.52
+2020-01-05 01:24:35: INFORM       GMH 3710        - 2020-01-05 01:24:35: 17.52
+2020-01-05 01:24:37: INFORM       GMH 3710        - 2020-01-05 01:24:37: 17.52
+2020-01-05 01:24:39: INFORM       GMH 3710        - 2020-01-05 01:24:39: 17.52
+2020-01-05 01:24:41: INFORM       GMH 3710        - 2020-01-05 01:24:41: 17.52
+2020-01-05 01:24:43: INFORM       GMH 3710        - 2020-01-05 01:24:43: 17.52
+2020-01-05 01:24:45: INFORM       GMH 3710        - 2020-01-05 01:24:45: 17.52
+2020-01-05 01:24:47: INFORM       GMH 3710        - 2020-01-05 01:24:47: 17.52
+2020-01-05 01:24:49: INFORM       GMH 3710        - 2020-01-05 01:24:49: 17.52
+2020-01-05 01:24:51: INFORM       GMH 3710        - 2020-01-05 01:24:51: 17.52
+2020-01-05 01:24:54: INFORM       GMH 3710        - 2020-01-05 01:24:54: 17.52
+2020-01-05 01:24:56: INFORM       GMH 3710        - 2020-01-05 01:24:56: 17.52
+2020-01-05 01:24:58: INFORM       GMH 3710        - 2020-01-05 01:24:58: 17.53
+2020-01-05 01:25:00: INFORM       GMH 3710        - 2020-01-05 01:25:00: 17.53
+2020-01-05 01:25:02: INFORM       GMH 3710        - 2020-01-05 01:25:02: 17.52
+2020-01-05 01:25:04: INFORM       GMH 3710        - 2020-01-05 01:25:04: 17.53
+2020-01-05 01:25:06: INFORM       GMH 3710        - 2020-01-05 01:25:06: 17.53
+2020-01-05 01:25:08: INFORM       GMH 3710        - 2020-01-05 01:25:08: 17.53
+2020-01-05 01:25:10: INFORM       GMH 3710        - Stop measurements
+2020-01-05 01:25:10: INFORM       GMH 3710        - Run 2: Minwert lesen
+2020-01-05 01:25:10: INFORM       GMH 3710        - 17.07
+2020-01-05 01:25:10: INFORM       GMH 3710        - Run 3: Maxwert lesen
+2020-01-05 01:25:11: INFORM       GMH 3710        - 17.62
+2020-01-05 01:25:11: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB0
+2020-01-05 01:25:11: INFORM       GMH 3710        - Number of data points: 19
+2020-01-05 01:27:14: INFORM       easyb           - linux
+2020-01-05 01:27:14: INFORM       easyb           - python 3.6.9.final
+2020-01-05 01:27:14: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB0
+2020-01-05 01:27:14: INFORM       GMH 3710        - Run 1: Systemstatus lesen
+2020-01-05 01:27:14: INFORM       GMH 3710        - Nothing to report!
+2020-01-05 01:27:14: INFORM       GMH 3710        - Run 4: ID-Nummer lesen
+2020-01-05 01:27:14: INFORM       GMH 3710        - ID: 32407008
+2020-01-05 01:27:14: INFORM       GMH 3710        - Run 12: Anzeige Einheit lesen
+2020-01-05 01:27:14: INFORM       GMH 3710        - 1: °C
+2020-01-05 01:27:14: INFORM       Port            - /dev/ttyUSB0
+2020-01-05 01:27:14: INFORM       Device          - GMH 3710
+2020-01-05 01:27:14: INFORM       GMH 3710        - Start measurements
+2020-01-05 01:27:14: INFORM       GMH 3710        - 0000 01:27:14: 17.54
+2020-01-05 01:27:16: INFORM       GMH 3710        - 0001 01:27:16: 17.54
+2020-01-05 01:27:19: INFORM       GMH 3710        - 0002 01:27:19: 17.54
+2020-01-05 01:27:21: INFORM       GMH 3710        - 0003 01:27:21: 17.54
+2020-01-05 01:27:23: INFORM       GMH 3710        - 0004 01:27:23: 17.54
+2020-01-05 01:27:25: INFORM       GMH 3710        - Stop measurements
+2020-01-05 01:27:25: INFORM       GMH 3710        - Run 2: Minwert lesen
+2020-01-05 01:27:25: INFORM       GMH 3710        - 17.07
+2020-01-05 01:27:25: INFORM       GMH 3710        - Run 3: Maxwert lesen
+2020-01-05 01:27:25: INFORM       GMH 3710        - 17.62
+2020-01-05 01:27:25: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB0
+2020-01-05 01:27:25: INFORM       GMH 3710        - Number of data points: 5
+2020-01-05 02:13:24: INFORM       easyb           - linux
+2020-01-05 02:13:24: INFORM       easyb           - python 3.6.9.final
+2020-01-05 02:13:24: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB0
+2020-01-05 02:13:24: INFORM       GMH 3710        - Run 1: Systemstatus lesen
+2020-01-05 02:13:24: INFORM       GMH 3710        - Nothing to report!
+2020-01-05 02:13:24: INFORM       GMH 3710        - Run 4: ID-Nummer lesen
+2020-01-05 02:13:24: INFORM       GMH 3710        - ID: 32407008
+2020-01-05 02:13:24: INFORM       GMH 3710        - Run 12: Anzeige Einheit lesen
+2020-01-05 02:13:24: INFORM       GMH 3710        - 1: °C
+2020-01-05 02:13:24: INFORM       Port            - /dev/ttyUSB0
+2020-01-05 02:13:24: INFORM       Device          - GMH 3710
+2020-01-05 02:13:24: INFORM       GMH 3710        - Start measurements
+2020-01-05 02:13:24: INFORM       GMH 3710        - 000000 02:13:24: 17.45
+2020-01-05 02:13:26: INFORM       GMH 3710        - 000001 02:13:26: 17.45
+2020-01-05 02:13:28: INFORM       GMH 3710        - Stop measurements
+2020-01-05 02:13:28: INFORM       GMH 3710        - Run 2: Minwert lesen
+2020-01-05 02:13:28: INFORM       GMH 3710        - 17.07
+2020-01-05 02:13:28: INFORM       GMH 3710        - Run 3: Maxwert lesen
+2020-01-05 02:13:28: INFORM       GMH 3710        - 17.62
+2020-01-05 02:13:28: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB0
+2020-01-05 02:13:28: INFORM       GMH 3710        - Number of data points: 2
+2020-01-05 02:13:28: ERROR           - Unable to get module attribute: easyb.data.base with storage
+2020-01-05 02:13:28: ERROR           - Unable to find module path: easyb.data.Data
+2020-01-05 02:13:28: ERROR           - Unable to find storge format: EXCEL
+2020-01-05 02:14:55: INFORM       easyb           - linux
+2020-01-05 02:14:55: INFORM       easyb           - python 3.6.9.final
+2020-01-05 02:14:55: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB0
+2020-01-05 02:14:55: INFORM       GMH 3710        - Run 1: Systemstatus lesen
+2020-01-05 02:14:55: INFORM       GMH 3710        - Nothing to report!
+2020-01-05 02:14:55: INFORM       GMH 3710        - Run 4: ID-Nummer lesen
+2020-01-05 02:14:56: INFORM       GMH 3710        - ID: 32407008
+2020-01-05 02:14:56: INFORM       GMH 3710        - Run 12: Anzeige Einheit lesen
+2020-01-05 02:14:56: INFORM       GMH 3710        - 1: °C
+2020-01-05 02:14:56: INFORM       Port            - /dev/ttyUSB0
+2020-01-05 02:14:56: INFORM       Device          - GMH 3710
+2020-01-05 02:14:56: INFORM       GMH 3710        - Start measurements
+2020-01-05 02:14:56: INFORM       GMH 3710        - 000000 02:14:56: 17.45
+2020-01-05 02:14:58: INFORM       GMH 3710        - 000001 02:14:58: 17.44
+2020-01-05 02:15:00: INFORM       GMH 3710        - Stop measurements
+2020-01-05 02:15:00: INFORM       GMH 3710        - Run 2: Minwert lesen
+2020-01-05 02:15:00: INFORM       GMH 3710        - 17.07
+2020-01-05 02:15:00: INFORM       GMH 3710        - Run 3: Maxwert lesen
+2020-01-05 02:15:00: INFORM       GMH 3710        - 17.62
+2020-01-05 02:15:00: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB0
+2020-01-05 02:15:00: INFORM       GMH 3710        - Number of data points: 2
+2020-01-05 02:15:00: INFORM       EXCEL           - Open /home/kai/projekte/pyeasyb/EXCEL.xlsx
+2020-01-05 02:16:00: INFORM       easyb           - linux
+2020-01-05 02:16:00: INFORM       easyb           - python 3.6.9.final
+2020-01-05 02:16:00: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB0
+2020-01-05 02:16:00: INFORM       GMH 3710        - Run 1: Systemstatus lesen
+2020-01-05 02:16:01: INFORM       GMH 3710        - Nothing to report!
+2020-01-05 02:16:01: INFORM       GMH 3710        - Run 4: ID-Nummer lesen
+2020-01-05 02:16:01: INFORM       GMH 3710        - ID: 32407008
+2020-01-05 02:16:01: INFORM       GMH 3710        - Run 12: Anzeige Einheit lesen
+2020-01-05 02:16:01: INFORM       GMH 3710        - 1: °C
+2020-01-05 02:16:01: INFORM       Port            - /dev/ttyUSB0
+2020-01-05 02:16:01: INFORM       Device          - GMH 3710
+2020-01-05 02:16:01: INFORM       GMH 3710        - Start measurements
+2020-01-05 02:16:01: INFORM       GMH 3710        - 000000 02:16:01: 17.43
+2020-01-05 02:16:03: INFORM       GMH 3710        - 000001 02:16:03: 17.43
+2020-01-05 02:16:05: INFORM       GMH 3710        - 000002 02:16:05: 17.43
+2020-01-05 02:16:07: INFORM       GMH 3710        - 000003 02:16:07: 17.43
+2020-01-05 02:16:09: INFORM       GMH 3710        - Stop measurements
+2020-01-05 02:16:09: INFORM       GMH 3710        - Run 2: Minwert lesen
+2020-01-05 02:16:09: INFORM       GMH 3710        - 17.07
+2020-01-05 02:16:09: INFORM       GMH 3710        - Run 3: Maxwert lesen
+2020-01-05 02:16:09: INFORM       GMH 3710        - 17.62
+2020-01-05 02:16:09: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB0
+2020-01-05 02:16:09: INFORM       GMH 3710        - Number of data points: 4
+2020-01-05 02:16:09: INFORM       EXCEL           - Open /home/kai/projekte/pyeasyb/EXCEL.xlsx
+2020-01-05 02:17:13: INFORM       easyb           - linux
+2020-01-05 02:17:13: INFORM       easyb           - python 3.6.9.final
+2020-01-05 02:17:13: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB0
+2020-01-05 02:17:13: INFORM       GMH 3710        - Run 1: Systemstatus lesen
+2020-01-05 02:17:13: INFORM       GMH 3710        - Nothing to report!
+2020-01-05 02:17:13: INFORM       GMH 3710        - Run 4: ID-Nummer lesen
+2020-01-05 02:17:13: INFORM       GMH 3710        - ID: 32407008
+2020-01-05 02:17:13: INFORM       GMH 3710        - Run 12: Anzeige Einheit lesen
+2020-01-05 02:17:13: INFORM       GMH 3710        - 1: °C
+2020-01-05 02:17:13: INFORM       Port            - /dev/ttyUSB0
+2020-01-05 02:17:13: INFORM       Device          - GMH 3710
+2020-01-05 02:17:13: INFORM       GMH 3710        - Start measurements
+2020-01-05 02:17:13: INFORM       GMH 3710        - 000000 02:17:13: 17.43
+2020-01-05 02:17:15: INFORM       GMH 3710        - 000001 02:17:15: 17.43
+2020-01-05 02:17:17: INFORM       GMH 3710        - 000002 02:17:17: 17.43
+2020-01-05 02:17:19: INFORM       GMH 3710        - Stop measurements
+2020-01-05 02:17:19: INFORM       GMH 3710        - Run 2: Minwert lesen
+2020-01-05 02:17:19: INFORM       GMH 3710        - 17.07
+2020-01-05 02:17:19: INFORM       GMH 3710        - Run 3: Maxwert lesen
+2020-01-05 02:17:20: INFORM       GMH 3710        - 17.62
+2020-01-05 02:17:20: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB0
+2020-01-05 02:17:20: INFORM       GMH 3710        - Number of data points: 3
+2020-01-05 02:17:20: INFORM       EXCEL           - Open /home/kai/projekte/pyeasyb/test.xlsx
+2020-01-05 02:37:15: INFORM       easyb           - linux
+2020-01-05 02:37:15: INFORM       easyb           - python 3.6.9.final
+2020-01-05 02:37:15: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB0
+2020-01-05 02:37:15: INFORM       GMH 3710        - Run 1: Systemstatus lesen
+2020-01-05 02:37:16: INFORM       GMH 3710        - Nothing to report!
+2020-01-05 02:37:16: INFORM       GMH 3710        - Run 4: ID-Nummer lesen
+2020-01-05 02:37:16: INFORM       GMH 3710        - ID: 32407008
+2020-01-05 02:37:16: INFORM       GMH 3710        - Run 12: Anzeige Einheit lesen
+2020-01-05 02:37:16: INFORM       GMH 3710        - 1: °C
+2020-01-05 02:37:16: INFORM       Port            - /dev/ttyUSB0
+2020-01-05 02:37:16: INFORM       Device          - GMH 3710
+2020-01-05 02:37:16: INFORM       GMH 3710        - Start measurements
+2020-01-05 02:37:16: INFORM       GMH 3710        - 000000 02:37:16: 17.36
+2020-01-05 02:37:18: INFORM       GMH 3710        - 000001 02:37:18: 17.36
+2020-01-05 02:37:20: INFORM       GMH 3710        - 000002 02:37:20: 17.36
+2020-01-05 02:37:22: INFORM       GMH 3710        - 000003 02:37:22: 17.36
+2020-01-05 02:37:24: INFORM       GMH 3710        - 000004 02:37:24: 17.36
+2020-01-05 02:37:26: INFORM       GMH 3710        - 000005 02:37:26: 17.36
+2020-01-05 02:37:28: INFORM       GMH 3710        - 000006 02:37:28: 17.37
+2020-01-05 02:37:30: INFORM       GMH 3710        - Stop measurements
+2020-01-05 02:37:30: INFORM       GMH 3710        - Run 2: Minwert lesen
+2020-01-05 02:37:31: INFORM       GMH 3710        - 17.07
+2020-01-05 02:37:31: INFORM       GMH 3710        - Run 3: Maxwert lesen
+2020-01-05 02:37:31: INFORM       GMH 3710        - 17.62
+2020-01-05 02:37:31: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB0
+2020-01-05 02:37:31: INFORM       GMH 3710        - Number of data points: 7
+2020-01-05 02:37:31: INFORM       EXCEL           - Open /home/kai/projekte/pyeasyb/test.xlsx
+2020-01-05 02:40:06: INFORM       easyb           - linux
+2020-01-05 02:40:06: INFORM       easyb           - python 3.6.9.final
+2020-01-05 02:40:06: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB0
+2020-01-05 02:40:06: INFORM       GMH 3710        - Run 1: Systemstatus lesen
+2020-01-05 02:40:06: INFORM       GMH 3710        - Nothing to report!
+2020-01-05 02:40:06: INFORM       GMH 3710        - Run 4: ID-Nummer lesen
+2020-01-05 02:40:06: INFORM       GMH 3710        - ID: 32407008
+2020-01-05 02:40:06: INFORM       GMH 3710        - Run 12: Anzeige Einheit lesen
+2020-01-05 02:40:06: INFORM       GMH 3710        - 1: °C
+2020-01-05 02:40:06: INFORM       Port            - /dev/ttyUSB0
+2020-01-05 02:40:06: INFORM       Device          - GMH 3710
+2020-01-05 02:40:06: INFORM       GMH 3710        - Start measurements
+2020-01-05 02:40:06: INFORM       GMH 3710        - 000000 02:40:06: 17.41
+2020-01-05 02:40:08: INFORM       GMH 3710        - 000001 02:40:08: 17.42
+2020-01-05 02:40:11: INFORM       GMH 3710        - 000002 02:40:11: 17.42
+2020-01-05 02:40:13: INFORM       GMH 3710        - 000003 02:40:13: 17.42
+2020-01-05 02:40:15: INFORM       GMH 3710        - 000004 02:40:15: 17.42
+2020-01-05 02:40:17: INFORM       GMH 3710        - 000005 02:40:17: 17.42
+2020-01-05 02:40:19: INFORM       GMH 3710        - 000006 02:40:19: 17.42
+2020-01-05 02:40:21: INFORM       GMH 3710        - 000007 02:40:21: 17.42
+2020-01-05 02:40:23: INFORM       GMH 3710        - Stop measurements
+2020-01-05 02:40:23: INFORM       GMH 3710        - Run 2: Minwert lesen
+2020-01-05 02:40:23: INFORM       GMH 3710        - 17.07
+2020-01-05 02:40:23: INFORM       GMH 3710        - Run 3: Maxwert lesen
+2020-01-05 02:40:23: INFORM       GMH 3710        - 17.62
+2020-01-05 02:40:23: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB0
+2020-01-05 02:40:23: INFORM       GMH 3710        - Number of data points: 8
+2020-01-05 02:40:23: INFORM       EXCEL           - Open /home/kai/projekte/pyeasyb/test.xlsx
+2020-01-05 02:40:23: INFORM       EXCEL           - Write number of rows 9
+2020-01-05 20:26:00: INFORM       easyb           - linux
+2020-01-05 20:26:00: INFORM       easyb           - python 3.6.9.final
+2020-01-05 20:26:00: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 20:26:00: INFORM       GMH 3710        - Run 1: Systemstatus lesen
+2020-01-05 20:26:00: INFORM       GMH 3710        - Nothing to report!
+2020-01-05 20:26:00: INFORM       GMH 3710        - Run 4: ID-Nummer lesen
+2020-01-05 20:26:00: INFORM       GMH 3710        - ID: 32407008
+2020-01-05 20:26:00: INFORM       GMH 3710        - Run 12: Anzeige Einheit lesen
+2020-01-05 20:26:00: INFORM       GMH 3710        - 1: °C
+2020-01-05 20:26:00: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 20:26:00: INFORM       Device          - GMH 3710
+2020-01-05 20:26:00: INFORM       GMH 3710        - Start measurements
+2020-01-05 20:26:00: INFORM       GMH 3710        - 000000 20:26:00: 15.78
+2020-01-05 20:26:02: INFORM       GMH 3710        - 000001 20:26:02: 15.78
+2020-01-05 20:26:04: INFORM       GMH 3710        - 000002 20:26:04: 15.78
+2020-01-05 20:26:06: INFORM       GMH 3710        - Stop measurements
+2020-01-05 20:26:06: INFORM       GMH 3710        - Run 2: Minwert lesen
+2020-01-05 20:26:06: INFORM       GMH 3710        - 14.42
+2020-01-05 20:26:06: INFORM       GMH 3710        - Run 3: Maxwert lesen
+2020-01-05 20:26:07: INFORM       GMH 3710        - 15.78
+2020-01-05 20:26:07: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB1
+2020-01-05 20:26:07: INFORM       GMH 3710        - Number of data points: 3
+2020-01-05 20:26:35: INFORM       easyb           - linux
+2020-01-05 20:26:35: INFORM       easyb           - python 3.6.9.final
+2020-01-05 20:26:35: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 20:26:35: INFORM       GMH 3710        - Run 1: Systemstatus lesen
+2020-01-05 20:26:35: INFORM       GMH 3710        - Nothing to report!
+2020-01-05 20:26:35: INFORM       GMH 3710        - Run 4: ID-Nummer lesen
+2020-01-05 20:26:35: INFORM       GMH 3710        - ID: 32407008
+2020-01-05 20:26:35: INFORM       GMH 3710        - Run 12: Anzeige Einheit lesen
+2020-01-05 20:26:35: INFORM       GMH 3710        - 1: °C
+2020-01-05 20:26:35: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 20:26:35: INFORM       Device          - GMH 3710
+2020-01-05 20:26:35: INFORM       GMH 3710        - Start measurements
+2020-01-05 20:26:35: INFORM       GMH 3710        - 000000 20:26:35: 15.81
+2020-01-05 20:26:37: INFORM       GMH 3710        - 000001 20:26:37: 15.82
+2020-01-05 20:26:39: INFORM       GMH 3710        - 000002 20:26:39: 15.82
+2020-01-05 20:26:41: INFORM       GMH 3710        - Stop measurements
+2020-01-05 20:26:41: INFORM       GMH 3710        - Run 2: Minwert lesen
+2020-01-05 20:26:41: INFORM       GMH 3710        - 14.42
+2020-01-05 20:26:41: INFORM       GMH 3710        - Run 3: Maxwert lesen
+2020-01-05 20:26:41: INFORM       GMH 3710        - 15.82
+2020-01-05 20:26:41: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB1
+2020-01-05 20:26:41: INFORM       GMH 3710        - Number of data points: 3
+2020-01-05 20:26:41: INFORM       EXCEL           - Open /home/kai/projekte/pyeasyb/test.xlsx
+2020-01-05 20:26:41: INFORM       EXCEL           - Write number of rows 4
+2020-01-05 20:35:05: INFORM       easyb           - linux
+2020-01-05 20:35:05: INFORM       easyb           - python 3.6.9.final
+2020-01-05 20:35:05: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 20:35:05: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 20:35:05: INFORM       Device          - GMH 3710
+2020-01-05 20:35:05: INFORM       Command         - 0: Messwert lesen
+2020-01-05 20:35:05: INFORM       GMH 3710        - Run 0: Messwert lesen
+2020-01-05 20:35:05: INFORM       GMH 3710        - 2020-01-05 20:35:05: 16.26
+2020-01-05 20:35:09: INFORM       easyb           - linux
+2020-01-05 20:35:09: INFORM       easyb           - python 3.6.9.final
+2020-01-05 20:35:09: INFORM       Device          - GMH 3710
+2020-01-05 20:35:09: INFORM       GMH 3710        - 0: Messwert lesen
+2020-01-05 20:35:09: INFORM       GMH 3710        - 1: Systemstatus lesen
+2020-01-05 20:35:09: INFORM       GMH 3710        - 2: Minwert lesen
+2020-01-05 20:35:09: INFORM       GMH 3710        - 3: Maxwert lesen
+2020-01-05 20:35:09: INFORM       GMH 3710        - 4: ID-Nummer lesen
+2020-01-05 20:35:09: INFORM       GMH 3710        - 5: Min. Messbereich lesen
+2020-01-05 20:35:09: INFORM       GMH 3710        - 6: Max. Messbereich lesen
+2020-01-05 20:35:09: INFORM       GMH 3710        - 7: Messbereich Einheit lesen
+2020-01-05 20:35:09: INFORM       GMH 3710        - 8: Messbereichs Messart lesen
+2020-01-05 20:35:09: INFORM       GMH 3710        - 9: Anzeige Messart lesen
+2020-01-05 20:35:09: INFORM       GMH 3710        - 10: Min. Anteigebereich lesen
+2020-01-05 20:35:09: INFORM       GMH 3710        - 11: Max. Anteigebereich lesen
+2020-01-05 20:35:09: INFORM       GMH 3710        - 12: Anzeige Einheit lesen
+2020-01-05 20:35:09: INFORM       GMH 3710        - 13: Kanalzahl lesen
+2020-01-05 20:35:09: INFORM       GMH 3710        - 14: Steigungskorrektur lesen
+2020-01-05 20:35:09: INFORM       GMH 3710        - 15: Offset lesen
+2020-01-05 20:35:09: INFORM       GMH 3710        - 16: Abschaltverzoegerung lesen
+2020-01-05 20:35:09: INFORM       GMH 3710        - 17: Programmkennung lesen
+2020-01-05 20:35:11: INFORM       easyb           - linux
+2020-01-05 20:35:11: INFORM       easyb           - python 3.6.9.final
+2020-01-05 20:35:11: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 20:35:11: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 20:35:11: INFORM       Device          - GMH 3710
+2020-01-05 20:35:11: INFORM       Command         - 1: Systemstatus lesen
+2020-01-05 20:35:11: INFORM       GMH 3710        - Run 1: Systemstatus lesen
+2020-01-05 20:35:11: INFORM       GMH 3710        - Nothing to report!
+2020-01-05 20:35:30: INFORM       easyb           - linux
+2020-01-05 20:35:30: INFORM       easyb           - python 3.6.9.final
+2020-01-05 20:35:30: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 20:35:30: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 20:35:30: INFORM       Device          - GMH 3710
+2020-01-05 20:35:30: INFORM       Command         - 1: Systemstatus lesen
+2020-01-05 20:35:30: INFORM       GMH 3710        - Run 1: Systemstatus lesen
+2020-01-05 20:35:30: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 20:39:30: INFORM       easyb           - linux
+2020-01-05 20:39:30: INFORM       easyb           - python 3.6.9.final
+2020-01-05 20:39:30: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 20:39:30: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 20:39:30: INFORM       Device          - GMH 3710
+2020-01-05 20:39:30: INFORM       Command         - 1: Systemstatus lesen
+2020-01-05 20:39:30: INFORM       GMH 3710        - Run 1: Systemstatus lesen
+2020-01-05 20:39:30: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 20:40:07: INFORM       easyb           - linux
+2020-01-05 20:40:07: INFORM       easyb           - python 3.6.9.final
+2020-01-05 20:40:07: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 20:40:07: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 20:40:07: INFORM       Device          - GMH 3710
+2020-01-05 20:40:07: INFORM       Command         - 1: Systemstatus lesen
+2020-01-05 20:40:07: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 20:40:24: INFORM       easyb           - linux
+2020-01-05 20:40:24: INFORM       easyb           - python 3.6.9.final
+2020-01-05 20:40:24: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 20:40:24: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 20:40:24: INFORM       ID              - ID: 32407008
+2020-01-05 20:40:24: INFORM       Unit            - 1: °C
+2020-01-05 20:40:24: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 20:40:24: INFORM       Device          - GMH 3710
+2020-01-05 20:40:24: INFORM       GMH 3710        - Start measurements
+2020-01-05 20:40:24: INFORM       GMH 3710        - 000000 20:40:24: 16.51
+2020-01-05 20:40:26: INFORM       GMH 3710        - 000001 20:40:26: 16.51
+2020-01-05 20:40:29: INFORM       GMH 3710        - 000002 20:40:29: 16.51
+2020-01-05 20:40:31: INFORM       GMH 3710        - 000003 20:40:31: 16.51
+2020-01-05 20:40:33: INFORM       GMH 3710        - 000004 20:40:33: 16.51
+2020-01-05 20:40:35: INFORM       GMH 3710        - Stop measurements
+2020-01-05 20:40:35: INFORM       Min. value      - 14.42
+2020-01-05 20:40:35: INFORM       Max. value      - 16.51
+2020-01-05 20:40:35: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB1
+2020-01-05 20:40:46: INFORM       easyb           - linux
+2020-01-05 20:40:46: INFORM       easyb           - python 3.6.9.final
+2020-01-05 20:40:46: INFORM       Device          - GMH 3710
+2020-01-05 20:40:46: INFORM       GMH 3710        - 0: Messwert lesen
+2020-01-05 20:40:46: INFORM       GMH 3710        - 1: Systemstatus lesen
+2020-01-05 20:40:46: INFORM       GMH 3710        - 2: Minwert lesen
+2020-01-05 20:40:46: INFORM       GMH 3710        - 3: Maxwert lesen
+2020-01-05 20:40:46: INFORM       GMH 3710        - 4: ID-Nummer lesen
+2020-01-05 20:40:46: INFORM       GMH 3710        - 5: Min. Messbereich lesen
+2020-01-05 20:40:46: INFORM       GMH 3710        - 6: Max. Messbereich lesen
+2020-01-05 20:40:46: INFORM       GMH 3710        - 7: Messbereich Einheit lesen
+2020-01-05 20:40:46: INFORM       GMH 3710        - 8: Messbereichs Messart lesen
+2020-01-05 20:40:46: INFORM       GMH 3710        - 9: Anzeige Messart lesen
+2020-01-05 20:40:46: INFORM       GMH 3710        - 10: Min. Anteigebereich lesen
+2020-01-05 20:40:46: INFORM       GMH 3710        - 11: Max. Anteigebereich lesen
+2020-01-05 20:40:46: INFORM       GMH 3710        - 12: Anzeige Einheit lesen
+2020-01-05 20:40:46: INFORM       GMH 3710        - 13: Kanalzahl lesen
+2020-01-05 20:40:46: INFORM       GMH 3710        - 14: Steigungskorrektur lesen
+2020-01-05 20:40:46: INFORM       GMH 3710        - 15: Offset lesen
+2020-01-05 20:40:46: INFORM       GMH 3710        - 16: Abschaltverzoegerung lesen
+2020-01-05 20:40:46: INFORM       GMH 3710        - 17: Programmkennung lesen
+2020-01-05 20:41:13: INFORM       easyb           - linux
+2020-01-05 20:41:13: INFORM       easyb           - python 3.6.9.final
+2020-01-05 20:41:13: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 20:41:13: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 20:41:13: INFORM       ID              - ID: 32407008
+2020-01-05 20:41:13: INFORM       Unit            - 1: °C
+2020-01-05 20:41:13: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 20:41:13: INFORM       Device          - GMH 3710
+2020-01-05 20:41:13: INFORM       GMH 3710        - Start measurements
+2020-01-05 20:41:13: INFORM       GMH 3710        - 000000 20:41:13: 16.54
+2020-01-05 20:41:15: INFORM       GMH 3710        - 000001 20:41:15: 16.54
+2020-01-05 20:41:17: INFORM       GMH 3710        - 000002 20:41:17: 16.54
+2020-01-05 20:41:19: INFORM       GMH 3710        - 000003 20:41:19: 16.54
+2020-01-05 20:41:21: INFORM       GMH 3710        - 000004 20:41:21: 16.55
+2020-01-05 20:41:23: INFORM       GMH 3710        - 000005 20:41:23: 16.55
+2020-01-05 20:41:25: INFORM       GMH 3710        - Stop measurements
+2020-01-05 20:41:26: INFORM       Min. value      - 16.54
+2020-01-05 20:41:26: INFORM       Max. value      - 16.56
+2020-01-05 20:41:26: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB1
+2020-01-05 20:42:28: INFORM       easyb           - linux
+2020-01-05 20:42:28: INFORM       easyb           - python 3.6.9.final
+2020-01-05 20:42:28: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 20:42:28: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 20:42:28: INFORM       ID              - ID: 32407008
+2020-01-05 20:42:29: INFORM       Unit            - 1: °C
+2020-01-05 20:42:29: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 20:42:29: INFORM       Device          - GMH 3710
+2020-01-05 20:42:29: INFORM       GMH 3710        - Start measurements
+2020-01-05 20:42:29: INFORM       GMH 3710        - 000000 20:42:29: 16.60
+2020-01-05 20:42:31: INFORM       GMH 3710        - 000001 20:42:31: 16.60
+2020-01-05 20:42:33: INFORM       GMH 3710        - 000002 20:42:33: 16.60
+2020-01-05 20:42:35: INFORM       GMH 3710        - Stop measurements
+2020-01-05 20:42:35: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 20:42:35: INFORM       Min. value      - 16.54
+2020-01-05 20:42:35: INFORM       Max. value      - 16.6
+2020-01-05 20:42:35: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB1
+2020-01-05 20:49:34: INFORM       easyb           - linux
+2020-01-05 20:49:34: INFORM       easyb           - python 3.6.9.final
+2020-01-05 20:49:34: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 20:49:34: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 20:49:34: INFORM       ID              - ID: 32407008
+2020-01-05 20:49:34: INFORM       Unit            - 1: °C
+2020-01-05 20:49:34: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 20:49:34: INFORM       Device          - GMH 3710
+2020-01-05 20:49:34: INFORM       GMH 3710        - Start measurements
+2020-01-05 20:49:35: INFORM       GMH 3710        - 000000 20:49:35: 16.89
+2020-01-05 20:49:37: INFORM       GMH 3710        - Stop measurements
+2020-01-05 20:49:37: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 20:49:37: INFORM       Min. value      - 16.54
+2020-01-05 20:49:37: INFORM       Max. value      - 16.9
+2020-01-05 20:49:37: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB1
+2020-01-05 20:49:41: INFORM       easyb           - linux
+2020-01-05 20:49:41: INFORM       easyb           - python 3.6.9.final
+2020-01-05 20:49:41: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 20:49:41: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 20:49:41: INFORM       ID              - ID: 32407008
+2020-01-05 20:49:41: INFORM       Unit            - 1: °C
+2020-01-05 20:49:41: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 20:49:41: INFORM       Device          - GMH 3710
+2020-01-05 20:49:41: INFORM       GMH 3710        - Start measurements
+2020-01-05 20:49:41: INFORM       GMH 3710        - 000000 20:49:41: 16.90
+2020-01-05 20:49:43: INFORM       GMH 3710        - 000001 20:49:43: 16.91
+2020-01-05 20:49:46: INFORM       GMH 3710        - 000002 20:49:46: 16.91
+2020-01-05 20:49:48: INFORM       GMH 3710        - 000003 20:49:48: 16.91
+2020-01-05 20:49:50: INFORM       GMH 3710        - 000004 20:49:50: 16.91
+2020-01-05 20:49:52: INFORM       GMH 3710        - Stop measurements
+2020-01-05 20:49:52: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 20:49:52: INFORM       Min. value      - 16.54
+2020-01-05 20:49:52: INFORM       Max. value      - 16.91
+2020-01-05 20:49:52: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB1
+2020-01-05 20:49:52: INFORM       GMH 3710        - Number of data points: 5
+2020-01-05 20:49:52: INFORM       EXCEL           - Open /home/kai/projekte/pyeasyb/test.xlsx
+2020-01-05 20:49:52: INFORM       EXCEL           - Write number of rows 6
+2020-01-05 20:50:39: INFORM       easyb           - linux
+2020-01-05 20:50:39: INFORM       easyb           - python 3.6.9.final
+2020-01-05 20:50:39: DEBUG1       GMH 3710        - Port:          /dev/ttyUSB1
+2020-01-05 20:50:39: DEBUG1       GMH 3710        - Baudrate:      4800
+2020-01-05 20:50:39: DEBUG1       GMH 3710        - Address:       1
+2020-01-05 20:50:39: DEBUG1       GMH 3710        - Timeout:       2
+2020-01-05 20:50:39: DEBUG1       GMH 3710        - Write timeout: 2
+2020-01-05 20:50:39: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 20:50:39: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 20:50:39: INFORM       Device          - GMH 3710
+2020-01-05 20:50:39: INFORM       Command         - 0: Messwert lesen
+2020-01-05 20:50:39: DEBUG2       SEND            - Address 1, Code 0, NoPriority, Byte3, FromMaster
+2020-01-05 20:50:39: DEBUG2       SEND            - 0xfe 0x00 0x3d
+2020-01-05 20:50:39: DEBUG1       SERIAL          - Header: 0xfe 0x05 0x26
+2020-01-05 20:50:39: DEBUG2       RECEIVE         - Address 1, Code 0, NoPriority, Byte9, FromSlave
+2020-01-05 20:50:39: DEBUG2       RECEIVE         - 0xfe 0x05 0x26
+2020-01-05 20:50:39: DEBUG1       SERIAL          - Byte9: 0x71 0x00 0x48 0xf9 0x9e 0x85
+2020-01-05 20:50:39: INFORM       GMH 3710        - 2020-01-05 20:50:39: 16.94
+2020-01-05 20:50:46: INFORM       easyb           - linux
+2020-01-05 20:50:46: INFORM       easyb           - python 3.6.9.final
+2020-01-05 20:50:46: DEBUG1       GMH 3710        - Port:          /dev/ttyUSB1
+2020-01-05 20:50:46: DEBUG1       GMH 3710        - Baudrate:      4800
+2020-01-05 20:50:46: DEBUG1       GMH 3710        - Address:       1
+2020-01-05 20:50:46: DEBUG1       GMH 3710        - Timeout:       2
+2020-01-05 20:50:46: DEBUG1       GMH 3710        - Write timeout: 2
+2020-01-05 20:50:46: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 20:50:46: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 20:50:46: INFORM       Device          - GMH 3710
+2020-01-05 20:50:46: INFORM       Command         - 0: Messwert lesen
+2020-01-05 20:50:46: DEBUG2       SEND            - Address 1, Code 0, NoPriority, Byte3, FromMaster
+2020-01-05 20:50:46: DEBUG2       SEND            - 0xfe 0x00 0x3d
+2020-01-05 20:50:46: DEBUG1       SERIAL          - Header: 0xfe 0x0d 0x1e
+2020-01-05 20:50:46: DEBUG2       RECEIVE         - Address 1, Code 0, Priority, Byte9, FromSlave
+2020-01-05 20:50:46: DEBUG2       RECEIVE         - 0xfe 0x0d 0x1e
+2020-01-05 20:50:46: DEBUG1       SERIAL          - Byte9: 0x70 0xf6 0x91 0xdf 0xed 0x0b
+2020-01-05 20:50:46: INFORM       GMH 3710        - 2020-01-05 20:50:46: 0.00
+2020-01-05 20:51:42: INFORM       easyb           - linux
+2020-01-05 20:51:42: INFORM       easyb           - python 3.6.9.final
+2020-01-05 20:51:42: DEBUG1       GMH 3710        - Port:          /dev/ttyUSB1
+2020-01-05 20:51:42: DEBUG1       GMH 3710        - Baudrate:      4800
+2020-01-05 20:51:42: DEBUG1       GMH 3710        - Address:       1
+2020-01-05 20:51:42: DEBUG1       GMH 3710        - Timeout:       2
+2020-01-05 20:51:42: DEBUG1       GMH 3710        - Write timeout: 2
+2020-01-05 20:51:42: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 20:51:42: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 20:51:42: INFORM       Device          - GMH 3710
+2020-01-05 20:51:42: INFORM       Command         - 0: Messwert lesen
+2020-01-05 20:51:42: DEBUG2       SEND            - Address 1, Code 0, NoPriority, Byte3, FromMaster
+2020-01-05 20:51:42: DEBUG2       SEND            - 0xfe 0x00 0x3d
+2020-01-05 20:51:42: DEBUG1       SERIAL          - Header: 0xfe 0x0d 0x1e
+2020-01-05 20:51:42: DEBUG2       RECEIVE         - Address 1, Code 0, Priority, Byte9, FromSlave
+2020-01-05 20:51:42: DEBUG2       RECEIVE         - 0xfe 0x0d 0x1e
+2020-01-05 20:51:42: DEBUG1       SERIAL          - Byte9: 0x70 0xf6 0x91 0xdf 0xed 0x0b
+2020-01-05 20:51:42: WARN         GMH 3710        - Error: 
+2020-01-05 20:51:42: INFORM       GMH 3710        - 2020-01-05 20:51:42: 0.00
+2020-01-05 20:51:58: INFORM       easyb           - linux
+2020-01-05 20:51:58: INFORM       easyb           - python 3.6.9.final
+2020-01-05 20:51:58: DEBUG1       GMH 3710        - Port:          /dev/ttyUSB1
+2020-01-05 20:51:58: DEBUG1       GMH 3710        - Baudrate:      4800
+2020-01-05 20:51:58: DEBUG1       GMH 3710        - Address:       1
+2020-01-05 20:51:58: DEBUG1       GMH 3710        - Timeout:       2
+2020-01-05 20:51:58: DEBUG1       GMH 3710        - Write timeout: 2
+2020-01-05 20:51:58: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 20:51:58: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 20:51:58: INFORM       Device          - GMH 3710
+2020-01-05 20:51:58: INFORM       Command         - 0: Messwert lesen
+2020-01-05 20:51:58: DEBUG2       SEND            - Address 1, Code 0, NoPriority, Byte3, FromMaster
+2020-01-05 20:51:58: DEBUG2       SEND            - 0xfe 0x00 0x3d
+2020-01-05 20:51:58: DEBUG1       SERIAL          - Header: 0xfe 0x0d 0x1e
+2020-01-05 20:51:58: DEBUG2       RECEIVE         - Address 1, Code 0, Priority, Byte9, FromSlave
+2020-01-05 20:51:58: DEBUG2       RECEIVE         - 0xfe 0x0d 0x1e
+2020-01-05 20:51:58: DEBUG1       SERIAL          - Byte9: 0x70 0xf6 0x91 0xdf 0xed 0x0b
+2020-01-05 20:51:58: WARN         GMH 3710        - Error: 100000013
+2020-01-05 20:51:58: INFORM       GMH 3710        - 2020-01-05 20:51:58: 0.00
+2020-01-05 20:52:22: INFORM       easyb           - linux
+2020-01-05 20:52:22: INFORM       easyb           - python 3.6.9.final
+2020-01-05 20:52:22: DEBUG1       GMH 3710        - Port:          /dev/ttyUSB1
+2020-01-05 20:52:22: DEBUG1       GMH 3710        - Baudrate:      4800
+2020-01-05 20:52:22: DEBUG1       GMH 3710        - Address:       1
+2020-01-05 20:52:22: DEBUG1       GMH 3710        - Timeout:       2
+2020-01-05 20:52:22: DEBUG1       GMH 3710        - Write timeout: 2
+2020-01-05 20:52:22: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 20:52:22: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 20:52:22: INFORM       Device          - GMH 3710
+2020-01-05 20:52:22: INFORM       Command         - 1: Systemstatus lesen
+2020-01-05 20:52:22: DEBUG2       SEND            - Address 1, Code 3, NoPriority, Byte3, FromMaster
+2020-01-05 20:52:22: DEBUG2       SEND            - 0xfe 0x30 0xad
+2020-01-05 20:52:22: DEBUG1       SERIAL          - Header: 0xfe 0x3b 0x9c
+2020-01-05 20:52:22: DEBUG2       RECEIVE         - Address 1, Code 3, Priority, Byte6, FromSlave
+2020-01-05 20:52:22: DEBUG2       RECEIVE         - 0xfe 0x3b 0x9c
+2020-01-05 20:52:22: DEBUG1       SERIAL          - Byte6: 0xfb 0x00 0x7c
+2020-01-05 20:52:22: WARN         GMH 3710        - Sensor error
+2020-01-05 20:53:15: INFORM       easyb           - linux
+2020-01-05 20:53:15: INFORM       easyb           - python 3.6.9.final
+2020-01-05 20:53:15: DEBUG1       GMH 3710        - Port:          /dev/ttyUSB1
+2020-01-05 20:53:15: DEBUG1       GMH 3710        - Baudrate:      4800
+2020-01-05 20:53:15: DEBUG1       GMH 3710        - Address:       1
+2020-01-05 20:53:15: DEBUG1       GMH 3710        - Timeout:       2
+2020-01-05 20:53:15: DEBUG1       GMH 3710        - Write timeout: 2
+2020-01-05 20:53:15: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 20:53:15: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 20:53:15: INFORM       Device          - GMH 3710
+2020-01-05 20:53:15: INFORM       Command         - 0: Messwert lesen
+2020-01-05 20:53:15: DEBUG2       SEND            - Address 1, Code 0, NoPriority, Byte3, FromMaster
+2020-01-05 20:53:15: DEBUG2       SEND            - 0xfe 0x00 0x3d
+2020-01-05 20:53:15: DEBUG1       SERIAL          - Header: 0xfe 0x0d 0x1e
+2020-01-05 20:53:15: DEBUG2       RECEIVE         - Address 1, Code 0, Priority, Byte9, FromSlave
+2020-01-05 20:53:15: DEBUG2       RECEIVE         - 0xfe 0x0d 0x1e
+2020-01-05 20:53:15: DEBUG1       SERIAL          - Byte9: 0x70 0xf6 0x91 0xdf 0xed 0x0b
+2020-01-05 20:53:15: WARN         GMH 3710        - Error: 100000013
+2020-01-05 20:54:54: INFORM       easyb           - linux
+2020-01-05 20:54:54: INFORM       easyb           - python 3.6.9.final
+2020-01-05 20:54:54: DEBUG1       GMH 3710        - Port:          /dev/ttyUSB1
+2020-01-05 20:54:54: DEBUG1       GMH 3710        - Baudrate:      4800
+2020-01-05 20:54:54: DEBUG1       GMH 3710        - Address:       1
+2020-01-05 20:54:54: DEBUG1       GMH 3710        - Timeout:       2
+2020-01-05 20:54:54: DEBUG1       GMH 3710        - Write timeout: 2
+2020-01-05 20:54:54: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 20:54:54: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 20:54:54: INFORM       Device          - GMH 3710
+2020-01-05 20:54:54: INFORM       Command         - 0: Messwert lesen
+2020-01-05 20:54:54: DEBUG2       SEND            - Address 1, Code 0, NoPriority, Byte3, FromMaster
+2020-01-05 20:54:54: DEBUG2       SEND            - 0xfe 0x00 0x3d
+2020-01-05 20:54:54: DEBUG1       SERIAL          - Header: 0xfe 0x0d 0x1e
+2020-01-05 20:54:54: DEBUG2       RECEIVE         - Address 1, Code 0, Priority, Byte9, FromSlave
+2020-01-05 20:54:54: DEBUG2       RECEIVE         - 0xfe 0x0d 0x1e
+2020-01-05 20:54:54: DEBUG1       SERIAL          - Byte9: 0x70 0xf6 0x91 0xdf 0xed 0x0b
+2020-01-05 20:54:54: WARN         GMH 3710        - Error: 100000013
+2020-01-05 20:55:45: INFORM       easyb           - linux
+2020-01-05 20:55:45: INFORM       easyb           - python 3.6.9.final
+2020-01-05 20:55:45: DEBUG1       GMH 3710        - Port:          /dev/ttyUSB1
+2020-01-05 20:55:45: DEBUG1       GMH 3710        - Baudrate:      4800
+2020-01-05 20:55:45: DEBUG1       GMH 3710        - Address:       1
+2020-01-05 20:55:45: DEBUG1       GMH 3710        - Timeout:       2
+2020-01-05 20:55:45: DEBUG1       GMH 3710        - Write timeout: 2
+2020-01-05 20:55:45: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 20:55:45: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 20:55:45: INFORM       Device          - GMH 3710
+2020-01-05 20:55:45: INFORM       Command         - 0: Messwert lesen
+2020-01-05 20:55:45: DEBUG2       SEND            - Address 1, Code 0, NoPriority, Byte3, FromMaster
+2020-01-05 20:55:45: DEBUG2       SEND            - 0xfe 0x00 0x3d
+2020-01-05 20:55:46: DEBUG1       SERIAL          - Header: 0xfe 0x0d 0x1e
+2020-01-05 20:55:46: DEBUG2       RECEIVE         - Address 1, Code 0, Priority, Byte9, FromSlave
+2020-01-05 20:55:46: DEBUG2       RECEIVE         - 0xfe 0x0d 0x1e
+2020-01-05 20:55:46: DEBUG1       SERIAL          - Byte9: 0x70 0xf6 0x91 0xdf 0xed 0x0b
+2020-01-05 20:55:46: WARN         GMH 3710        - Error: 100000013
+2020-01-05 20:56:07: INFORM       easyb           - linux
+2020-01-05 20:56:07: INFORM       easyb           - python 3.6.9.final
+2020-01-05 20:56:07: DEBUG1       GMH 3710        - Port:          /dev/ttyUSB1
+2020-01-05 20:56:07: DEBUG1       GMH 3710        - Baudrate:      4800
+2020-01-05 20:56:07: DEBUG1       GMH 3710        - Address:       1
+2020-01-05 20:56:07: DEBUG1       GMH 3710        - Timeout:       2
+2020-01-05 20:56:07: DEBUG1       GMH 3710        - Write timeout: 2
+2020-01-05 20:56:07: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 20:56:07: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 20:56:07: INFORM       Device          - GMH 3710
+2020-01-05 20:56:07: INFORM       Command         - 0: Messwert lesen
+2020-01-05 20:56:07: DEBUG2       SEND            - Address 1, Code 0, NoPriority, Byte3, FromMaster
+2020-01-05 20:56:07: DEBUG2       SEND            - 0xfe 0x00 0x3d
+2020-01-05 20:56:07: DEBUG1       SERIAL          - Header: 0xfe 0x0d 0x1e
+2020-01-05 20:56:07: DEBUG2       RECEIVE         - Address 1, Code 0, Priority, Byte9, FromSlave
+2020-01-05 20:56:07: DEBUG2       RECEIVE         - 0xfe 0x0d 0x1e
+2020-01-05 20:56:07: DEBUG1       SERIAL          - Byte9: 0x70 0xf6 0x91 0xdf 0xed 0x0b
+2020-01-05 20:56:07: WARN         GMH 3710        - Error: 100000013
+2020-01-05 20:56:37: INFORM       easyb           - linux
+2020-01-05 20:56:37: INFORM       easyb           - python 3.6.9.final
+2020-01-05 20:56:37: DEBUG1       GMH 3710        - Port:          /dev/ttyUSB1
+2020-01-05 20:56:37: DEBUG1       GMH 3710        - Baudrate:      4800
+2020-01-05 20:56:37: DEBUG1       GMH 3710        - Address:       1
+2020-01-05 20:56:37: DEBUG1       GMH 3710        - Timeout:       2
+2020-01-05 20:56:37: DEBUG1       GMH 3710        - Write timeout: 2
+2020-01-05 20:56:37: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 20:56:37: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 20:56:37: INFORM       Device          - GMH 3710
+2020-01-05 20:56:37: INFORM       Command         - 0: Messwert lesen
+2020-01-05 20:56:37: DEBUG2       SEND            - Address 1, Code 0, NoPriority, Byte3, FromMaster
+2020-01-05 20:56:37: DEBUG2       SEND            - 0xfe 0x00 0x3d
+2020-01-05 20:56:37: DEBUG1       SERIAL          - Header: 0xfe 0x0d 0x1e
+2020-01-05 20:56:37: DEBUG2       RECEIVE         - Address 1, Code 0, Priority, Byte9, FromSlave
+2020-01-05 20:56:37: DEBUG2       RECEIVE         - 0xfe 0x0d 0x1e
+2020-01-05 20:56:37: DEBUG1       SERIAL          - Byte9: 0x70 0xf6 0x91 0xdf 0xed 0x0b
+2020-01-05 20:56:37: WARN         GMH 3710        - Error: 100000013
+2020-01-05 20:57:05: INFORM       easyb           - linux
+2020-01-05 20:57:05: INFORM       easyb           - python 3.6.9.final
+2020-01-05 20:57:05: DEBUG1       GMH 3710        - Port:          /dev/ttyUSB1
+2020-01-05 20:57:05: DEBUG1       GMH 3710        - Baudrate:      4800
+2020-01-05 20:57:05: DEBUG1       GMH 3710        - Address:       1
+2020-01-05 20:57:05: DEBUG1       GMH 3710        - Timeout:       2
+2020-01-05 20:57:05: DEBUG1       GMH 3710        - Write timeout: 2
+2020-01-05 20:57:05: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 20:57:05: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 20:57:05: INFORM       Device          - GMH 3710
+2020-01-05 20:57:05: INFORM       Command         - 0: Messwert lesen
+2020-01-05 20:57:05: DEBUG2       SEND            - Address 1, Code 0, NoPriority, Byte3, FromMaster
+2020-01-05 20:57:05: DEBUG2       SEND            - 0xfe 0x00 0x3d
+2020-01-05 20:57:05: DEBUG1       SERIAL          - Header: 0xfe 0x0d 0x1e
+2020-01-05 20:57:05: DEBUG2       RECEIVE         - Address 1, Code 0, Priority, Byte9, FromSlave
+2020-01-05 20:57:05: DEBUG2       RECEIVE         - 0xfe 0x0d 0x1e
+2020-01-05 20:57:05: DEBUG1       SERIAL          - Byte9: 0x70 0xf6 0x91 0xdf 0xed 0x0b
+2020-01-05 20:57:05: WARN         GMH 3710        - Error: 100000013
+2020-01-05 20:57:54: INFORM       easyb           - linux
+2020-01-05 20:57:54: INFORM       easyb           - python 3.6.9.final
+2020-01-05 20:57:54: DEBUG1       GMH 3710        - Port:          /dev/ttyUSB1
+2020-01-05 20:57:54: DEBUG1       GMH 3710        - Baudrate:      4800
+2020-01-05 20:57:54: DEBUG1       GMH 3710        - Address:       1
+2020-01-05 20:57:54: DEBUG1       GMH 3710        - Timeout:       2
+2020-01-05 20:57:54: DEBUG1       GMH 3710        - Write timeout: 2
+2020-01-05 20:57:54: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 20:57:54: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 20:57:54: INFORM       Device          - GMH 3710
+2020-01-05 20:57:54: INFORM       Command         - 0: Messwert lesen
+2020-01-05 20:57:54: DEBUG2       SEND            - Address 1, Code 0, NoPriority, Byte3, FromMaster
+2020-01-05 20:57:54: DEBUG2       SEND            - 0xfe 0x00 0x3d
+2020-01-05 20:57:54: DEBUG1       SERIAL          - Header: 0xfe 0x0d 0x1e
+2020-01-05 20:57:54: DEBUG2       RECEIVE         - Address 1, Code 0, Priority, Byte9, FromSlave
+2020-01-05 20:57:54: DEBUG2       RECEIVE         - 0xfe 0x0d 0x1e
+2020-01-05 20:57:54: DEBUG1       SERIAL          - Byte9: 0x70 0xf6 0x91 0xdf 0xed 0x0b
+2020-01-05 20:57:54: WARN         GMH 3710        - Error: 8429
+2020-01-05 20:58:41: INFORM       easyb           - linux
+2020-01-05 20:58:41: INFORM       easyb           - python 3.6.9.final
+2020-01-05 20:58:41: DEBUG1       GMH 3710        - Port:          /dev/ttyUSB1
+2020-01-05 20:58:41: DEBUG1       GMH 3710        - Baudrate:      4800
+2020-01-05 20:58:41: DEBUG1       GMH 3710        - Address:       1
+2020-01-05 20:58:41: DEBUG1       GMH 3710        - Timeout:       2
+2020-01-05 20:58:41: DEBUG1       GMH 3710        - Write timeout: 2
+2020-01-05 20:58:41: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 20:58:41: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 20:58:41: INFORM       Device          - GMH 3710
+2020-01-05 20:58:41: INFORM       Command         - 0: Messwert lesen
+2020-01-05 20:58:41: DEBUG2       SEND            - Address 1, Code 0, NoPriority, Byte3, FromMaster
+2020-01-05 20:58:41: DEBUG2       SEND            - 0xfe 0x00 0x3d
+2020-01-05 20:58:41: DEBUG1       SERIAL          - Header: 0xfe 0x0d 0x1e
+2020-01-05 20:58:41: DEBUG2       RECEIVE         - Address 1, Code 0, Priority, Byte9, FromSlave
+2020-01-05 20:58:41: DEBUG2       RECEIVE         - 0xfe 0x0d 0x1e
+2020-01-05 20:58:41: DEBUG1       SERIAL          - Byte9: 0x70 0xf6 0x91 0xdf 0xed 0x0b
+2020-01-05 20:58:41: WARN         GMH 3710        - Error: 8429
+2020-01-05 20:58:59: INFORM       easyb           - linux
+2020-01-05 20:58:59: INFORM       easyb           - python 3.6.9.final
+2020-01-05 20:58:59: DEBUG1       GMH 3710        - Port:          /dev/ttyUSB1
+2020-01-05 20:58:59: DEBUG1       GMH 3710        - Baudrate:      4800
+2020-01-05 20:58:59: DEBUG1       GMH 3710        - Address:       1
+2020-01-05 20:58:59: DEBUG1       GMH 3710        - Timeout:       2
+2020-01-05 20:58:59: DEBUG1       GMH 3710        - Write timeout: 2
+2020-01-05 20:58:59: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 20:58:59: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 20:58:59: INFORM       Device          - GMH 3710
+2020-01-05 20:58:59: INFORM       Command         - 0: Messwert lesen
+2020-01-05 20:58:59: DEBUG2       SEND            - Address 1, Code 0, NoPriority, Byte3, FromMaster
+2020-01-05 20:58:59: DEBUG2       SEND            - 0xfe 0x00 0x3d
+2020-01-05 20:59:00: DEBUG1       SERIAL          - Header: 0xfe 0x0d 0x1e
+2020-01-05 20:59:00: DEBUG2       RECEIVE         - Address 1, Code 0, Priority, Byte9, FromSlave
+2020-01-05 20:59:00: DEBUG2       RECEIVE         - 0xfe 0x0d 0x1e
+2020-01-05 20:59:00: DEBUG1       SERIAL          - Byte9: 0x70 0xf6 0x91 0xdf 0xed 0x0b
+2020-01-05 20:59:00: WARN         GMH 3710        - Error: 8429
+2020-01-05 20:59:52: INFORM       easyb           - linux
+2020-01-05 20:59:52: INFORM       easyb           - python 3.6.9.final
+2020-01-05 20:59:52: DEBUG1       GMH 3710        - Port:          /dev/ttyUSB1
+2020-01-05 20:59:52: DEBUG1       GMH 3710        - Baudrate:      4800
+2020-01-05 20:59:52: DEBUG1       GMH 3710        - Address:       1
+2020-01-05 20:59:52: DEBUG1       GMH 3710        - Timeout:       2
+2020-01-05 20:59:52: DEBUG1       GMH 3710        - Write timeout: 2
+2020-01-05 20:59:52: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 20:59:52: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 20:59:52: INFORM       Device          - GMH 3710
+2020-01-05 20:59:52: INFORM       Command         - 0: Messwert lesen
+2020-01-05 20:59:52: DEBUG2       SEND            - Address 1, Code 0, NoPriority, Byte3, FromMaster
+2020-01-05 20:59:52: DEBUG2       SEND            - 0xfe 0x00 0x3d
+2020-01-05 20:59:52: DEBUG1       SERIAL          - Header: 0xfe 0x0d 0x1e
+2020-01-05 20:59:52: DEBUG2       RECEIVE         - Address 1, Code 0, Priority, Byte9, FromSlave
+2020-01-05 20:59:52: DEBUG2       RECEIVE         - 0xfe 0x0d 0x1e
+2020-01-05 20:59:52: DEBUG1       SERIAL          - Byte9: 0x70 0xf6 0x91 0xdf 0xed 0x0b
+2020-01-05 20:59:52: WARN         GMH 3710        - Error: 8429
+2020-01-05 21:00:22: INFORM       easyb           - linux
+2020-01-05 21:00:22: INFORM       easyb           - python 3.6.9.final
+2020-01-05 21:00:22: DEBUG1       GMH 3710        - Port:          /dev/ttyUSB1
+2020-01-05 21:00:22: DEBUG1       GMH 3710        - Baudrate:      4800
+2020-01-05 21:00:22: DEBUG1       GMH 3710        - Address:       1
+2020-01-05 21:00:22: DEBUG1       GMH 3710        - Timeout:       2
+2020-01-05 21:00:22: DEBUG1       GMH 3710        - Write timeout: 2
+2020-01-05 21:00:22: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 21:00:22: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 21:00:22: INFORM       Device          - GMH 3710
+2020-01-05 21:00:22: INFORM       Command         - 0: Messwert lesen
+2020-01-05 21:00:22: DEBUG2       SEND            - Address 1, Code 0, NoPriority, Byte3, FromMaster
+2020-01-05 21:00:22: DEBUG2       SEND            - 0xfe 0x00 0x3d
+2020-01-05 21:00:22: DEBUG1       SERIAL          - Header: 0xfe 0x0d 0x1e
+2020-01-05 21:00:22: DEBUG2       RECEIVE         - Address 1, Code 0, Priority, Byte9, FromSlave
+2020-01-05 21:00:22: DEBUG2       RECEIVE         - 0xfe 0x0d 0x1e
+2020-01-05 21:00:22: DEBUG1       SERIAL          - Byte9: 0x70 0xf6 0x91 0xdf 0xed 0x0b
+2020-01-05 21:00:22: WARN         GMH 3710        - Error: 16365
+2020-01-05 21:02:26: INFORM       easyb           - linux
+2020-01-05 21:02:26: INFORM       easyb           - python 3.6.9.final
+2020-01-05 21:02:26: DEBUG1       GMH 3710        - Port:          /dev/ttyUSB1
+2020-01-05 21:02:26: DEBUG1       GMH 3710        - Baudrate:      4800
+2020-01-05 21:02:26: DEBUG1       GMH 3710        - Address:       1
+2020-01-05 21:02:26: DEBUG1       GMH 3710        - Timeout:       2
+2020-01-05 21:02:26: DEBUG1       GMH 3710        - Write timeout: 2
+2020-01-05 21:02:26: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 21:02:26: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 21:02:26: INFORM       Device          - GMH 3710
+2020-01-05 21:02:26: INFORM       Command         - 0: Messwert lesen
+2020-01-05 21:02:26: DEBUG2       SEND            - Address 1, Code 0, NoPriority, Byte3, FromMaster
+2020-01-05 21:02:26: DEBUG2       SEND            - 0xfe 0x00 0x3d
+2020-01-05 21:02:26: DEBUG1       SERIAL          - Header: 0xfe 0x0d 0x1e
+2020-01-05 21:02:26: DEBUG2       RECEIVE         - Address 1, Code 0, Priority, Byte9, FromSlave
+2020-01-05 21:02:26: DEBUG2       RECEIVE         - 0xfe 0x0d 0x1e
+2020-01-05 21:02:26: DEBUG1       SERIAL          - Byte9: 0x70 0xf6 0x91 0xdf 0xed 0x0b
+2020-01-05 21:02:26: WARN         GMH 3710        - Error: No sensor
+2020-01-05 21:03:34: INFORM       easyb           - linux
+2020-01-05 21:03:34: INFORM       easyb           - python 3.6.9.final
+2020-01-05 21:03:34: DEBUG1       GMH 3710        - Port:          /dev/ttyUSB1
+2020-01-05 21:03:34: DEBUG1       GMH 3710        - Baudrate:      4800
+2020-01-05 21:03:34: DEBUG1       GMH 3710        - Address:       1
+2020-01-05 21:03:34: DEBUG1       GMH 3710        - Timeout:       2
+2020-01-05 21:03:34: DEBUG1       GMH 3710        - Write timeout: 2
+2020-01-05 21:03:34: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 21:03:34: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 21:03:34: INFORM       Device          - GMH 3710
+2020-01-05 21:03:34: INFORM       Command         - 0: Messwert lesen
+2020-01-05 21:03:34: DEBUG2       SEND            - Address 1, Code 0, NoPriority, Byte3, FromMaster
+2020-01-05 21:03:34: DEBUG2       SEND            - 0xfe 0x00 0x3d
+2020-01-05 21:03:34: DEBUG1       SERIAL          - Header: 0xfe 0x0d 0x1e
+2020-01-05 21:03:34: DEBUG2       RECEIVE         - Address 1, Code 0, Priority, Byte9, FromSlave
+2020-01-05 21:03:34: DEBUG2       RECEIVE         - 0xfe 0x0d 0x1e
+2020-01-05 21:03:34: DEBUG1       SERIAL          - Byte9: 0x70 0xf6 0x91 0xdf 0xed 0x0b
+2020-01-05 21:03:34: WARN         GMH 3710        - Error: No sensor
+2020-01-05 21:03:46: INFORM       easyb           - linux
+2020-01-05 21:03:46: INFORM       easyb           - python 3.6.9.final
+2020-01-05 21:03:46: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 21:03:46: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 21:03:46: INFORM       ID              - ID: 32407008
+2020-01-05 21:03:46: INFORM       Unit            - 1: °C
+2020-01-05 21:03:46: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 21:03:46: INFORM       Device          - GMH 3710
+2020-01-05 21:03:46: INFORM       GMH 3710        - Start measurements
+2020-01-05 21:03:46: INFORM       GMH 3710        - 000000 21:03:46: 17.33
+2020-01-05 21:03:48: INFORM       GMH 3710        - 000001 21:03:48: 17.33
+2020-01-05 21:03:50: INFORM       GMH 3710        - 000002 21:03:50: 17.33
+2020-01-05 21:03:52: INFORM       GMH 3710        - 000003 21:03:52: 17.33
+2020-01-05 21:03:54: INFORM       GMH 3710        - 000004 21:03:54: 17.33
+2020-01-05 21:03:56: INFORM       GMH 3710        - 000005 21:03:56: 17.33
+2020-01-05 21:03:59: INFORM       GMH 3710        - 000006 21:03:59: 17.34
+2020-01-05 21:04:01: INFORM       GMH 3710        - 000007 21:04:01: 17.34
+2020-01-05 21:04:03: INFORM       GMH 3710        - 000008 21:04:03: 17.34
+2020-01-05 21:04:05: INFORM       GMH 3710        - 000009 21:04:05: 17.34
+2020-01-05 21:04:07: INFORM       GMH 3710        - 000010 21:04:07: 17.34
+2020-01-05 21:04:09: INFORM       GMH 3710        - 000011 21:04:09: 17.34
+2020-01-05 21:04:11: INFORM       GMH 3710        - 000012 21:04:11: 17.34
+2020-01-05 21:04:13: INFORM       GMH 3710        - 000013 21:04:13: 17.35
+2020-01-05 21:04:15: INFORM       GMH 3710        - 000014 21:04:15: 17.35
+2020-01-05 21:04:18: INFORM       GMH 3710        - 000015 21:04:18: 17.35
+2020-01-05 21:04:20: INFORM       GMH 3710        - 000016 21:04:20: 17.35
+2020-01-05 21:04:22: INFORM       GMH 3710        - 000017 21:04:22: 17.75
+2020-01-05 21:04:24: WARN         GMH 3710        - Error: No sensor
+2020-01-05 21:04:26: WARN         GMH 3710        - Error: No sensor
+2020-01-05 21:04:28: INFORM       GMH 3710        - Stop measurements
+2020-01-05 21:04:28: WARN         GMH 3710        - Sensor error
+2020-01-05 21:04:28: INFORM       Min. value      - 0.0
+2020-01-05 21:04:28: INFORM       Max. value      - 0.0
+2020-01-05 21:04:28: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB1
+2020-01-05 21:04:28: INFORM       GMH 3710        - Number of data points: 18
+2020-01-05 21:04:28: INFORM       EXCEL           - Open /home/kai/projekte/pyeasyb/test.xlsx
+2020-01-05 21:04:28: INFORM       EXCEL           - Write number of rows 19
+2020-01-05 21:14:04: INFORM       easyb           - linux
+2020-01-05 21:14:04: INFORM       easyb           - python 3.6.9.final
+2020-01-05 21:14:04: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 21:14:05: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 21:14:05: INFORM       ID              - ID: 32407008
+2020-01-05 21:14:05: INFORM       Unit            - 1: °C
+2020-01-05 21:14:05: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 21:14:05: INFORM       Device          - GMH 3710
+2020-01-05 21:14:05: INFORM       GMH 3710        - Start measurements
+2020-01-05 21:14:05: INFORM       GMH 3710        - 000000 21:14:05: 17.65
+2020-01-05 21:14:07: INFORM       GMH 3710        - 000001 21:14:07: 17.65
+2020-01-05 21:14:09: INFORM       GMH 3710        - 000002 21:14:09: 17.65
+2020-01-05 21:14:11: INFORM       GMH 3710        - 000003 21:14:11: 17.65
+2020-01-05 21:14:13: INFORM       GMH 3710        - 000004 21:14:13: 17.65
+2020-01-05 21:14:15: INFORM       GMH 3710        - 000005 21:14:15: 17.65
+2020-01-05 21:14:17: INFORM       GMH 3710        - 000006 21:14:17: 17.66
+2020-01-05 21:14:20: INFORM       GMH 3710        - 000007 21:14:20: 17.66
+2020-01-05 21:14:22: INFORM       GMH 3710        - 000008 21:14:22: 17.65
+2020-01-05 21:14:24: INFORM       GMH 3710        - 000009 21:14:24: 17.65
+2020-01-05 21:14:26: INFORM       GMH 3710        - Stop measurements
+2020-01-05 21:14:26: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 21:14:26: WARN         GMH 3710        - Error: No sensor
+2020-01-05 21:14:26: WARN         GMH 3710        - Error: No sensor
+2020-01-05 21:14:26: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB1
+2020-01-05 21:14:26: INFORM       GMH 3710        - Number of data points: 10
+2020-01-05 21:14:26: INFORM       EXCEL           - Open /home/kai/projekte/pyeasyb/test.xlsx
+2020-01-05 21:14:26: INFORM       EXCEL           - Write number of rows 11
+2020-01-05 21:14:41: INFORM       easyb           - linux
+2020-01-05 21:14:41: INFORM       easyb           - python 3.6.9.final
+2020-01-05 21:14:41: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 21:14:42: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 21:14:42: INFORM       ID              - ID: 32407008
+2020-01-05 21:14:42: INFORM       Unit            - 1: °C
+2020-01-05 21:14:42: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 21:14:42: INFORM       Device          - GMH 3710
+2020-01-05 21:14:42: INFORM       GMH 3710        - Start measurements
+2020-01-05 21:14:42: INFORM       GMH 3710        - 000000 21:14:42: 17.66
+2020-01-05 21:14:44: INFORM       GMH 3710        - 000001 21:14:44: 17.66
+2020-01-05 21:14:46: INFORM       GMH 3710        - 000002 21:14:46: 17.66
+2020-01-05 21:14:48: INFORM       GMH 3710        - 000003 21:14:48: 17.66
+2020-01-05 21:14:50: INFORM       GMH 3710        - 000004 21:14:50: 17.67
+2020-01-05 21:14:52: INFORM       GMH 3710        - 000005 21:14:52: 17.68
+2020-01-05 21:14:54: INFORM       GMH 3710        - 000006 21:14:54: 17.68
+2020-01-05 21:14:57: INFORM       GMH 3710        - 000007 21:14:57: 17.68
+2020-01-05 21:14:59: INFORM       GMH 3710        - 000008 21:14:59: 17.67
+2020-01-05 21:15:01: INFORM       GMH 3710        - 000009 21:15:01: 17.67
+2020-01-05 21:15:03: INFORM       GMH 3710        - 000010 21:15:03: 17.67
+2020-01-05 21:15:05: INFORM       GMH 3710        - 000011 21:15:05: 17.67
+2020-01-05 21:15:07: INFORM       GMH 3710        - Stop measurements
+2020-01-05 21:15:07: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 21:15:07: WARN         GMH 3710        - Error: No sensor
+2020-01-05 21:15:07: WARN         GMH 3710        - Error: No sensor
+2020-01-05 21:15:07: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB1
+2020-01-05 21:15:07: INFORM       GMH 3710        - Number of data points: 12
+2020-01-05 21:15:07: INFORM       EXCEL           - Open /home/kai/projekte/pyeasyb/test.xlsx
+2020-01-05 21:15:07: INFORM       EXCEL           - Write number of rows 13
+2020-01-05 21:16:25: INFORM       easyb           - linux
+2020-01-05 21:16:25: INFORM       easyb           - python 3.6.9.final
+2020-01-05 21:16:25: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 21:16:26: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 21:16:26: INFORM       ID              - ID: 32407008
+2020-01-05 21:16:26: INFORM       Unit            - 1: °C
+2020-01-05 21:16:26: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 21:16:26: INFORM       Device          - GMH 3710
+2020-01-05 21:16:26: INFORM       GMH 3710        - Start measurements
+2020-01-05 21:16:26: INFORM       GMH 3710        - 000000 21:16:26: 17.71
+2020-01-05 21:16:28: INFORM       GMH 3710        - 000001 21:16:28: 17.71
+2020-01-05 21:16:30: INFORM       GMH 3710        - 000002 21:16:30: 17.71
+2020-01-05 21:16:32: INFORM       GMH 3710        - 000003 21:16:32: 17.71
+2020-01-05 21:16:34: INFORM       GMH 3710        - Stop measurements
+2020-01-05 21:16:34: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 21:16:34: WARN         GMH 3710        - Error: No sensor
+2020-01-05 21:16:35: WARN         GMH 3710        - Error: No sensor
+2020-01-05 21:16:35: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB1
+2020-01-05 21:16:35: INFORM       GMH 3710        - Number of data points: 4
+2020-01-05 21:16:35: INFORM       EXCEL           - Open /home/kai/projekte/pyeasyb/test.xlsx
+2020-01-05 21:16:35: INFORM       EXCEL           - Write number of rows 5
+2020-01-05 21:18:12: INFORM       easyb           - linux
+2020-01-05 21:18:12: INFORM       easyb           - python 3.6.9.final
+2020-01-05 21:18:12: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 21:18:12: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 21:18:12: INFORM       Device          - GMH 3710
+2020-01-05 21:18:12: INFORM       Command         - 0: Messwert lesen
+2020-01-05 21:18:12: INFORM       GMH 3710        - 2020-01-05 21:18:12: 17.72
+2020-01-05 21:18:13: INFORM       easyb           - linux
+2020-01-05 21:18:13: INFORM       easyb           - python 3.6.9.final
+2020-01-05 21:18:13: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 21:18:13: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 21:18:13: INFORM       Device          - GMH 3710
+2020-01-05 21:18:13: INFORM       Command         - 1: Systemstatus lesen
+2020-01-05 21:18:14: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 21:18:16: INFORM       easyb           - linux
+2020-01-05 21:18:16: INFORM       easyb           - python 3.6.9.final
+2020-01-05 21:18:16: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 21:18:16: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 21:18:16: INFORM       Device          - GMH 3710
+2020-01-05 21:18:16: INFORM       Command         - 2: Minwert lesen
+2020-01-05 21:18:16: WARN         GMH 3710        - Error: No sensor
+2020-01-05 21:18:29: INFORM       easyb           - linux
+2020-01-05 21:18:29: INFORM       easyb           - python 3.6.9.final
+2020-01-05 21:18:29: DEBUG1       GMH 3710        - Port:          /dev/ttyUSB1
+2020-01-05 21:18:29: DEBUG1       GMH 3710        - Baudrate:      4800
+2020-01-05 21:18:29: DEBUG1       GMH 3710        - Address:       1
+2020-01-05 21:18:29: DEBUG1       GMH 3710        - Timeout:       2
+2020-01-05 21:18:29: DEBUG1       GMH 3710        - Write timeout: 2
+2020-01-05 21:18:29: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 21:18:29: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 21:18:29: INFORM       Device          - GMH 3710
+2020-01-05 21:18:29: INFORM       Command         - 2: Minwert lesen
+2020-01-05 21:18:29: DEBUG2       SEND            - Address 1, Code 6, NoPriority, Byte3, FromMaster
+2020-01-05 21:18:29: DEBUG2       SEND            - 0xfe 0x60 0x1a
+2020-01-05 21:18:29: DEBUG1       SERIAL          - Header: 0xfe 0x65 0x01
+2020-01-05 21:18:29: DEBUG2       RECEIVE         - Address 1, Code 6, NoPriority, Byte9, FromSlave
+2020-01-05 21:18:29: DEBUG2       RECEIVE         - 0xfe 0x65 0x01
+2020-01-05 21:18:29: DEBUG1       SERIAL          - Byte9: 0x70 0xf6 0x91 0xdf 0xed 0x0b
+2020-01-05 21:18:29: WARN         GMH 3710        - Error: No sensor
+2020-01-05 21:18:55: INFORM       easyb           - linux
+2020-01-05 21:18:55: INFORM       easyb           - python 3.6.9.final
+2020-01-05 21:18:55: DEBUG1       GMH 3710        - Port:          /dev/ttyUSB1
+2020-01-05 21:18:55: DEBUG1       GMH 3710        - Baudrate:      4800
+2020-01-05 21:18:55: DEBUG1       GMH 3710        - Address:       1
+2020-01-05 21:18:55: DEBUG1       GMH 3710        - Timeout:       2
+2020-01-05 21:18:55: DEBUG1       GMH 3710        - Write timeout: 2
+2020-01-05 21:18:55: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 21:18:55: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 21:18:55: INFORM       Device          - GMH 3710
+2020-01-05 21:18:55: INFORM       Command         - 2: Minwert lesen
+2020-01-05 21:18:55: DEBUG2       SEND            - Address 1, Code 6, NoPriority, Byte3, FromMaster
+2020-01-05 21:18:55: DEBUG2       SEND            - 0xfe 0x60 0x1a
+2020-01-05 21:18:55: DEBUG1       SERIAL          - Header: 0xfe 0x65 0x01
+2020-01-05 21:18:55: DEBUG2       RECEIVE         - Address 1, Code 6, NoPriority, Byte9, FromSlave
+2020-01-05 21:18:55: DEBUG2       RECEIVE         - 0xfe 0x65 0x01
+2020-01-05 21:18:55: DEBUG1       SERIAL          - Byte9: 0x71 0x00 0x48 0xf9 0xed 0xdb
+2020-01-05 21:18:55: INFORM       Min. value      - 17.73
+2020-01-05 21:20:06: INFORM       easyb           - linux
+2020-01-05 21:20:06: INFORM       easyb           - python 3.6.9.final
+2020-01-05 21:20:06: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 21:20:06: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 21:20:06: INFORM       ID              - ID: 32407008
+2020-01-05 21:20:06: INFORM       Unit            - 1: °C
+2020-01-05 21:20:06: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 21:20:06: INFORM       Device          - GMH 3710
+2020-01-05 21:20:06: INFORM       GMH 3710        - Start measurements
+2020-01-05 21:20:07: INFORM       GMH 3710        - 000000 21:20:07: 17.75
+2020-01-05 21:20:09: INFORM       GMH 3710        - 000001 21:20:09: 17.75
+2020-01-05 21:20:11: INFORM       GMH 3710        - 000002 21:20:11: 17.75
+2020-01-05 21:20:13: INFORM       GMH 3710        - 000003 21:20:13: 17.75
+2020-01-05 21:20:15: INFORM       GMH 3710        - 000004 21:20:15: 17.75
+2020-01-05 21:20:17: INFORM       GMH 3710        - 000005 21:20:17: 17.75
+2020-01-05 21:20:19: INFORM       GMH 3710        - 000006 21:20:19: 17.75
+2020-01-05 21:20:21: INFORM       GMH 3710        - Stop measurements
+2020-01-05 21:20:21: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 21:20:22: INFORM       Min. value      - 17.73
+2020-01-05 21:20:22: INFORM       Max. value      - 17.75
+2020-01-05 21:20:22: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB1
+2020-01-05 21:20:22: INFORM       GMH 3710        - Number of data points: 7
+2020-01-05 21:20:22: INFORM       EXCEL           - Open /home/kai/projekte/pyeasyb/test.xlsx
+2020-01-05 21:20:22: INFORM       EXCEL           - Write number of rows 8
+2020-01-05 21:21:42: INFORM       easyb           - linux
+2020-01-05 21:21:42: INFORM       easyb           - python 3.6.9.final
+2020-01-05 21:21:42: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 21:21:42: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 21:21:42: INFORM       ID              - ID: 32407008
+2020-01-05 21:21:42: INFORM       Unit            - 1: °C
+2020-01-05 21:21:42: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 21:21:42: INFORM       Device          - GMH 3710
+2020-01-05 21:21:42: INFORM       GMH 3710        - Start measurements
+2020-01-05 21:21:42: INFORM       GMH 3710        - 000000 21:21:42: 17.77
+2020-01-05 21:21:45: INFORM       GMH 3710        - 000001 21:21:45: 17.77
+2020-01-05 21:21:47: INFORM       GMH 3710        - 000002 21:21:47: 17.77
+2020-01-05 21:21:49: INFORM       GMH 3710        - Stop measurements
+2020-01-05 21:21:49: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 21:21:49: INFORM       Min. value      - 17.73
+2020-01-05 21:21:49: INFORM       Max. value      - 17.77
+2020-01-05 21:21:49: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB1
+2020-01-05 21:21:49: INFORM       GMH 3710        - Number of data points: 3
+2020-01-05 21:21:49: INFORM       EXCEL           - Open /home/kai/projekte/pyeasyb/test.xlsx
+2020-01-05 21:21:49: INFORM       EXCEL           - Write number of rows 4
+2020-01-05 21:23:28: INFORM       easyb           - linux
+2020-01-05 21:23:28: INFORM       easyb           - python 3.6.9.final
+2020-01-05 21:23:28: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 21:23:28: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 21:23:28: INFORM       ID              - ID: 32407008
+2020-01-05 21:23:28: INFORM       Unit            - 1: °C
+2020-01-05 21:23:28: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 21:23:28: INFORM       Device          - GMH 3710
+2020-01-05 21:23:28: INFORM       GMH 3710        - Start measurements
+2020-01-05 21:23:28: INFORM       GMH 3710        - 000000 21:23:28: 17.80
+2020-01-05 21:23:30: INFORM       GMH 3710        - 000001 21:23:30: 17.80
+2020-01-05 21:23:32: INFORM       GMH 3710        - 000002 21:23:32: 17.80
+2020-01-05 21:23:34: INFORM       GMH 3710        - 000003 21:23:34: 17.81
+2020-01-05 21:23:36: INFORM       GMH 3710        - 000004 21:23:36: 17.81
+2020-01-05 21:23:38: INFORM       GMH 3710        - 000005 21:23:38: 17.81
+2020-01-05 21:23:41: INFORM       GMH 3710        - 000006 21:23:41: 17.81
+2020-01-05 21:23:43: INFORM       GMH 3710        - 000007 21:23:43: 17.82
+2020-01-05 21:23:45: INFORM       GMH 3710        - 000008 21:23:45: 17.82
+2020-01-05 21:23:47: INFORM       GMH 3710        - 000009 21:23:47: 17.82
+2020-01-05 21:23:49: INFORM       GMH 3710        - 000010 21:23:49: 17.82
+2020-01-05 21:23:51: INFORM       GMH 3710        - Stop measurements
+2020-01-05 21:23:51: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 21:23:51: INFORM       Min. value      - 17.73
+2020-01-05 21:23:51: INFORM       Max. value      - 17.82
+2020-01-05 21:23:51: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB1
+2020-01-05 21:23:51: INFORM       GMH 3710        - Number of data points: 11
+2020-01-05 21:23:51: INFORM       EXCEL           - Open /home/kai/projekte/pyeasyb/test.xlsx
+2020-01-05 21:23:51: INFORM       EXCEL           - Write number of rows 12
+2020-01-05 21:26:28: INFORM       easyb           - linux
+2020-01-05 21:26:28: INFORM       easyb           - python 3.6.9.final
+2020-01-05 21:26:28: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 21:26:28: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 21:26:28: INFORM       ID              - ID: 32407008
+2020-01-05 21:26:28: INFORM       Unit            - 1: °C
+2020-01-05 21:26:28: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 21:26:28: INFORM       Device          - GMH 3710
+2020-01-05 21:26:28: INFORM       GMH 3710        - Start measurements
+2020-01-05 21:26:29: INFORM       GMH 3710        - 000000 21:26:29: 17.91
+2020-01-05 21:26:31: INFORM       GMH 3710        - 000001 21:26:31: 17.91
+2020-01-05 21:26:33: INFORM       GMH 3710        - 000002 21:26:33: 17.91
+2020-01-05 21:26:35: INFORM       GMH 3710        - 000003 21:26:35: 17.91
+2020-01-05 21:26:37: INFORM       GMH 3710        - 000004 21:26:37: 17.91
+2020-01-05 21:26:39: INFORM       GMH 3710        - 000005 21:26:39: 17.92
+2020-01-05 21:26:41: INFORM       GMH 3710        - 000006 21:26:41: 17.92
+2020-01-05 21:26:43: INFORM       GMH 3710        - 000007 21:26:43: 17.92
+2020-01-05 21:26:45: WARN         GMH 3710        - Error: No sensor
+2020-01-05 21:26:47: WARN         GMH 3710        - Error: No sensor
+2020-01-05 21:26:50: WARN         GMH 3710        - Error: No sensor
+2020-01-05 21:26:52: INFORM       GMH 3710        - Stop measurements
+2020-01-05 21:26:52: WARN         GMH 3710        - Sensor error
+2020-01-05 21:26:52: WARN         GMH 3710        - Error: No sensor
+2020-01-05 21:26:52: WARN         GMH 3710        - Error: No sensor
+2020-01-05 21:26:52: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB1
+2020-01-05 21:26:52: INFORM       GMH 3710        - Number of data points: 11
+2020-01-05 21:26:52: INFORM       EXCEL           - Open /home/kai/projekte/pyeasyb/test.xlsx
+2020-01-05 21:26:52: INFORM       EXCEL           - Write number of rows 12
+2020-01-05 21:31:07: INFORM       easyb           - linux
+2020-01-05 21:31:07: INFORM       easyb           - python 3.6.9.final
+2020-01-05 21:31:07: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 21:31:07: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 21:31:07: INFORM       ID              - ID: 32407008
+2020-01-05 21:31:07: INFORM       Unit            - 1: °C
+2020-01-05 21:31:07: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 21:31:07: INFORM       Device          - GMH 3710
+2020-01-05 21:31:07: INFORM       GMH 3710        - Start measurements
+2020-01-05 21:31:08: INFORM       GMH 3710        - 000000 21:31:08: 18.02
+2020-01-05 21:31:10: INFORM       GMH 3710        - 000001 21:31:10: 18.02
+2020-01-05 21:31:12: INFORM       GMH 3710        - 000002 21:31:12: 18.02
+2020-01-05 21:31:14: INFORM       GMH 3710        - 000003 21:31:14: 18.02
+2020-01-05 21:31:16: INFORM       GMH 3710        - 000004 21:31:16: 18.02
+2020-01-05 21:31:18: INFORM       GMH 3710        - Stop measurements
+2020-01-05 21:31:18: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 21:31:18: INFORM       Min. value      - 17.93
+2020-01-05 21:31:18: INFORM       Max. value      - 18.03
+2020-01-05 21:31:18: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB1
+2020-01-05 21:31:18: INFORM       GMH 3710        - Number of data points: 5
+2020-01-05 21:31:18: INFORM       EXCEL           - Open /home/kai/projekte/pyeasyb/test.xlsx
+2020-01-05 21:31:18: INFORM       EXCEL           - Write number of rows 6
+2020-01-05 21:31:56: INFORM       easyb           - linux
+2020-01-05 21:31:56: INFORM       easyb           - python 3.6.9.final
+2020-01-05 21:31:56: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 21:31:56: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 21:31:56: INFORM       ID              - ID: 32407008
+2020-01-05 21:31:56: INFORM       Unit            - 1: °C
+2020-01-05 21:31:56: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 21:31:56: INFORM       Device          - GMH 3710
+2020-01-05 21:31:56: INFORM       GMH 3710        - Start measurements
+2020-01-05 21:31:56: INFORM       GMH 3710        - 000000 21:31:56: 18.02
+2020-01-05 21:31:58: INFORM       GMH 3710        - 000001 21:31:58: 18.02
+2020-01-05 21:32:01: INFORM       GMH 3710        - 000002 21:32:01: 18.02
+2020-01-05 21:32:03: INFORM       GMH 3710        - 000003 21:32:03: 18.02
+2020-01-05 21:32:05: INFORM       GMH 3710        - 000004 21:32:05: 18.02
+2020-01-05 21:32:07: INFORM       GMH 3710        - 000005 21:32:07: 18.02
+2020-01-05 21:32:09: INFORM       GMH 3710        - 000006 21:32:09: 18.02
+2020-01-05 21:32:11: INFORM       GMH 3710        - Stop measurements
+2020-01-05 21:32:11: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 21:32:11: INFORM       Min. value      - 17.93
+2020-01-05 21:32:11: INFORM       Max. value      - 18.03
+2020-01-05 21:34:28: INFORM       easyb           - linux
+2020-01-05 21:34:28: INFORM       easyb           - python 3.6.9.final
+2020-01-05 21:34:28: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB1
+2020-01-05 21:34:28: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 21:34:28: INFORM       ID              - ID: 32407008
+2020-01-05 21:34:28: INFORM       Unit            - 1: °C
+2020-01-05 21:34:28: INFORM       Port            - /dev/ttyUSB1
+2020-01-05 21:34:28: INFORM       Device          - GMH 3710
+2020-01-05 21:34:28: INFORM       GMH 3710        - Start measurements
+2020-01-05 21:34:29: INFORM       GMH 3710        - 000000 21:34:29: 18.02
+2020-01-05 21:34:31: INFORM       GMH 3710        - 000001 21:34:31: 18.02
+2020-01-05 21:34:33: INFORM       GMH 3710        - 000002 21:34:33: 18.02
+2020-01-05 21:34:35: INFORM       GMH 3710        - 000003 21:34:35: 18.02
+2020-01-05 21:34:37: INFORM       GMH 3710        - 000004 21:34:37: 18.03
+2020-01-05 21:34:39: INFORM       GMH 3710        - 000005 21:34:39: 18.03
+2020-01-05 21:34:41: INFORM       GMH 3710        - Stop measurements
+2020-01-05 21:34:41: INFORM       Systemstatus    - Nothing to report!
+2020-01-05 21:34:41: INFORM       Min. value      - 17.93
+2020-01-05 21:34:41: INFORM       Max. value      - 18.03
+2020-01-05 21:34:41: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB1
+2020-01-05 21:34:41: INFORM       GMH 3710        - Number of data points: 6
+2020-01-05 21:34:41: INFORM       EXCEL           - Open /home/kai/projekte/pyeasyb/test.xlsx
+2020-01-05 21:34:41: INFORM       EXCEL           - Write number of rows 7

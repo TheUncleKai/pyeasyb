@@ -60,10 +60,6 @@ class Message(object):
         return self._param
 
     @property
-    def error(self) -> int:
-        return self._error
-
-    @property
     def stream(self) -> Stream:
         return self._stream
 
@@ -74,7 +70,6 @@ class Message(object):
         self._length = Length.Byte3
         self._direction = Direction.FromMaster
         self._value = None
-        self._error = 0
         self._param = []
         self._stream = None
 
@@ -172,6 +167,10 @@ class Message(object):
 
         data = []
 
+        if self.length is Length.Variable:
+            easyb.log.error("Unable to encode variable length message at the moment!")
+            return False
+
         byte = crop_u8(self.address)
         data.append(byte)
 
@@ -194,18 +193,13 @@ class Message(object):
             data.append(self.param[3])
             data.append(0)
 
-        self._stream = Stream(self.length)
-        self._stream.set_data(data)
-
-        check = self._stream.encode()
-        if check is False:
-            return False
-
+        out = Stream(self.length)
+        out.set_data(data)
+        out.encode()
+        self._stream = out
         return True
 
     def decode(self, data: bytes) -> bool:
-        self._error = 0
-
         self._stream = Stream(Length.Byte3)
         check = self._stream.decode(data)
         if check is False:

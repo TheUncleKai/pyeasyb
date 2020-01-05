@@ -73,6 +73,14 @@ class Console(object):
 
         parser.add_option_group(serial)
 
+        output = OptionGroup(parser, "Output Options", "Set output to file.")
+        serial.add_option("-o", "--output", help="output type", metavar="EXCEL/TEXT", type="string",
+                          default="none")
+        serial.add_option("-f", "--filename", help="filename for output", metavar="measurement", type="string",
+                          default="measurement")
+
+        parser.add_option_group(output)
+
         self._parser = parser
 
         self._device = None
@@ -246,5 +254,10 @@ class Console(object):
 
         if self.device is not None:
             self.device.disconnect()
+
+        if self.options.output != "none":
+            check = self.device.store(self.options.output, self.options.filename)
+            if check is False:
+                return False
 
         return True

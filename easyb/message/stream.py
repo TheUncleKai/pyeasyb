@@ -17,7 +17,7 @@
 
 import easyb
 
-from typing import List, Union
+from typing import List
 from easyb.definitions import Length
 from easyb.bit import debug_data, check_crc, crop_u8, create_crc
 
@@ -68,7 +68,7 @@ class Stream(object):
         return debug_data(self.bytes)
 
     def __repr__(self):
-        return self.bytes
+        return debug_data(self.bytes)
 
     def _expand_data(self, number):
         if number == self.len:
@@ -80,8 +80,17 @@ class Stream(object):
             n += 1
         return
 
-    def encode(self):
+    def encode(self) -> bool:
         length = len(self.data)
+        check = False
+
+        for item in self.data:
+            if item != 0:
+                check = True
+
+        if check is False:
+            easyb.log.error("Data is empty!")
+            return False
 
         pos_set = 0
         while True:
@@ -101,7 +110,7 @@ class Stream(object):
             self.data[pos3] = crc
 
             pos_set += 3
-        return
+        return True
 
     def decode(self, data_input: bytes):
         self._data = []
@@ -124,10 +133,7 @@ class Stream(object):
         return check
 
     def append(self, data_input: bytes):
-        for item in data_input:
-            self._data.append(int(item))
-
-        length = len(self.data)
+        length = len(data_input)
 
         if length == 0:
             easyb.log.error("Data packet is empty!")
@@ -138,6 +144,9 @@ class Stream(object):
             easyb.log.error("Data size is not a triplet! ({0:d})".format(length))
             return False
 
+        for item in data_input:
+            self._data.append(int(item))
+
         check = self.verify_crc()
         return check
 
@@ -145,7 +154,8 @@ class Stream(object):
         length = len(self.data)
 
         if length == 0:
-            return True
+            easyb.log.error("Data is empty!")
+            return False
 
         check = length % 3
         if check != 0:
@@ -185,14 +195,16 @@ class Stream(object):
             pos_set += 3
         return True
 
-    def set_data(self, data_input):
+    def set_data(self, data_input) -> bool:
+        length = len(data_input)
 
-        if len(data_input) != self.len:
-            return
+        if length != self.len:
+            easyb.log.error("Invalid data size of {0:d}, need {1:d}!".format(length, self.len))
+            return False
 
         n = 0
         for item in data_input:
             value = int(item)
             self.data[n] = value
             n += 1
-        return
+        return True
