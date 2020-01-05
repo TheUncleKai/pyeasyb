@@ -37,34 +37,33 @@ from abc import ABCMeta
 
 class Device(metaclass=ABCMeta):
 
-    # device members
-    name: str = ""
-    address: int = 0
-    commands: List[Command] = []
-    command_list: List[int] = []
-    command_counter: int = 0
-    device_status: List[Status] = []
-
-    # members for serial communication
-    serial: Serial = None
-    port: str = ""
-    baudrate: int = 0
-    timeout: int = 2
-    write_timeout: int = 2
-    wait_time: float = 0.0
-
-    # members for reading via thread
-    interval: float = 2.0
-    abort: bool = False
-    status: bool = False
-    active: bool = False
-    interval_counter: int = 0
-
-    # data type members
-    data: Data = Data()
-
     def __init__(self, **kwargs):
-        self._name = ""
+        # device members
+        self.name: str = ""
+        self.address: int = 0
+        self.commands: List[Command] = []
+        self.command_list: List[int] = []
+        self.command_counter: int = 0
+        self.device_status: List[Status] = []
+
+        # members for serial communication
+        # noinspection PyTypeChecker
+        self.serial: Serial = None
+        self.port: str = ""
+        self.baudrate: int = 0
+        self.timeout: int = 2
+        self.write_timeout: int = 2
+        self.wait_time: float = 0.0
+
+        # members for reading via thread
+        self.interval: float = 2.0
+        self.abort: bool = False
+        self.status: bool = False
+        self.active: bool = False
+        self.interval_counter: int = 0
+
+        # data type members
+        self.data: Data = Data()
 
         item = kwargs.get("name", "")
         if item is not None:

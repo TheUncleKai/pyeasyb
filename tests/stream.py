@@ -202,7 +202,7 @@ class TestStream(unittest.TestCase):
     def test_verify_length_3(self):
         stream = easyb.message.stream.Stream(Length.Byte3)
 
-        stream._data = []
+        stream.data = []
 
         check1 = stream.verify_length()
 

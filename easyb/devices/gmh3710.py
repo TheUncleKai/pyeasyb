@@ -37,14 +37,18 @@ device = "GMH3710"
 
 class GMH3710(Device):
 
-    min_value = 0.0
-    max_value = 0.0
-    id_number = 0
-    unit = ""
-    start_measure: datetime = None
-    end_measure: datetime = None
-
     def __init__(self, **kwargs):
+        self.min_value: float = 0.0
+        self.max_value: float = 0.0
+        self.id_number: int = 0
+        self.unit: str = ""
+
+        # noinspection PyTypeChecker
+        self.start_measure: datetime = None
+
+        # noinspection PyTypeChecker
+        self.end_measure: datetime = None
+
         Device.__init__(self, name="GMH 3710", **kwargs)
 
         self.data.add_column("value", "Temperature", Type.float)

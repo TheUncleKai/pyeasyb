@@ -35,80 +35,54 @@ __all__ = [
 
 class Message(object):
 
-    @property
-    def address(self) -> int:
-        return self._address
-
-    @property
-    def code(self) -> int:
-        return self._code
-
-    @property
-    def priority(self) -> Priority:
-        return self._priority
-
-    @property
-    def length(self) -> Length:
-        return self._length
-
-    @property
-    def direction(self) -> Direction:
-        return self._direction
-
-    @property
-    def param(self) -> List[int]:
-        return self._param
-
-    @property
-    def stream(self) -> Stream:
-        return self._stream
-
     def __init__(self, **kwargs):
-        self._address = 0
-        self._code = 0
-        self._priority = Priority.NoPriority
-        self._length = Length.Byte3
-        self._direction = Direction.FromMaster
-        self._value = None
-        self._param = []
-        self._stream = None
+
+        self.address: int = 0
+        self.code: int = 0
+        self.priority: Priority = Priority.NoPriority
+        self.length: Length = Length.Byte3
+        self.direction: Direction = Direction.FromMaster
+        self.param: List[int] = []
+
+        # noinspection PyTypeChecker
+        self.stream: Stream = None
 
         item = kwargs.get("address", None)
         if item is not None:
-            self._address = item
+            self.address = item
 
         item = kwargs.get("code", None)
         if item is not None:
-            self._code = item
+            self.code = item
 
         item = kwargs.get("priority", None)
         if item is not None:
-            self._priority = item
+            self.priority = item
 
         item = kwargs.get("length", None)
         if item is not None:
-            self._length = item
+            self.length = item
 
         item = kwargs.get("direction", None)
         if item is not None:
-            self._direction = item
+            self.direction = item
 
         item = kwargs.get("param", None)
         if item is not None:
-            self._param = item
+            self.param = item
         return
 
     def command(self, command: Command) -> bool:
-        self._address = command.address
-        self._code = command.code
-        self._priority = Priority.NoPriority
-        self._length = command.length
-        self._direction = Direction.FromMaster
-        self._param = command.param
+        self.address = command.address
+        self.code = command.code
+        self.priority = Priority.NoPriority
+        self.length = command.length
+        self.direction = Direction.FromMaster
+        self.param = command.param
         return True
 
     def _verify_param(self) -> bool:
-        length = len(self._param)
+        length = len(self.param)
 
         if (self.length is Length.Byte3) and (length == 0):
             return True
@@ -148,16 +122,16 @@ class Message(object):
         byte0 = self.stream.data[0]
         byte1 = self.stream.data[1]
 
-        self._address = 255 - byte0
-        self._code = (byte1 & 0xf0) >> 4
+        self.address = 255 - byte0
+        self.code = (byte1 & 0xf0) >> 4
 
         priority = (byte1 & 0x8) >> 3
         length = (byte1 & 0x6) >> 1
         direction = byte1 & 0x1
 
-        self._priority = get_priority(priority)
-        self._length = get_length(length)
-        self._direction = get_direction(direction)
+        self.priority = get_priority(priority)
+        self.length = get_length(length)
+        self.direction = get_direction(direction)
         return
 
     def encode(self) -> bool:
@@ -196,12 +170,12 @@ class Message(object):
         out = Stream(self.length)
         out.set_data(data)
         out.encode()
-        self._stream = out
+        self.stream = out
         return True
 
     def decode(self, data: bytes) -> bool:
-        self._stream = Stream(Length.Byte3)
-        check = self._stream.decode(data)
+        self.stream = Stream(Length.Byte3)
+        check = self.stream.decode(data)
         if check is False:
             easyb.log.error("Header is not valid!")
             return False

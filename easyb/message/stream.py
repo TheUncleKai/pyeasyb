@@ -29,7 +29,7 @@ __all__ = [
 class Stream(object):
 
     def __init__(self, length: Length):
-        self._data = []
+        self.data: List[int] = []
         self.length = length
         return
 
@@ -52,17 +52,13 @@ class Stream(object):
         return
 
     @property
-    def data(self) -> List[int]:
-        return self._data
-
-    @property
     def bytes(self) -> bytes:
-        res = bytes(self._data)
+        res = bytes(self.data)
         return res
 
     @property
     def len(self) -> int:
-        return len(self._data)
+        return len(self.data)
 
     def __str__(self):
         return debug_data(self.bytes)
@@ -76,7 +72,7 @@ class Stream(object):
 
         n = self.len
         while n < number:
-            self._data.append(0)
+            self.data.append(0)
             n += 1
         return
 
@@ -113,10 +109,10 @@ class Stream(object):
         return True
 
     def decode(self, data_input: bytes):
-        self._data = []
+        self.data = []
 
         for item in data_input:
-            self._data.append(int(item))
+            self.data.append(int(item))
 
         length = len(self.data)
 
@@ -145,7 +141,7 @@ class Stream(object):
             return False
 
         for item in data_input:
-            self._data.append(int(item))
+            self.data.append(int(item))
 
         check = self.verify_crc()
         return check
