@@ -17,9 +17,9 @@
 
 import os
 import easyb
-from typing import List
+from typing import List, Any
 
-from easyb.data.base import Storage, Column, Row
+from easyb.data.base import Storage, Column, Row, Type
 import xlsxwriter
 
 __all__ = [
@@ -59,17 +59,61 @@ class ExportExcel(Storage):
 
         for column in self.columns:
             self.data.write_string(self.row, column.index, column.description, cell_format)
+
+        self.data.freeze_panes(1, 0)
         self.row += 1
+        return
+
+    def _write_cell(self, column: Column, value: Any, writer: Any):
+        cell_format = self.workbook.add_format()
+        cell_format.set_font_name("Arial")
+        cell_format.set_font_size(10)
+
+        if column.type is Type.datetime:
+            cell_format.set_num_format('yyyy-mm-dd hh:mm:ss')
+
+        if column.type is Type.float:
+            cell_format.set_num_format('0.00')
+
+        writer(self.row, column.index, value, cell_format)
+        return
+
+    def _write_data(self):
+        for row in self.rows:
+
+            for column in self.columns:
+                writer = None
+                value = getattr(row, column.name)
+
+                if column.type is Type.datetime:
+                    writer = self.data.write_datetime
+
+                if column.type is Type.float:
+                    writer = self.data.write_number
+
+                if column.type is Type.integer:
+                    writer = self.data.write_number
+
+                if column.type is Type.string:
+                    writer = self.data.write_string
+
+                if writer is None:
+                    raise ValueError("Unknown column type: {0:s}".format(column.type.name))
+
+                self._write_cell(column, value, writer)
+            self.row += 1
         return
 
     def _close(self):
         if self.workbook is None:
             return
+        easyb.log.inform(self.name, "Write number of rows {0:d}".format(self.row))
         self.workbook.close()
         return
 
     def store(self) -> bool:
         self._prepare()
         self._create_header()
+        self._write_data()
         self._close()
         return True

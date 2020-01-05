@@ -2944,3 +2944,59 @@
 2020-01-05 02:17:20: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB0
 2020-01-05 02:17:20: INFORM       GMH 3710        - Number of data points: 3
 2020-01-05 02:17:20: INFORM       EXCEL           - Open /home/kai/projekte/pyeasyb/test.xlsx
+2020-01-05 02:37:15: INFORM       easyb           - linux
+2020-01-05 02:37:15: INFORM       easyb           - python 3.6.9.final
+2020-01-05 02:37:15: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB0
+2020-01-05 02:37:15: INFORM       GMH 3710        - Run 1: Systemstatus lesen
+2020-01-05 02:37:16: INFORM       GMH 3710        - Nothing to report!
+2020-01-05 02:37:16: INFORM       GMH 3710        - Run 4: ID-Nummer lesen
+2020-01-05 02:37:16: INFORM       GMH 3710        - ID: 32407008
+2020-01-05 02:37:16: INFORM       GMH 3710        - Run 12: Anzeige Einheit lesen
+2020-01-05 02:37:16: INFORM       GMH 3710        - 1: °C
+2020-01-05 02:37:16: INFORM       Port            - /dev/ttyUSB0
+2020-01-05 02:37:16: INFORM       Device          - GMH 3710
+2020-01-05 02:37:16: INFORM       GMH 3710        - Start measurements
+2020-01-05 02:37:16: INFORM       GMH 3710        - 000000 02:37:16: 17.36
+2020-01-05 02:37:18: INFORM       GMH 3710        - 000001 02:37:18: 17.36
+2020-01-05 02:37:20: INFORM       GMH 3710        - 000002 02:37:20: 17.36
+2020-01-05 02:37:22: INFORM       GMH 3710        - 000003 02:37:22: 17.36
+2020-01-05 02:37:24: INFORM       GMH 3710        - 000004 02:37:24: 17.36
+2020-01-05 02:37:26: INFORM       GMH 3710        - 000005 02:37:26: 17.36
+2020-01-05 02:37:28: INFORM       GMH 3710        - 000006 02:37:28: 17.37
+2020-01-05 02:37:30: INFORM       GMH 3710        - Stop measurements
+2020-01-05 02:37:30: INFORM       GMH 3710        - Run 2: Minwert lesen
+2020-01-05 02:37:31: INFORM       GMH 3710        - 17.07
+2020-01-05 02:37:31: INFORM       GMH 3710        - Run 3: Maxwert lesen
+2020-01-05 02:37:31: INFORM       GMH 3710        - 17.62
+2020-01-05 02:37:31: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB0
+2020-01-05 02:37:31: INFORM       GMH 3710        - Number of data points: 7
+2020-01-05 02:37:31: INFORM       EXCEL           - Open /home/kai/projekte/pyeasyb/test.xlsx
+2020-01-05 02:40:06: INFORM       easyb           - linux
+2020-01-05 02:40:06: INFORM       easyb           - python 3.6.9.final
+2020-01-05 02:40:06: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB0
+2020-01-05 02:40:06: INFORM       GMH 3710        - Run 1: Systemstatus lesen
+2020-01-05 02:40:06: INFORM       GMH 3710        - Nothing to report!
+2020-01-05 02:40:06: INFORM       GMH 3710        - Run 4: ID-Nummer lesen
+2020-01-05 02:40:06: INFORM       GMH 3710        - ID: 32407008
+2020-01-05 02:40:06: INFORM       GMH 3710        - Run 12: Anzeige Einheit lesen
+2020-01-05 02:40:06: INFORM       GMH 3710        - 1: °C
+2020-01-05 02:40:06: INFORM       Port            - /dev/ttyUSB0
+2020-01-05 02:40:06: INFORM       Device          - GMH 3710
+2020-01-05 02:40:06: INFORM       GMH 3710        - Start measurements
+2020-01-05 02:40:06: INFORM       GMH 3710        - 000000 02:40:06: 17.41
+2020-01-05 02:40:08: INFORM       GMH 3710        - 000001 02:40:08: 17.42
+2020-01-05 02:40:11: INFORM       GMH 3710        - 000002 02:40:11: 17.42
+2020-01-05 02:40:13: INFORM       GMH 3710        - 000003 02:40:13: 17.42
+2020-01-05 02:40:15: INFORM       GMH 3710        - 000004 02:40:15: 17.42
+2020-01-05 02:40:17: INFORM       GMH 3710        - 000005 02:40:17: 17.42
+2020-01-05 02:40:19: INFORM       GMH 3710        - 000006 02:40:19: 17.42
+2020-01-05 02:40:21: INFORM       GMH 3710        - 000007 02:40:21: 17.42
+2020-01-05 02:40:23: INFORM       GMH 3710        - Stop measurements
+2020-01-05 02:40:23: INFORM       GMH 3710        - Run 2: Minwert lesen
+2020-01-05 02:40:23: INFORM       GMH 3710        - 17.07
+2020-01-05 02:40:23: INFORM       GMH 3710        - Run 3: Maxwert lesen
+2020-01-05 02:40:23: INFORM       GMH 3710        - 17.62
+2020-01-05 02:40:23: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB0
+2020-01-05 02:40:23: INFORM       GMH 3710        - Number of data points: 8
+2020-01-05 02:40:23: INFORM       EXCEL           - Open /home/kai/projekte/pyeasyb/test.xlsx
+2020-01-05 02:40:23: INFORM       EXCEL           - Write number of rows 9
