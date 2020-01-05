@@ -59,10 +59,12 @@ class GMH3710(Device):
         if message.length is Length.Byte9:
             error, value = decode_u32(data[3], data[4], data[6], data[7])
 
-        now = datetime.now()
-
-        debug = "{0:s}: {1:.2f}".format(now.strftime("%Y-%m-%d %H:%M:%S"), value)
-        easyb.log.inform(self.name, debug)
+        if error is not None:
+            easyb.log.warn(self.name, "Error: {0:s}".format(error.text))
+        else:
+            now = datetime.now()
+            debug = "{0:s}: {1:.2f}".format(now.strftime("%Y-%m-%d %H:%M:%S"), value)
+            easyb.log.inform(self.name, debug)
         return True
 
     def systemstatus_lesen(self, message: Message) -> bool:
@@ -250,11 +252,13 @@ class GMH3710(Device):
         if message.length is Length.Byte9:
             error, value = decode_u32(data[3], data[4], data[6], data[7])
 
-        row = self.create_row()
-
-        row.value = value
-        debug = "{0:06d} {1:s}: {2:.2f}".format(self.interval_counter, row.datetime.strftime("%H:%M:%S"), row.value)
-        easyb.log.inform(self.name, debug)
+        if error is not None:
+            easyb.log.warn(self.name, "Error: {0:s}".format(error.text))
+        else:
+            row = self.create_row()
+            row.value = value
+            debug = "{0:06d} {1:s}: {2:.2f}".format(self.interval_counter, row.datetime.strftime("%H:%M:%S"), row.value)
+            easyb.log.inform(self.name, debug)
         return True
 
     def close(self) -> bool:

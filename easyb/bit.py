@@ -19,7 +19,8 @@
 import easyb
 import sys
 
-from typing import Tuple, List
+from typing import Tuple, List, Union
+from easyb.config import Error
 
 import math
 
@@ -127,7 +128,7 @@ def decode_u16(byte3: int, byte4: int) -> Tuple[int, float]:
     return 0, float_value
 
 
-def decode_u32(byte3: int, byte4: int, byte6: int, byte7: int) -> Tuple[int, float]:
+def decode_u32(byte3: int, byte4: int, byte6: int, byte7: int) -> Tuple[Union[Error, None], float]:
     u16_integer1 = convert_u16(byte3, byte4)
     u16_integer2 = convert_u16(byte6, byte7)
     u32_integer = convert_u32(u16_integer1, u16_integer2)
@@ -145,12 +146,14 @@ def decode_u32(byte3: int, byte4: int, byte6: int, byte7: int) -> Tuple[int, flo
 
         u32_integer = crop_u32(u32_integer + 0x02000000)
     else:
-        error = int(u32_integer - 0x02000000 - 16352)
+        error_num = u32_integer - 0x02000000 - 100000000
+
+        error = easyb.conf.get_error(error_num)
         return error, 0.0
 
     i32_integer = to_signed32(u32_integer)
     float_value = float(i32_integer) / float(float(10.0) ** float_pos)
-    return 0, float_value
+    return None, float_value
 
 
 def encode_u32(float_value: float) -> List[int]:
