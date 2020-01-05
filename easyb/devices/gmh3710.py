@@ -20,7 +20,7 @@ import easyb
 
 from datetime import datetime
 
-from easyb.data import Type
+from easyb.data.base import Type, Info
 from easyb.definitions import Length
 from easyb.command import Command
 from easyb.message import Message
@@ -37,7 +37,6 @@ device = "GMH3710"
 
 class GMH3710(Device):
 
-    system_state = []
     min_value = 0.0
     max_value = 0.0
     id_number = 0
@@ -71,13 +70,15 @@ class GMH3710(Device):
 
         value = convert_u16(data[3], data[4])
 
-        self.system_state = easyb.conf.get_status(value)
+        counter = self.set_status(value)
 
-        for item in self.system_state:
+        for item in self.device_status:
+            if item.is_set is False:
+                continue
             easyb.log.warn(self.name, item.text)
 
-        if len(self.system_state) == 0:
-            easyb.log.inform(self.name, "Nothing to report!")
+        if counter == 0:
+            easyb.log.inform("Systemstatus", "Nothing to report!")
         return True
 
     def minwert_lesen(self, message: Message) -> bool:
@@ -91,7 +92,7 @@ class GMH3710(Device):
         if message.length is Length.Byte9:
             error, value = decode_u32(data[3], data[4], data[6], data[7])
 
-        easyb.log.inform(self.name, str(value))
+        easyb.log.inform("Min. value", str(value))
         self.min_value = value
         return True
 
@@ -106,7 +107,7 @@ class GMH3710(Device):
         if message.length is Length.Byte9:
             error, value = decode_u32(data[3], data[4], data[6], data[7])
 
-        easyb.log.inform(self.name, str(value))
+        easyb.log.inform("Max. value", str(value))
         self.max_value = value
         return True
 
@@ -119,7 +120,7 @@ class GMH3710(Device):
 
         self.id_number = value
 
-        easyb.log.inform(self.name, "ID: {0:x}".format(self.id_number))
+        easyb.log.inform("ID", "ID: {0:x}".format(self.id_number))
         return True
 
     # noinspection PyUnusedLocal
@@ -139,7 +140,7 @@ class GMH3710(Device):
         column.description = "Temperature [{0:s}]".format(self.unit)
 
         logging = "{0:d}: {1:s}".format(value, self.unit)
-        easyb.log.inform(self.name, logging)
+        easyb.log.inform("Unit", logging)
         return True
 
     def init_commands(self):
@@ -214,9 +215,13 @@ class GMH3710(Device):
 
     def prepare(self) -> bool:
         check = self.run_command(1)
-        length = len(self.system_state)
+        if check is False:
+            return False
 
-        if (check is False) and (length != 0):
+        status = self.get_status()
+        if len(status) != 0:
+            for item in status:
+                easyb.log.warn("STATUS", item.text)
             return False
 
         check = self.run_command(4)
@@ -254,6 +259,10 @@ class GMH3710(Device):
 
     def close(self) -> bool:
 
+        check = self.run_command(1)
+        if check is False:
+            return False
+
         check = self.run_command(2)
         if check is False:
             return False
@@ -262,4 +271,20 @@ class GMH3710(Device):
         if check is False:
             return False
 
+        info = Info("ID", Type.string, "{0:x}".format(self.id_number))
+        self.data.infos.append(info)
+
+        info = Info("Einheit", Type.string, self.unit)
+        self.data.infos.append(info)
+
+        _name = "Minwert [{0:s}]".format(self.unit)
+        info = Info(_name, Type.float, self.min_value)
+        self.data.infos.append(info)
+
+        _name = "Maxwert [{0:s}]".format(self.unit)
+        info = Info(_name, Type.float, self.max_value)
+        self.data.infos.append(info)
+
+        for item in self.device_status:
+            name = item.text
         return True

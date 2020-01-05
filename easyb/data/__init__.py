@@ -33,14 +33,12 @@ __storage__ = [
 ]
 
 
-from easyb.data.base import Type, Column, Row
+from easyb.data.base import Type, Column, Row, Collection
 from easyb.utils import get_attribute
 
 
-class Data:
+class Data(Collection):
 
-    rows: List[Row] = []
-    columns: List[Column] = []
     counter: int = 0
 
     @property
@@ -84,6 +82,9 @@ class Data:
 
             if column.type is Type.datetime:
                 value = datetime.now()
+
+            if column.type is Type.bool:
+                value = False
 
             if column.type is Type.float:
                 value = 0.0
@@ -130,6 +131,8 @@ class Data:
             easyb.log.error("Unable to find storge format: {0:s}".format(file_type))
             return False
 
-        storage = c(self.columns, self.rows, filename)
+        self.filename = filename
+
+        storage = c(self)
         check = storage.store()
         return check

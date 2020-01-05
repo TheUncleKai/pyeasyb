@@ -17,9 +17,9 @@
 
 import os
 import easyb
-from typing import List, Any
+from typing import Any
 
-from easyb.data.base import Storage, Column, Row, Type
+from easyb.data.base import Storage, Type, Collection
 import xlsxwriter
 
 __all__ = [
@@ -33,21 +33,21 @@ classname = "ExportExcel"
 class ExportExcel(Storage):
 
     workbook: xlsxwriter.Workbook = None
-    info: xlsxwriter.workbook.Worksheet = None
-    data: xlsxwriter.workbook.Worksheet = None
+    info_sheet: xlsxwriter.workbook.Worksheet = None
+    data_sheet: xlsxwriter.workbook.Worksheet = None
     row: int = 0
 
-    def __init__(self, columns: List[Column], rows: List[Row], filename: str):
-        Storage.__init__(self, "EXCEL", columns, rows, filename)
+    def __init__(self, data: Collection):
+        Storage.__init__(self, "EXCEL", data)
         return
 
     def _prepare(self):
 
-        self.filename = os.path.abspath(os.path.normpath(self.filename + ".xlsx"))
-        easyb.log.inform(self.name, "Open {0:s}".format(self.filename))
-        self.workbook = xlsxwriter.Workbook(self.filename, {'constant_memory': True})
-        self.info = self.workbook.add_worksheet("Information")
-        self.data = self.workbook.add_worksheet("Data")
+        self.data.filename = os.path.abspath(os.path.normpath(self.data.filename + ".xlsx"))
+        easyb.log.inform(self.name, "Open {0:s}".format(self.data.filename))
+        self.workbook = xlsxwriter.Workbook(self.data.filename, {'constant_memory': True})
+        self.info_sheet = self.workbook.add_worksheet("Information")
+        self.data_sheet = self.workbook.add_worksheet("Data")
         return
 
     def _create_header(self):
@@ -57,50 +57,57 @@ class ExportExcel(Storage):
         cell_format.set_font_size(10)
         cell_format.set_bold()
 
-        for column in self.columns:
-            self.data.write_string(self.row, column.index, column.description, cell_format)
+        for column in self.data.columns:
+            self.data_sheet.write_string(self.row, column.index, column.description, cell_format)
 
-        self.data.freeze_panes(1, 0)
+        self.data_sheet.freeze_panes(1, 0)
         self.row += 1
         return
 
-    def _write_cell(self, column: Column, value: Any, writer: Any):
+    def _get_writer(self, data_type: Type) -> Any:
+        writer = None
+        if data_type is Type.datetime:
+            writer = self.data_sheet.write_datetime
+
+        if data_type is Type.float:
+            writer = self.data_sheet.write_number
+
+        if data_type is Type.integer:
+            writer = self.data_sheet.write_number
+
+        if data_type is Type.string:
+            writer = self.data_sheet.write_string
+
+        if data_type is Type.bool:
+            writer = self.data_sheet.write_boolean
+
+        if writer is None:
+            raise ValueError("Unknown type: {0:s}".format(data_type.name))
+
+        return writer
+
+    def _write_cell(self, row: int, column: int, data_type: Type, value: Any, writer: Any):
         cell_format = self.workbook.add_format()
         cell_format.set_font_name("Arial")
         cell_format.set_font_size(10)
 
-        if column.type is Type.datetime:
+        if data_type is Type.datetime:
             cell_format.set_num_format('yyyy-mm-dd hh:mm:ss')
 
-        if column.type is Type.float:
+        if data_type is Type.float:
             cell_format.set_num_format('0.00')
 
-        writer(self.row, column.index, value, cell_format)
+        writer(row, column, value, cell_format)
         return
 
     def _write_data(self):
-        for row in self.rows:
+        for row in self.data.rows:
 
-            for column in self.columns:
-                writer = None
+            for column in self.data.columns:
+                writer = self._get_writer(column.type)
                 value = getattr(row, column.name)
 
-                if column.type is Type.datetime:
-                    writer = self.data.write_datetime
-
-                if column.type is Type.float:
-                    writer = self.data.write_number
-
-                if column.type is Type.integer:
-                    writer = self.data.write_number
-
-                if column.type is Type.string:
-                    writer = self.data.write_string
-
-                if writer is None:
-                    raise ValueError("Unknown column type: {0:s}".format(column.type.name))
-
-                self._write_cell(column, value, writer)
+                self._write_cell(self.row, column.index, column.type, value, writer)
             self.row += 1
         return
 

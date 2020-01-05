@@ -17,7 +17,7 @@
 
 import abc
 
-from typing import List
+from typing import List, Any
 
 from enum import Enum
 from abc import ABCMeta
@@ -25,7 +25,9 @@ from abc import ABCMeta
 __all__ = [
     "Type",
     "Column",
+    "Info",
     "Row",
+    "Collection",
     "Storage"
 ]
 
@@ -36,6 +38,7 @@ class Type(Enum):
     integer = 1
     float = 2
     string = 3
+    bool = 4
 
 
 class Column(object):
@@ -53,6 +56,19 @@ class Column(object):
         return
 
 
+class Info(object):
+
+    name: str = ""
+    type: Type = None
+    value: Any = None
+
+    def __init__(self, name: str, type: Type, value: Any):
+        self.name = name
+        self.type = type
+        self.value = value
+        return
+
+
 class Row(object):
 
     def __init__(self, keys, values):
@@ -61,18 +77,23 @@ class Row(object):
         return
 
 
+class Collection(object):
+
+    rows: List[Row] = []
+    columns: List[Column] = []
+    infos: List[Info] = []
+    status: List[Info] = []
+    filename: str = ""
+
+
 class Storage(metaclass=ABCMeta):
 
-    columns: List[Column] = None
-    rows: List[Row] = None
-    filename: str = ""
     name: str = ""
+    data: Collection = None
 
-    def __init__(self, name: str, columns: List[Column], rows: List[Row], filename: str):
+    def __init__(self, name: str, data: Collection):
         self.name = name
-        self.columns = columns
-        self.rows = rows
-        self.filename = filename
+        self.data = data
         return
 
     @abc.abstractmethod

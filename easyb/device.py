@@ -30,6 +30,7 @@ from easyb.bit import debug_data
 from easyb.message import Message
 from easyb.command import Command
 from easyb.definitions import Length
+from easyb.config import Status
 
 from abc import ABCMeta
 
@@ -42,6 +43,7 @@ class Device(metaclass=ABCMeta):
     commands: List[Command] = []
     command_list: List[int] = []
     command_counter: int = 0
+    device_status: List[Status] = []
 
     # members for serial communication
     serial: Serial = None
@@ -100,7 +102,28 @@ class Device(metaclass=ABCMeta):
 
         self.data.add_column("datetime", "Time", Type.datetime)
         self.data.add_column("number", "Number", Type.integer)
+
+        for item in easyb.conf.status:
+            self.device_status.append(item)
         return
+
+    def get_status(self) -> List[Status]:
+        status = []
+
+        for item in self.device_status:
+            if item.is_set is False:
+                continue
+            status.append(item)
+        return status
+
+    def set_status(self, value: int) -> int:
+        counter = 0
+        for item in self.device_status:
+            if item.bit & value:
+                item.is_set = True
+                counter += 1
+
+        return counter
 
     def get_command(self, number: int) -> Union[None, Command]:
         command = None
@@ -323,8 +346,6 @@ class Device(metaclass=ABCMeta):
 
         if command is None:
             return False
-
-        easyb.log.inform(self.name, "Run {0:d}: {1:s}".format(command.number, command.name))
 
         message = self.execute(command)
         if message is None:
