@@ -24,7 +24,8 @@ import serial
 from serial import Serial
 from typing import List, Union, Any
 
-from easyb.data import Data, Type, Row
+from easyb.data import Data
+from easyb.data.base import Type
 from easyb.bit import debug_data
 from easyb.message import Message
 from easyb.command import Command

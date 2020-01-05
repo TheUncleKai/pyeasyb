@@ -2789,3 +2789,65 @@
 2020-01-05 01:16:45: INFORM       GMH 3710        - 17.62
 2020-01-05 01:16:45: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB0
 2020-01-05 01:16:45: INFORM       GMH 3710        - Number of data points: 3
+2020-01-05 01:24:30: INFORM       easyb           - linux
+2020-01-05 01:24:30: INFORM       easyb           - python 3.6.9.final
+2020-01-05 01:24:30: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB0
+2020-01-05 01:24:30: INFORM       GMH 3710        - Run 1: Systemstatus lesen
+2020-01-05 01:24:30: INFORM       GMH 3710        - Nothing to report!
+2020-01-05 01:24:30: INFORM       GMH 3710        - Run 4: ID-Nummer lesen
+2020-01-05 01:24:30: INFORM       GMH 3710        - ID: 32407008
+2020-01-05 01:24:30: INFORM       GMH 3710        - Run 12: Anzeige Einheit lesen
+2020-01-05 01:24:30: INFORM       GMH 3710        - 1: °C
+2020-01-05 01:24:30: INFORM       Port            - /dev/ttyUSB0
+2020-01-05 01:24:30: INFORM       Device          - GMH 3710
+2020-01-05 01:24:30: INFORM       GMH 3710        - Start measurements
+2020-01-05 01:24:30: INFORM       GMH 3710        - 2020-01-05 01:24:30: 17.52
+2020-01-05 01:24:33: INFORM       GMH 3710        - 2020-01-05 01:24:33: 17.52
+2020-01-05 01:24:35: INFORM       GMH 3710        - 2020-01-05 01:24:35: 17.52
+2020-01-05 01:24:37: INFORM       GMH 3710        - 2020-01-05 01:24:37: 17.52
+2020-01-05 01:24:39: INFORM       GMH 3710        - 2020-01-05 01:24:39: 17.52
+2020-01-05 01:24:41: INFORM       GMH 3710        - 2020-01-05 01:24:41: 17.52
+2020-01-05 01:24:43: INFORM       GMH 3710        - 2020-01-05 01:24:43: 17.52
+2020-01-05 01:24:45: INFORM       GMH 3710        - 2020-01-05 01:24:45: 17.52
+2020-01-05 01:24:47: INFORM       GMH 3710        - 2020-01-05 01:24:47: 17.52
+2020-01-05 01:24:49: INFORM       GMH 3710        - 2020-01-05 01:24:49: 17.52
+2020-01-05 01:24:51: INFORM       GMH 3710        - 2020-01-05 01:24:51: 17.52
+2020-01-05 01:24:54: INFORM       GMH 3710        - 2020-01-05 01:24:54: 17.52
+2020-01-05 01:24:56: INFORM       GMH 3710        - 2020-01-05 01:24:56: 17.52
+2020-01-05 01:24:58: INFORM       GMH 3710        - 2020-01-05 01:24:58: 17.53
+2020-01-05 01:25:00: INFORM       GMH 3710        - 2020-01-05 01:25:00: 17.53
+2020-01-05 01:25:02: INFORM       GMH 3710        - 2020-01-05 01:25:02: 17.52
+2020-01-05 01:25:04: INFORM       GMH 3710        - 2020-01-05 01:25:04: 17.53
+2020-01-05 01:25:06: INFORM       GMH 3710        - 2020-01-05 01:25:06: 17.53
+2020-01-05 01:25:08: INFORM       GMH 3710        - 2020-01-05 01:25:08: 17.53
+2020-01-05 01:25:10: INFORM       GMH 3710        - Stop measurements
+2020-01-05 01:25:10: INFORM       GMH 3710        - Run 2: Minwert lesen
+2020-01-05 01:25:10: INFORM       GMH 3710        - 17.07
+2020-01-05 01:25:10: INFORM       GMH 3710        - Run 3: Maxwert lesen
+2020-01-05 01:25:11: INFORM       GMH 3710        - 17.62
+2020-01-05 01:25:11: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB0
+2020-01-05 01:25:11: INFORM       GMH 3710        - Number of data points: 19
+2020-01-05 01:27:14: INFORM       easyb           - linux
+2020-01-05 01:27:14: INFORM       easyb           - python 3.6.9.final
+2020-01-05 01:27:14: INFORM       GMH 3710        - Establish connection to /dev/ttyUSB0
+2020-01-05 01:27:14: INFORM       GMH 3710        - Run 1: Systemstatus lesen
+2020-01-05 01:27:14: INFORM       GMH 3710        - Nothing to report!
+2020-01-05 01:27:14: INFORM       GMH 3710        - Run 4: ID-Nummer lesen
+2020-01-05 01:27:14: INFORM       GMH 3710        - ID: 32407008
+2020-01-05 01:27:14: INFORM       GMH 3710        - Run 12: Anzeige Einheit lesen
+2020-01-05 01:27:14: INFORM       GMH 3710        - 1: °C
+2020-01-05 01:27:14: INFORM       Port            - /dev/ttyUSB0
+2020-01-05 01:27:14: INFORM       Device          - GMH 3710
+2020-01-05 01:27:14: INFORM       GMH 3710        - Start measurements
+2020-01-05 01:27:14: INFORM       GMH 3710        - 0000 01:27:14: 17.54
+2020-01-05 01:27:16: INFORM       GMH 3710        - 0001 01:27:16: 17.54
+2020-01-05 01:27:19: INFORM       GMH 3710        - 0002 01:27:19: 17.54
+2020-01-05 01:27:21: INFORM       GMH 3710        - 0003 01:27:21: 17.54
+2020-01-05 01:27:23: INFORM       GMH 3710        - 0004 01:27:23: 17.54
+2020-01-05 01:27:25: INFORM       GMH 3710        - Stop measurements
+2020-01-05 01:27:25: INFORM       GMH 3710        - Run 2: Minwert lesen
+2020-01-05 01:27:25: INFORM       GMH 3710        - 17.07
+2020-01-05 01:27:25: INFORM       GMH 3710        - Run 3: Maxwert lesen
+2020-01-05 01:27:25: INFORM       GMH 3710        - 17.62
+2020-01-05 01:27:25: INFORM       GMH 3710        - Disconnect from /dev/ttyUSB0
+2020-01-05 01:27:25: INFORM       GMH 3710        - Number of data points: 5

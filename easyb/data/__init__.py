@@ -19,51 +19,21 @@ import easyb
 
 from datetime import datetime
 
-from enum import Enum
 from typing import List, Any
 
 __all__ = [
-    "Type",
-    "Row",
+    "base",
+
     "Data"
 ]
 
-
-class Type(Enum):
-
-    datetime = 0
-    integer = 1
-    float = 2
-    string = 3
-
-
-class _Column(object):
-
-    index: int = 0
-    name: str = ""
-    description: str = ""
-    type: Type = None
-
-    def __init__(self, index: int, name: str, desc: str, column_type: Type):
-        self.index = index
-        self.name = name
-        self.description = desc
-        self.type = column_type
-        return
-
-
-class Row(object):
-
-    def __init__(self, keys, values):
-        for (key, value) in zip(keys, values):
-            self.__dict__[key] = value
-        return
+from easyb.data.base import Type, Column, Row
 
 
 class Data:
 
     rows: List[Row] = []
-    columns: List[_Column] = []
+    columns: List[Column] = []
     counter: int = 0
 
     @property
@@ -71,7 +41,7 @@ class Data:
         result = len(self.rows)
         return result
 
-    def get_column(self, name: str):
+    def get_column(self, name: str) -> Column:
 
         column = None
 
@@ -90,7 +60,7 @@ class Data:
                 easyb.log.error("Column with name {0:s} already exists!".format(name))
                 return False
 
-        column = _Column(self.counter, name, desc, column_type)
+        column = Column(self.counter, name, desc, column_type)
         self.columns.append(column)
 
         self.counter += 1

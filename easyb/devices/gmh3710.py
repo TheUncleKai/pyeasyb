@@ -248,7 +248,7 @@ class GMH3710(Device):
         row = self.create_row()
 
         row.value = value
-        debug = "{0:s}: {1:.2f}".format(row.datetime.strftime("%Y-%m-%d %H:%M:%S"), row.value)
+        debug = "{0:06d} {1:s}: {2:.2f}".format(self.interval_counter, row.datetime.strftime("%H:%M:%S"), row.value)
         easyb.log.inform(self.name, debug)
         return True
 
