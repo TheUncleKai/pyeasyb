@@ -41,6 +41,8 @@ class GMH3710(Device):
     max_value = 0.0
     id_number = 0
     unit = ""
+    start_measure: datetime = None
+    end_measure: datetime = None
 
     def __init__(self, **kwargs):
         Device.__init__(self, name="GMH 3710", **kwargs)
@@ -223,6 +225,8 @@ class GMH3710(Device):
         return
 
     def prepare(self) -> bool:
+        self.start_measure = datetime.now()
+
         check = self.run_command(1)
         if check is False:
             return False
@@ -273,6 +277,7 @@ class GMH3710(Device):
         return True
 
     def close(self) -> bool:
+        self.end_measure = datetime.now()
 
         check = self.run_command(1)
         if check is False:
@@ -285,6 +290,17 @@ class GMH3710(Device):
         check = self.run_command(3)
         if check is False:
             return False
+
+        info = Info("Start", Type.datetime, self.start_measure)
+        self.data.infos.append(info)
+
+        info = Info("End", Type.datetime, self.end_measure)
+        self.data.infos.append(info)
+
+        delta = self.end_measure - self.start_measure
+
+        info = Info("Duration", Type.datetime, delta)
+        self.data.infos.append(info)
 
         info = Info("ID", Type.string, "{0:x}".format(self.id_number))
         self.data.infos.append(info)

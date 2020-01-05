@@ -93,7 +93,7 @@ class ExportExcel(Storage):
         cell_format.set_font_size(10)
 
         if data_type is Type.datetime:
-            cell_format.set_num_format('yyyy-mm-dd hh:mm:ss')
+            cell_format.set_num_format('hh:mm:ss')
 
         if data_type is Type.float:
             cell_format.set_num_format('0.00')
