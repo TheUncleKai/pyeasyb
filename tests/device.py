@@ -566,155 +566,17 @@ class TestControl(unittest.TestCase):
         self.assertIsNone(message)
         return
 
-    # def test_read_receive_2(self):
-    #     device = TestDevice()
-    #
-    #     mock_serial = mock.Mock()
-    #
-    #     device._serial = mock_serial
-    #     mock_serial.read = mock.Mock(side_effect=SerialException('Attempting to use a port that is not open'))
-    #
-    #     message = device.receive()
-    #
-    #     self.assertIsNone(message)
-    #     return
-    #
-    # def test_read_receive_3(self):
-    #     device = TestDevice()
-    #
-    #     test_read = TestRead()
-    #     test_read.run = 0
-    #
-    #     mock_serial = mock.Mock()
-    #
-    #     device._serial = mock_serial
-    #     mock_serial.read = test_read.test_read_2
-    #
-    #     message = device.receive()
-    #
-    #     self.assertIsNotNone(message)
-    #
-    #     return
-    #
-    # def test_read_receive_4(self):
-    #     device = TestDevice()
-    #
-    #     test_read = TestRead()
-    #
-    #     mock_serial = mock.Mock()
-    #
-    #     device._serial = mock_serial
-    #     mock_serial.read = test_read.test_read_3
-    #
-    #     message = device.receive()
-    #
-    #     self.assertIsNone(message)
-    #     return
-    #
-    # def test_execute_1(self):
-    #     device = TestDevice()
-    #     command = device.get_command(0)
-    #
-    #     test_read = TestRead()
-    #
-    #     mock_serial = mock.Mock()
-    #
-    #     device._serial = mock_serial
-    #     mock_serial.write = mock.Mock()
-    #     mock_serial.write.return_value = 3
-    #     mock_serial.read = test_read.test_read_1
-    #
-    #     message = device.execute(command)
-    #
-    #     self.assertIsNotNone(message)
-    #     return
-    #
-    # def test_execute_2(self):
-    #     device = TestDevice()
-    #     command = device.get_command(0)
-    #
-    #     test_read = TestRead()
-    #
-    #     mock_serial = mock.Mock()
-    #
-    #     device._serial = mock_serial
-    #     mock_serial.write = mock.Mock(side_effect=SerialException('Attempting to use a port that is not open'))
-    #     mock_serial.read = test_read.test_read_1
-    #
-    #     message = device.execute(command)
-    #
-    #     self.assertIsNone(message)
-    #     return
-    #
-    # def test_execute_3(self):
-    #     device = TestDevice()
-    #     command = device.get_command(0)
-    #
-    #     test_read = TestRead()
-    #
-    #     mock_serial = mock.Mock()
-    #
-    #     device._serial = mock_serial
-    #     mock_serial.write = mock.Mock()
-    #     mock_serial.write.return_value = 3
-    #     mock_serial.read = test_read.test_read_2
-    #
-    #     message = device.execute(command)
-    #
-    #     self.assertIsNotNone(message)
-    #     return
-    #
-    # def test_execute_4(self):
-    #     device = TestDevice()
-    #     command = device.get_command(0)
-    #
-    #     test_read = TestRead()
-    #
-    #     mock_serial = mock.Mock()
-    #
-    #     device._serial = mock_serial
-    #     mock_serial.write = mock.Mock()
-    #     mock_serial.write.return_value = 3
-    #     mock_serial.read = test_read.test_read_4
-    #
-    #     message = device.execute(command)
-    #
-    #     self.assertIsNone(message)
-    #     return
-    #
-    # def test_run_1(self):
-    #     device = TestDevice()
-    #
-    #     test_read = TestRead()
-    #     mock_serial = mock.Mock()
-    #
-    #     device._serial = mock_serial
-    #     mock_serial.write = mock.Mock()
-    #     mock_serial.write.return_value = 3
-    #     mock_serial.read = test_read.test_read_1
-    #
-    #     check = device.run_command(0)
-    #     self.assertTrue(check)
-    #     return
-    #
-    # def test_run_2(self):
-    #     device = TestDevice()
-    #
-    #     test_read = TestRead()
-    #
-    #     mock_serial = mock.Mock()
-    #
-    #     device._serial = mock_serial
-    #     mock_serial.write = mock.Mock(side_effect=SerialException('Attempting to use a port that is not open'))
-    #     mock_serial.read = test_read.test_read_1
-    #
-    #     check = device.run_command(0)
-    #     self.assertFalse(check)
-    #     return
-    #
-    # def test_run_3(self):
-    #     device = TestDevice()
-    #
-    #     check = device.run_command(1)
-    #     self.assertFalse(check)
-    #     return
+    def test_status_1(self):
+        device = TestDevice()
+
+        status = 0x8000 | 0x0400
+
+        count = device.set_status(status)
+
+        states = device.get_status()
+
+        self.assertEqual(count, 2)
+        self.assertEqual(len(states), 2)
+        self.assertEqual(states[0].bit, 0x0400)
+        self.assertEqual(states[1].bit, 0x8000)
+        return
