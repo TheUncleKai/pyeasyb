@@ -102,7 +102,7 @@ class Message(object):
 
         return True
 
-    def _encode_header(self):
+    def _encode_header(self, data: List[int]):
         u8 = 0
 
         direction = crop_u8(self.direction.value)
@@ -115,8 +115,34 @@ class Message(object):
         u8 = crop_u8(u8 | priority)
         u8 = crop_u8(u8 | code)
 
+        byte = crop_u8(self.address)
+        data.append(byte)
+
         result = int(u8)
-        return result
+        data.append(result)
+
+        data.append(0)
+        return
+
+    def _encode_data(self, data: List[int]):
+        length = len(self.param)
+
+        pos_set = 0
+        n = 0
+        while True:
+            if pos_set >= length:
+                break
+
+            pos1 = pos_set + 0
+            pos2 = pos_set + 1
+
+            data.append(self.param[pos1])
+            data.append(self.param[pos2])
+            data.append(0)
+
+            pos_set += 2
+            n += 3
+        return
 
     def _decode_header(self):
         byte0 = self.stream.data[0]
@@ -140,32 +166,8 @@ class Message(object):
             return False
 
         data = []
-
-        if self.length is Length.Variable:
-            easyb.log.error("Unable to encode variable length message at the moment!")
-            return False
-
-        byte = crop_u8(self.address)
-        data.append(byte)
-
-        byte = self._encode_header()
-        data.append(byte)
-
-        data.append(0)
-
-        if self.length == Length.Byte6:
-            data.append(self.param[0])
-            data.append(self.param[1])
-            data.append(0)
-
-        if self.length == Length.Byte9:
-            data.append(self.param[0])
-            data.append(self.param[1])
-            data.append(0)
-
-            data.append(self.param[2])
-            data.append(self.param[3])
-            data.append(0)
+        self._encode_header(data)
+        self._encode_data(data)
 
         out = Stream(self.length)
         out.set_data(data)

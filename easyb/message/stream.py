@@ -194,7 +194,10 @@ class Stream(object):
     def set_data(self, data_input) -> bool:
         length = len(data_input)
 
-        if length != self.len:
+        if self.length is Length.Variable:
+            self._expand_data(length)
+
+        if (length != self.len) and (self.length is not Length.Variable):
             easyb.log.error("Invalid data size of {0:d}, need {1:d}!".format(length, self.len))
             return False
 
