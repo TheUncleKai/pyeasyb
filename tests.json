@@ -45,6 +45,7 @@
                 "test_decode_3",
                 "test_decode_4",
                 "test_set_data_1",
+                "test_set_data_2",
                 "test_verify_length_1",
                 "test_verify_length_2",
                 "test_verify_length_3",

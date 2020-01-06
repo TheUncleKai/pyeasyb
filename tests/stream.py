@@ -173,6 +173,16 @@ class TestStream(unittest.TestCase):
         self.assertEqual(stream.data, all_data)
         return
 
+    def test_set_data_2(self):
+        all_data = [254, 7, 40, 0x71, 0x00, 0x48, 0xe3, 0x54, 0x28]
+
+        stream = easyb.message.stream.Stream(Length.Variable)
+
+        check1 = stream.set_data(all_data)
+        self.assertTrue(check1)
+        self.assertEqual(stream.data, all_data)
+        return
+
     def test_verify_length_1(self):
         stream = easyb.message.stream.Stream(Length.Byte3)
 
