@@ -62,6 +62,10 @@ class Stream(object):
         length = len(self.data)
         check = False
 
+        if length == 0:
+            easyb.log.error("Data is empty!")
+            return False
+
         for item in self.data:
             if item != 0:
                 check = True

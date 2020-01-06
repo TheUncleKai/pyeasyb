@@ -51,7 +51,13 @@
                 "test_verify_length_3",
                 "test_verify_length_4",
                 "test_verify_length_5",
-                "test_verify_length_6"
+                "test_verify_length_6",
+                "test_encode_1",
+                "test_encode_2",
+                "test_encode_3",
+                "test_decode_1",
+                "test_decode_2",
+                "test_decode_3"
             ]
         },
         {

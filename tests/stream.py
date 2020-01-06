@@ -177,3 +177,55 @@ class TestStream(unittest.TestCase):
         check = stream.verify_length()
         self.assertFalse(check)
         return
+
+    def test_encode_1(self):
+        data = [0x1, 0x0d, 0, 0x8d, 0xff, 0, 0x8d, 0xff, 0]
+        data_check = [254, 13, 30, 114, 255, 132, 114, 255, 132]
+
+        stream = Stream(Length.Byte9)
+        stream.set_data(data)
+
+        check = stream.encode()
+        self.assertTrue(check)
+        self.assertEqual(stream.data, data_check)
+        return
+
+    def test_encode_2(self):
+        data = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        stream = Stream(Length.Byte9)
+        stream.set_data(data)
+
+        check = stream.encode()
+        self.assertFalse(check)
+        return
+
+    def test_encode_3(self):
+        stream = Stream(Length.Byte9)
+
+        check = stream.encode()
+        self.assertFalse(check)
+        return
+
+    def test_decode_1(self):
+        data = [0xfe, 0x0d, 0x1e, 0x72, 0xff, 0x84, 0x00, 0xfc, 0x05]
+
+        stream = Stream(Length.Byte9)
+        check = stream.decode(bytes(data))
+        self.assertTrue(check)
+        return
+
+    def test_decode_2(self):
+        data = []
+
+        stream = Stream(Length.Byte9)
+        check = stream.decode(bytes(data))
+        self.assertFalse(check)
+        return
+
+    def test_decode_3(self):
+        data = [0xfe, 0x0d, 0x1e, 0x72, 0xff, 0x84, 0x00, 0xfc]
+
+        stream = Stream(Length.Byte9)
+        check = stream.decode(bytes(data))
+        self.assertFalse(check)
+        return
