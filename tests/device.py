@@ -67,6 +67,14 @@ class TestRead(object):
         self.run += 1
         return result
 
+    def read_2(self, count: int = 0) -> bytes:
+        if self.run == 1:
+            raise SerialException("Attempting to use a port that is not open")
+        data = self.data[self.run]
+        result = bytes(data)
+        self.run += 1
+        return result
+
 
 class TestControl(unittest.TestCase):
     """Testing class for locking module."""
@@ -484,6 +492,78 @@ class TestControl(unittest.TestCase):
         self.assertEqual(message.direction, Direction.FromSlave)
         self.assertEqual(message.priority, Priority.NoPriority)
         self.assertEqual(message.stream.data, [254, 7, 40, 141, 255, 83, 141, 255, 83, 141, 255, 83])
+        return
+
+    def test_read_receive_8(self):
+        data = [
+            [0xfe, 0x0d, 0x1e],
+            [0x72, 0xff, 0x84, 0x00, 0xfc, 0x05]
+        ]
+
+        device = TestDevice()
+
+        mock_serial = mock.Mock()
+
+        read = TestRead()
+        read.data = data
+
+        device.serial = mock_serial
+        mock_serial.read = read.read_2
+
+        message = device.receive()
+
+        self.assertIsNone(message)
+        return
+
+    def test_read_receive_9(self):
+        data = [
+            [254, 7, 40],
+            [141],
+            [255],
+            [83],
+            [141],
+            [255],
+            [83],
+            [141],
+            [255],
+            [83],
+            []
+        ]
+
+        device = TestDevice()
+
+        mock_serial = mock.Mock()
+
+        read = TestRead()
+        read.data = data
+
+        device.serial = mock_serial
+        mock_serial.read = read.read_2
+
+        message = device.receive()
+
+        self.assertIsNone(message)
+        return
+
+    def test_read_receive_10(self):
+        data = [
+            [0xfe, 0x0d, 0x1e],
+            [0x72, 0xff, 0x84]
+        ]
+
+        device = TestDevice()
+
+        mock_serial = mock.Mock()
+
+        read = TestRead()
+        read.data = data
+
+        device.serial = mock_serial
+        mock_serial.read = read.read
+
+        message = device.receive()
+
+        self.assertIsNone(message)
         return
 
     # def test_read_receive_2(self):

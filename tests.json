@@ -26,7 +26,10 @@
                 "test_read_receive_4",
                 "test_read_receive_5",
                 "test_read_receive_6",
-                "test_read_receive_7"
+                "test_read_receive_7",
+                "test_read_receive_8",
+                "test_read_receive_9",
+                "test_read_receive_10"
             ]
         },
         {
@@ -34,27 +37,21 @@
             "path": "tests.stream",
             "classname": "TestStream",
             "tests": [
-                "test_stream_1",
-                "test_stream_2",
-                "test_stream_3",
-                "test_encode_1",
-                "test_encode_2",
-                "test_encode_3",
-                "test_decode_1",
-                "test_decode_2",
-                "test_decode_3",
-                "test_decode_4",
+                "test_stream",
+                "test_expand_data",
                 "test_set_data_1",
                 "test_set_data_2",
+                "test_set_data_3",
+                "test_append_1",
+                "test_append_2",
+                "test_append_3",
+                "test_append_4",
                 "test_verify_length_1",
                 "test_verify_length_2",
                 "test_verify_length_3",
                 "test_verify_length_4",
                 "test_verify_length_5",
-                "test_verify_length_6",
-                "test_append_1",
-                "test_append_2",
-                "test_append_3"
+                "test_verify_length_6"
             ]
         },
         {

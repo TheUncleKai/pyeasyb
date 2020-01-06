@@ -30,25 +30,7 @@ class Stream(object):
 
     def __init__(self, length: Length):
         self.data: List[int] = []
-        self.length = length
-        return
-
-    @property
-    def length(self) -> Length:
-        return self._length
-
-    @length.setter
-    def length(self, in_length: Length):
-        self._length = in_length
-
-        if self._length is Length.Byte3:
-            self._expand_data(3)
-
-        if self._length is Length.Byte6:
-            self._expand_data(6)
-
-        if self._length is Length.Byte9:
-            self._expand_data(9)
+        self.length: Length = length
         return
 
     @property
@@ -66,7 +48,7 @@ class Stream(object):
     def __repr__(self):
         return debug_data(self.bytes)
 
-    def _expand_data(self, number):
+    def expand_data(self, number):
         if number == self.len:
             return
 
@@ -194,8 +176,11 @@ class Stream(object):
     def set_data(self, data_input) -> bool:
         length = len(data_input)
 
+        if len(self.data) == 0:
+            self.expand_data(length)
+
         if self.length is Length.Variable:
-            self._expand_data(length)
+            self.expand_data(length)
 
         if (length != self.len) and (self.length is not Length.Variable):
             easyb.log.error("Invalid data size of {0:d}, need {1:d}!".format(length, self.len))
