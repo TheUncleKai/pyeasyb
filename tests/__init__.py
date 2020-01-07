@@ -18,9 +18,13 @@
 
 from typing import List
 
+import easyb
+
 from easyb.command import Command
 from easyb.device import Device
 from easyb.message import Message
+from easyb.bit import decode_u32
+from easyb.definitions import Error
 
 __all__ = [
     "bit",
@@ -41,8 +45,13 @@ class TestDevice(Device):
     def __init__(self, **kwargs):
         Device.__init__(self, name="TEST-DEVICE", wait_time=0.1, address=1, **kwargs)
 
+        self.value: float = 0.0
+
         # noinspection PyTypeChecker
         self.message: Message = None
+
+        # noinspection PyTypeChecker
+        self.error: Error = None
         return
 
     def init_commands(self):
@@ -53,6 +62,22 @@ class TestDevice(Device):
 
     def read_messwert(self, message: Message) -> bool:
         self.message = message
+
+        if self.message.stream is None:
+            return False
+
+        data = message.stream.data
+
+        error, value = decode_u32(data[3], data[4], data[6], data[7])
+
+        if error is not None:
+            easyb.log.warn(self.name, "Error: {0:s}".format(error.text))
+        else:
+            debug = "{0:.2f}".format(value)
+            easyb.log.inform(self.name, debug)
+
+        self.error = error
+        self.value = value
         return True
 
     def prepare(self):

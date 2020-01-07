@@ -530,4 +530,25 @@ class TestControl(unittest.TestCase):
         message = device.execute(command)
 
         self.assertIsNotNone(message)
+        self.assertEqual(len(message.stream.data), 9)
+        return
+
+    def test_execute_2(self):
+        data = [
+            [0xfe, 0x05, 0x26],
+            [0x71, 0x00, 0x48, 0xf8, 0x7b, 0x25]
+        ]
+
+        serial = TestSerial()
+        serial.read_data = data
+
+        device = TestDevice()
+        device.serial = serial
+
+        command = Command(name="Messwert lesen", code=0)
+
+        message = device.execute(command)
+
+        self.assertIsNotNone(message)
+        self.assertEqual(len(message.stream.data), 9)
         return

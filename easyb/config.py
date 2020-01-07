@@ -18,12 +18,9 @@
 
 from typing import List, Union
 
-from easyb.utils import check_dict
+from easyb.definitions import Error, Status, Unit
 
 __all__ = [
-    "Error",
-    "Status",
-    "Unit",
     "Config"
 ]
 
@@ -519,52 +516,6 @@ _units = [
         "value": "dB(SPL)"
     }
 ]
-
-
-class Error(object):
-
-    def __init__(self, data: dict):
-        self.code: int = 0
-        self.text: str = ""
-
-        check = check_dict(data, ["code", "text"])
-        if check is False:
-            raise ValueError("Invalid error code: {0:s}".format(str(data)))
-
-        self.code = data["code"]
-        self.text = data["text"]
-        return
-
-
-class Status(object):
-
-    def __init__(self, data: dict):
-        self.bit: int = 0
-        self.text: str = ""
-        self.is_set: bool = False
-
-        check = check_dict(data, ["bit", "text"])
-        if check is False:
-            raise ValueError("Invalid status code: {0:s}".format(str(data)))
-
-        self.bit = data["bit"]
-        self.text = data["text"]
-        return
-
-
-class Unit(object):
-
-    def __init__(self, data: dict):
-        self.code: int = 0
-        self.value: str = ""
-
-        check = check_dict(data, ["code", "value"])
-        if check is False:
-            raise ValueError("Invalid unit code: {0:s}".format(str(data)))
-
-        self.code = data["code"]
-        self.value = data["value"]
-        return
 
 
 class Config(object):

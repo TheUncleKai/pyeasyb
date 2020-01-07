@@ -20,7 +20,7 @@ import easyb
 import sys
 
 from typing import Tuple, List, Union
-from easyb.config import Error
+from easyb.definitions import Error
 
 import math
 

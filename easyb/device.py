@@ -29,8 +29,7 @@ from easyb.data.base import Type
 from easyb.bit import debug_data
 from easyb.message import Message
 from easyb.command import Command
-from easyb.definitions import Length
-from easyb.config import Status
+from easyb.definitions import Length, Status
 
 from abc import ABCMeta
 
