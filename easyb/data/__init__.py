@@ -39,7 +39,10 @@ from easyb.utils import get_attribute
 
 class Data(Collection):
 
-    counter: int = 0
+    def __init__(self):
+        Collection.__init__(self)
+        self.counter: int = 0
+        return
 
     @property
     def len(self) -> int:

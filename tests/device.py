@@ -16,6 +16,8 @@
 #    Copyright (C) 2017, Kai Raphahn <kai.raphahn@laburec.de>
 #
 
+import time
+import threading
 import unittest.mock as mock
 
 import unittest
@@ -640,7 +642,100 @@ class TestControl(unittest.TestCase):
 
         command = Command(name="Messwert lesen", code=0, func_call=device.default_command)
         device.add_command(command)
+        device.list_commands()
 
         check = device.run_command(1)
         self.assertTrue(check)
+        self.assertEqual(len(device.commands), 2)
+        return
+
+    def test_run_1(self):
+        data = [
+            [0xfe, 0x05, 0x26],
+            [0x71, 0x00, 0x48, 0xf8, 0x7b, 0x25]
+        ]
+
+        serial = TestSerial()
+        serial.read_data = data
+
+        device = TestDevice()
+        device.serial = serial
+
+        command = Command(name="Messwert lesen 2", code=0, func_call=device.default_command)
+        device.add_command(command)
+
+        check1 = device.prepare()
+        check2 = device.run()
+        check3 = device.close()
+
+        self.assertTrue(check1)
+        self.assertTrue(check2)
+        self.assertTrue(check3)
+        return
+
+    def test_run_loop_1(self):
+        data = [
+            [0xfe, 0x05, 0x26],
+            [0x71, 0x00, 0x48, 0xf8, 0x7b, 0x25],
+            [0xfe, 0x05, 0x26],
+            [0x71, 0x00, 0x48, 0xf8, 0x7b, 0x25],
+            [0xfe, 0x05, 0x26],
+            [0x71, 0x00, 0x48, 0xf8, 0x7b, 0x25],
+            [0xfe, 0x05, 0x26],
+            [0x71, 0x00, 0x48, 0xf8, 0x7b, 0x25],
+            [0xfe, 0x05, 0x26],
+            [0x71, 0x00, 0x48, 0xf8, 0x7b, 0x25],
+            [0xfe, 0x05, 0x26],
+            [0x71, 0x00, 0x48, 0xf8, 0x7b, 0x25],
+            [0xfe, 0x05, 0x26],
+            [0x71, 0x00, 0x48, 0xf8, 0x7b, 0x25],
+            [0xfe, 0x05, 0x26],
+            [0x71, 0x00, 0x48, 0xf8, 0x7b, 0x25]
+        ]
+
+        serial = TestSerial()
+        serial.read_data = data
+
+        device = TestDevice()
+        device.serial = serial
+
+        check1 = device.prepare()
+
+        thread = threading.Thread(target=device.run_loop)
+        thread.start()
+        time.sleep(0.1)
+
+        while True:
+            check = device.active
+            if check is False:
+                break
+
+            if device.interval_counter == 5:
+                device.do_abort(None, None)
+
+            time.sleep(0.01)
+
+        check3 = device.close()
+
+        self.assertTrue(check1)
+        self.assertTrue(device.status)
+        self.assertTrue(check3)
+        return
+
+    def test_run_loop_2(self):
+        data = [
+            [0xfe, 0x05, 0x26],
+            [0x71, 0x00, 0x48, 0xf8, 0x7b, 0x25]
+        ]
+
+        serial = TestSerial()
+        serial.read_data = data
+
+        device = TestDevice()
+        device.serial = serial
+
+        column = device.data.columns[0]
+        column.type = None
+
+        self.assertRaises(ValueError, device.run_loop)
         return

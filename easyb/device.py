@@ -397,18 +397,22 @@ class Device(metaclass=ABCMeta):
         ret = self.data.store(file_type, filename)
         return ret
 
+    # noinspection PyUnusedLocal
     @abc.abstractmethod
     def init_commands(self):
-        return
+        raise NotImplementedError
 
+    # noinspection PyUnusedLocal
     @abc.abstractmethod
     def prepare(self) -> bool:
-        return True
+        raise NotImplementedError
 
+    # noinspection PyUnusedLocal
     @abc.abstractmethod
     def run(self) -> bool:
-        return True
+        raise NotImplementedError
 
+    # noinspection PyUnusedLocal
     @abc.abstractmethod
     def close(self) -> bool:
-        return True
+        raise NotImplementedError

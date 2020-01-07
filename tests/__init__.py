@@ -20,6 +20,7 @@ from typing import List
 
 import easyb
 
+from easyb.data.base import Type
 from easyb.command import Command
 from easyb.device import Device
 from easyb.message import Message
@@ -52,6 +53,9 @@ class TestDevice(Device):
 
         # noinspection PyTypeChecker
         self.error: Error = None
+
+        self.data.add_column("value", "Temperature", Type.float)
+        self.data.add_column("error", "Error", Type.string)
         return
 
     def init_commands(self):
@@ -80,14 +84,39 @@ class TestDevice(Device):
         self.value = value
         return True
 
-    def prepare(self):
-        return
+    def prepare(self) -> bool:
+        return True
 
-    def run(self):
-        return
+    def run(self) -> bool:
+        command = self.get_command(0)
 
-    def close(self):
-        return
+        message = self.execute(command)
+        if message is None:
+            return False
+
+        data = message.stream.data
+        error, value = decode_u32(data[3], data[4], data[6], data[7])
+
+        row = self.create_row()
+
+        if error is not None:
+            easyb.log.warn(self.name, "Error: {0:s}".format(error.text))
+            row.value = 0.0
+            row.error = error.text
+        else:
+            row.value = value
+            row.error = ""
+            debug = "{0:06d} {1:s}: {2:.2f}".format(self.interval_counter, row.datetime.strftime("%H:%M:%S"), row.value)
+            easyb.log.inform(self.name, debug)
+        return True
+
+    def close(self) -> bool:
+        length = len(self.data.rows)
+
+        if length == 0:
+            return False
+
+        return True
 
 
 class TestException(object):
