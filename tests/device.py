@@ -54,7 +54,7 @@ class TestControl(unittest.TestCase):
         self.assertEqual(device.name, "TEST-DEVICE")
         self.assertEqual(device.port, "TEST")
         self.assertEqual(device.wait_time, 0.1)
-        self.assertEqual(len(device.command_list), 0)
+        self.assertEqual(len(device.command_list), 1)
         self.assertIsNone(device.serial)
         return
 
@@ -624,4 +624,23 @@ class TestControl(unittest.TestCase):
 
         check = device.run_command(0)
         self.assertFalse(check)
+        return
+
+    def test_add_command_1(self):
+        data = [
+            [0xfe, 0x05, 0x26],
+            [0x71, 0x00, 0x48, 0xf8, 0x7b, 0x25]
+        ]
+
+        serial = TestSerial()
+        serial.read_data = data
+
+        device = TestDevice()
+        device.serial = serial
+
+        command = Command(name="Messwert lesen", code=0, func_call=device.default_command)
+        device.add_command(command)
+
+        check = device.run_command(1)
+        self.assertTrue(check)
         return

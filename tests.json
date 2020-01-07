@@ -36,7 +36,8 @@
                 "test_execute_3",
                 "test_run_command_1",
                 "test_run_command_2",
-                "test_run_command_3"
+                "test_run_command_3",
+                "test_add_command_1"
             ]
         },
         {

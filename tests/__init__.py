@@ -57,7 +57,7 @@ class TestDevice(Device):
     def init_commands(self):
 
         command = Command(name="Messwert lesen", code=0, func_call=self.read_messwert)
-        self.commands.append(command)
+        self.add_command(command)
         return
 
     def read_messwert(self, message: Message) -> bool:
