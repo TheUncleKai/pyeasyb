@@ -17,63 +17,17 @@
 #
 
 import unittest.mock as mock
+
 import unittest
 
 import easyb
 
-from typing import List
-
-from easyb.device import Device
-from easyb.message import Message
-from easyb.command import Command
 from serial import SerialException
 
 from serial import EIGHTBITS, PARITY_NONE, STOPBITS_ONE
 from easyb.definitions import Direction, Length, Priority
-
-
-class TestDevice(Device):
-
-    def __init__(self, **kwargs):
-        Device.__init__(self, name="TEST-DEVICE", wait_time=0.1, address=1, **kwargs)
-        return
-
-    def init_commands(self):
-
-        command = Command(name="Messwert lesen", code=0, func_call=self.default_command)
-        self.commands.append(command)
-        return
-
-    def prepare(self):
-        return
-
-    def run(self):
-        return
-
-    def close(self):
-        return
-
-
-class TestRead(object):
-
-    def __init__(self):
-        self.run: int = 0
-        self.data: List[List[int]] = []
-        return
-
-    def read(self, count: int = 0) -> bytes:
-        data = self.data[self.run]
-        result = bytes(data)
-        self.run += 1
-        return result
-
-    def read_2(self, count: int = 0) -> bytes:
-        if self.run == 1:
-            raise SerialException("Attempting to use a port that is not open")
-        data = self.data[self.run]
-        result = bytes(data)
-        self.run += 1
-        return result
+from easyb.command import Command
+from tests import TestDevice, TestException, TestSerial
 
 
 class TestControl(unittest.TestCase):
@@ -342,8 +296,8 @@ class TestControl(unittest.TestCase):
 
         mock_serial = mock.Mock()
 
-        read = TestRead()
-        read.data = data
+        read = TestSerial()
+        read.read_data = data
 
         device.serial = mock_serial
         mock_serial.read = read.read
@@ -378,13 +332,10 @@ class TestControl(unittest.TestCase):
 
         device = TestDevice()
 
-        mock_serial = mock.Mock()
+        serial = TestSerial()
+        serial.read_data = data
 
-        read = TestRead()
-        read.data = data
-
-        device.serial = mock_serial
-        mock_serial.read = read.read
+        device.serial = serial
 
         message = device.receive()
 
@@ -398,13 +349,10 @@ class TestControl(unittest.TestCase):
 
         device = TestDevice()
 
-        mock_serial = mock.Mock()
+        serial = TestSerial()
+        serial.read_data = data
 
-        read = TestRead()
-        read.data = data
-
-        device.serial = mock_serial
-        mock_serial.read = read.read
+        device.serial = serial
 
         message = device.receive()
 
@@ -418,13 +366,10 @@ class TestControl(unittest.TestCase):
 
         device = TestDevice()
 
-        mock_serial = mock.Mock()
+        serial = TestSerial()
+        serial.read_data = data
 
-        read = TestRead()
-        read.data = data
-
-        device.serial = mock_serial
-        mock_serial.read = read.read
+        device.serial = serial
 
         message = device.receive()
 
@@ -439,13 +384,10 @@ class TestControl(unittest.TestCase):
 
         device = TestDevice()
 
-        mock_serial = mock.Mock()
+        serial = TestSerial()
+        serial.read_data = data
 
-        read = TestRead()
-        read.data = data
-
-        device.serial = mock_serial
-        mock_serial.read = read.read
+        device.serial = serial
 
         message = device.receive()
 
@@ -475,13 +417,10 @@ class TestControl(unittest.TestCase):
 
         device = TestDevice()
 
-        mock_serial = mock.Mock()
+        serial = TestSerial()
+        serial.read_data = data
 
-        read = TestRead()
-        read.data = data
-
-        device.serial = mock_serial
-        mock_serial.read = read.read
+        device.serial = serial
 
         message = device.receive()
 
@@ -502,13 +441,11 @@ class TestControl(unittest.TestCase):
 
         device = TestDevice()
 
-        mock_serial = mock.Mock()
+        serial = TestSerial()
+        serial.read_data = data
+        serial.read_exception = TestException(1, SerialException("Attempting to use a port that is not open"))
 
-        read = TestRead()
-        read.data = data
-
-        device.serial = mock_serial
-        mock_serial.read = read.read_2
+        device.serial = serial
 
         message = device.receive()
 
@@ -532,13 +469,11 @@ class TestControl(unittest.TestCase):
 
         device = TestDevice()
 
-        mock_serial = mock.Mock()
+        serial = TestSerial()
+        serial.read_data = data
+        serial.read_exception = TestException(1, SerialException("Attempting to use a port that is not open"))
 
-        read = TestRead()
-        read.data = data
-
-        device.serial = mock_serial
-        mock_serial.read = read.read_2
+        device.serial = serial
 
         message = device.receive()
 
@@ -553,13 +488,10 @@ class TestControl(unittest.TestCase):
 
         device = TestDevice()
 
-        mock_serial = mock.Mock()
+        serial = TestSerial()
+        serial.read_data = data
 
-        read = TestRead()
-        read.data = data
-
-        device.serial = mock_serial
-        mock_serial.read = read.read
+        device.serial = serial
 
         message = device.receive()
 
@@ -579,4 +511,23 @@ class TestControl(unittest.TestCase):
         self.assertEqual(len(states), 2)
         self.assertEqual(states[0].bit, 0x0400)
         self.assertEqual(states[1].bit, 0x8000)
+        return
+
+    def test_execute_1(self):
+        data = [
+            [0xfe, 0x05, 0x26],
+            [0x71, 0x00, 0x48, 0xf8, 0x7b, 0x25]
+        ]
+
+        serial = TestSerial()
+        serial.read_data = data
+
+        device = TestDevice()
+        device.serial = serial
+
+        command = Command(name="Messwert lesen", code=0)
+
+        message = device.execute(command)
+
+        self.assertIsNotNone(message)
         return
