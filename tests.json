@@ -31,7 +31,9 @@
                 "test_read_receive_9",
                 "test_read_receive_10",
                 "test_status_1",
-                "test_execute_1"
+                "test_execute_1",
+                "test_execute_2",
+                "test_execute_3"
             ]
         },
         {

@@ -541,6 +541,7 @@ class TestControl(unittest.TestCase):
 
         serial = TestSerial()
         serial.read_data = data
+        serial.write_exception = TestException(0, SerialException("Attempting to use a port that is not open"))
 
         device = TestDevice()
         device.serial = serial
@@ -549,6 +550,25 @@ class TestControl(unittest.TestCase):
 
         message = device.execute(command)
 
-        self.assertIsNotNone(message)
-        self.assertEqual(len(message.stream.data), 9)
+        self.assertIsNone(message)
+        return
+
+    def test_execute_3(self):
+        data = [
+            [0xfe, 0x05, 0x26],
+            [0x71, 0x00, 0x48, 0xf8, 0x7b, 0x25]
+        ]
+
+        serial = TestSerial()
+        serial.read_data = data
+        serial.read_exception = TestException(0, SerialException("Attempting to use a port that is not open"))
+
+        device = TestDevice()
+        device.serial = serial
+
+        command = Command(name="Messwert lesen", code=0)
+
+        message = device.execute(command)
+
+        self.assertIsNone(message)
         return

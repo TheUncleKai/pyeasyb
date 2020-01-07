@@ -117,24 +117,24 @@ class TestSerial(object):
         return
 
     def write(self, data: bytes):
-        if self.read_exception is not None:
-            if self.read_exception.run == self.read_run:
-                raise self.read_exception.exception
+        if self.write_exception is not None:
+            if self.write_exception.run == self.write_run:
+                raise self.write_exception.exception
 
         run_list = []
         for item in data:
             run_list.append(int(item))
         self.write_data.append(run_list)
-        self.read_run += 1
+        self.write_run += 1
         return
 
     # noinspection PyUnusedLocal
     def read(self, count: int = 0) -> bytes:
         if self.read_exception is not None:
-            if self.read_exception.run == self.write_run:
+            if self.read_exception.run == self.read_run:
                 raise self.read_exception.exception
 
-        data = self.read_data[self.write_run]
+        data = self.read_data[self.read_run]
         result = bytes(data)
-        self.write_run += 1
+        self.read_run += 1
         return result
