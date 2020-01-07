@@ -572,3 +572,56 @@ class TestControl(unittest.TestCase):
 
         self.assertIsNone(message)
         return
+
+    def test_run_command_1(self):
+        data = [
+            [0xfe, 0x05, 0x26],
+            [0x71, 0x00, 0x48, 0xf8, 0x7b, 0x25]
+        ]
+
+        serial = TestSerial()
+        serial.read_data = data
+
+        device = TestDevice()
+        device.serial = serial
+
+        check = device.run_command(0)
+        message = device.message
+
+        self.assertTrue(check)
+        self.assertIsNotNone(message)
+        self.assertEqual(len(message.stream.data), 9)
+        return
+
+    def test_run_command_2(self):
+        data = [
+            [0xfe, 0x05, 0x26],
+            [0x71, 0x00, 0x48, 0xf8, 0x7b, 0x25]
+        ]
+
+        serial = TestSerial()
+        serial.read_data = data
+
+        device = TestDevice()
+        device.serial = serial
+
+        check = device.run_command(1)
+        self.assertFalse(check)
+        return
+
+    def test_run_command_3(self):
+        data = [
+            [0xfe, 0x05, 0x26],
+            [0x71, 0x00, 0x48, 0xf8, 0x7b, 0x25]
+        ]
+
+        serial = TestSerial()
+        serial.read_data = data
+        serial.read_exception = TestException(0, SerialException("Attempting to use a port that is not open"))
+
+        device = TestDevice()
+        device.serial = serial
+
+        check = device.run_command(0)
+        self.assertFalse(check)
+        return
