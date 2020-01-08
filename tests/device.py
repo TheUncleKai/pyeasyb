@@ -35,7 +35,7 @@ from easyb.logging import Log
 
 old_logging = easyb.log
 new_logging = Log()
-new_logging.open(name="Device", level=2)
+new_logging.open(name="Device", level=0)
 
 
 class TestControl(unittest.TestCase):

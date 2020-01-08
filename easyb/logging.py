@@ -23,6 +23,7 @@ import sys
 import traceback
 from datetime import datetime
 from typing import TextIO
+from easyb.bit import debug_data
 
 
 def _create_scheme(style="", fore="", back=""):
@@ -155,22 +156,30 @@ class Log(object):
         _write_stdout(content)
         return
 
+    def _file_short(self, level: str, text: str):
+        level = level.ljust(self.fill_number)
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        content_text = "{0:s}: {1:s} - {2:s}".format(timestamp, level, text)
+        self._write_logging(content_text)
+        return
+
     def _log_short(self, scheme: str, level: str, text: str):
         name = ""
-
         if self.app_name != "":
             name = self.app_name.ljust(self.fill_number)
 
         level = level.ljust(self.fill_number)
-
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
         content_stdout = "{0:s}{1:s} {2:s}{3:s}{4:s}| {5:s}".format(colorama.Style.RESET_ALL, name, scheme, level,
                                                                     colorama.Style.RESET_ALL, text)
 
-        content_text = "{0:s}: {1:s} - {2:s}".format(timestamp, level, text)
-
         _write_stdout(content_stdout)
+        return
+
+    def _file_long(self, level: str, tag: str, text: str):
+        tag = tag.ljust(self.fill_number)
+        level = level.ljust(self.fill_number)
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        content_text = "{0:s}: {1:s}{2:s} - {3:s}".format(timestamp, level, tag, text)
         self._write_logging(content_text)
         return
 
@@ -181,22 +190,44 @@ class Log(object):
             name = self.app_name.ljust(self.fill_number)
 
         tag = tag.ljust(self.fill_number)
-        level = level.ljust(self.fill_number)
-
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         content_stdout = "{0:s}{1:s} {2:s}{3:s}{4:s}| {5:s}".format(colorama.Style.RESET_ALL, name, scheme, tag,
                                                                     colorama.Style.RESET_ALL, text)
-        content_text = "{0:s}: {1:s}{2:s} - {3:s}".format(timestamp, level, tag, text)
 
         _write_stdout(content_stdout)
-        self._write_logging(content_text)
+        return
+
+    def serial_read(self, data: bytes):
+        line = debug_data(data)
+
+        if self.level > 0:
+            scheme = _create_scheme("BRIGHT", "YELLOW")
+            text = "< {0:s}".format(line)
+            self._log_long(scheme, "INFORM", "SERIAL", text)
+
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        content = "{0:s}: SERIAL  <  {1:s}".format(timestamp, line)
+        self._write_serial(content)
+        return
+
+    def serial_write(self, data: bytes):
+        line = debug_data(data)
+
+        if self.level > 0:
+            scheme = _create_scheme("BRIGHT", "YELLOW")
+            text = "> {0:s}".format(line)
+            self._log_long(scheme, "INFORM", "SERIAL", text)
+
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        content = "{0:s}: SERIAL  >  {1:s}".format(timestamp, line)
+        self._write_serial(content)
         return
 
     def inform(self, tag, text):
 
         scheme = _create_scheme("BRIGHT", "GREEN")
         self._log_long(scheme, "INFORM", tag, text)
+        self._file_long("INFORM", tag, text)
         return
 
     def debug1(self, tag, text):
@@ -206,6 +237,7 @@ class Log(object):
 
         scheme = _create_scheme("BRIGHT", "CYAN")
         self._log_long(scheme, "DEBUG1", tag, text)
+        self._file_long("DEBUG1", tag, text)
         return
 
     def debug2(self, tag, text):
@@ -215,6 +247,7 @@ class Log(object):
 
         scheme = _create_scheme("BRIGHT", "MAGENTA")
         self._log_long(scheme, "DEBUG2", tag, text)
+        self._file_long("DEBUG2", tag, text)
         return
 
     def debug3(self, tag, text):
@@ -224,16 +257,19 @@ class Log(object):
 
         scheme = _create_scheme("BRIGHT", "BLACK")
         self._log_long(scheme, "DEBUG3", tag, text)
+        self._file_long("DEBUG3", tag, text)
         return
 
     def warn(self, tag, text):
         scheme = _create_scheme("BRIGHT", "MAGENTA")
         self._log_long(scheme, "WARN", tag, text)
+        self._file_long("WARN", tag, text)
         return
 
     def error(self, text):
         scheme = _create_scheme("BRIGHT", "RED")
         self._log_short(scheme, "ERROR", text)
+        self._file_short("ERROR", text)
         return
 
     def log_traceback(self):
@@ -253,4 +289,5 @@ class Log(object):
         text = str(e)
 
         self._log_short(scheme, "EXCEPTION", text)
+        self._file_short("EXCEPTION", text)
         return

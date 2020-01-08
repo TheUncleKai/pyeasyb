@@ -186,10 +186,7 @@ class Message(object):
         return True
 
     def info(self, debug: str):
-        logging = "Address {0:d}, Code {1:d}, {2:s}, {3:s}, {4:s}".format(self.address, self.code, self.priority.name,
-                                                                          self.length.name, self.direction.name)
-        easyb.log.debug2(debug, logging)
-
-        logging = debug_data(self.stream.bytes)
+        line = "Address {0:d}, Code {1:d}, {2:s}, {3:s}, {4:s}"
+        logging = line.format(self.address, self.code, self.priority.name, self.length.name, self.direction.name)
         easyb.log.debug2(debug, logging)
         return

@@ -216,6 +216,8 @@ class Device(metaclass=ABCMeta):
 
         stream = message.stream.bytes
 
+        easyb.log.serial_write(stream)
+
         try:
             self.serial.write(stream)
         except serial.SerialException as e:
@@ -257,8 +259,7 @@ class Device(metaclass=ABCMeta):
             easyb.log.exception(e)
             return None
 
-        debug = debug_data(header)
-        easyb.log.debug1("SERIAL", "Header: {0:s}".format(debug))
+        easyb.log.serial_read(header)
 
         message = Message()
         check = message.decode(header)
@@ -300,9 +301,7 @@ class Device(metaclass=ABCMeta):
 
         stream = message.stream
 
-        debug = debug_data(data)
-        easyb.log.debug1("SERIAL", "{0:s}: {1:s}".format(message.length.name, debug))
-
+        easyb.log.serial_read(data)
         check = stream.append(data)
         if check is False:
             return None
