@@ -80,3 +80,9 @@ import easyb.config
 
 log = easyb.logging.Log()
 conf = easyb.config.Config()
+
+
+def set_log(log_module: easyb.logging.Log):
+    global log
+    log = log_module
+    return

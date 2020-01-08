@@ -397,7 +397,7 @@ class TestTask(object):
 if __name__ == '__main__':
 
     cov.start()
-    easyb.log.level = 2
+    easyb.log.open(level=2, name="run-test")
 
     main = TestTask()
 

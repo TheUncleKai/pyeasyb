@@ -16,11 +16,13 @@
 #    Copyright (C) 2017, Kai Raphahn <kai.raphahn@laburec.de>
 #
 
+
 import os
 import colorama
 import sys
 import traceback
 from datetime import datetime
+from typing import TextIO
 
 
 def _create_scheme(style="", fore="", back=""):
@@ -68,38 +70,84 @@ def _write_stderr(content, raw=False):
 
 class Log(object):
 
-    reset = colorama.Style.RESET_ALL
-    label_num = 15
-    seperator = "| "
-    level = 0
-    file_name = ""
-    file = None
-
-    def _write_file(self, content, raw=False):
-        if self.file_name == "":
-            return
-
-        if self.file is None:
-            file_path = os.path.abspath(os.path.normpath(self.file_name))
-            self.file = open(file_path, "a")
-        self.file.write(content)
-        if raw is True:
-            return
-        self.file.write("\n")
-        return
-
-    def __init__(self, **kwargs):
+    def __init__(self):
         colorama.init()
 
-        item = kwargs.get("file", "")
-        if item is not None:
-            self.file_name = item
+        self.app_name = ""
+        self.fill_number: int = 15
+        self.level: int = 0
+
+        self.name_logging: str = ""
+        self.name_serial: str = ""
+
+        # noinspection PyTypeChecker
+        self.file_logging: TextIO = None
+
+        # noinspection PyTypeChecker
+        self.file_serial: TextIO = None
         return
 
     def __del__(self):
-        if self.file is None:
+        if self.file_logging is not None:
+            self.file_logging.close()
+
+        if self.file_serial is not None:
+            self.file_serial.close()
+        return
+
+    def open(self, **kwargs) -> bool:
+        item = kwargs.get("name", None)
+        if item is not None:
+            self.app_name = item
+
+        item = kwargs.get("number", None)
+        if item is not None:
+            self.fill_number = item
+
+        item = kwargs.get("level", None)
+        if item is not None:
+            self.level = item
+
+        item = kwargs.get("logging", None)
+        if item is not None:
+            self.name_logging = item
+
+        item = kwargs.get("serial", None)
+        if item is not None:
+            self.name_serial = item
+
+        if (self.name_logging != "") and (self.file_logging is None):
+            file_path = os.path.abspath(os.path.normpath(self.name_logging))
+            self.file_logging = open(file_path, "a")
+
+        if (self.name_serial != "") and (self.file_serial is None):
+            file_path = os.path.abspath(os.path.normpath(self.name_serial))
+            self.file_serial = open(file_path, "a")
+        return True
+
+    def _write_logging(self, content: str, raw=False):
+        if self.file_logging is None:
             return
-        self.file.close()
+
+        self._write_file(self.file_logging, content, raw)
+        return
+
+    def _write_serial(self, content: str, raw=False):
+        if self.file_serial is None:
+            return
+
+        self._write_file(self.file_serial, content, raw)
+        return
+
+    @staticmethod
+    def _write_file(file: TextIO, content: str, raw=False):
+        if file is None:
+            return
+
+        file.write(content)
+        if raw is True:
+            return
+        file.write("\n")
         return
 
     @staticmethod
@@ -107,16 +155,48 @@ class Log(object):
         _write_stdout(content)
         return
 
+    def _log_short(self, scheme: str, level: str, text: str):
+        name = ""
+
+        if self.app_name != "":
+            name = self.app_name.ljust(self.fill_number)
+
+        level = level.ljust(self.fill_number)
+
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        content_stdout = "{0:s}{1:s} {2:s}{3:s}{4:s}| {5:s}".format(colorama.Style.RESET_ALL, name, scheme, level,
+                                                                    colorama.Style.RESET_ALL, text)
+
+        content_text = "{0:s}: {1:s} - {2:s}".format(timestamp, level, text)
+
+        _write_stdout(content_stdout)
+        self._write_logging(content_text)
+        return
+
+    def _log_long(self, scheme: str, level: str, tag: str, text: str):
+        name = ""
+
+        if self.app_name != "":
+            name = self.app_name.ljust(self.fill_number)
+
+        tag = tag.ljust(self.fill_number)
+        level = level.ljust(self.fill_number)
+
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        content_stdout = "{0:s}{1:s} {2:s}{3:s}{4:s}| {5:s}".format(colorama.Style.RESET_ALL, name, scheme, tag,
+                                                                    colorama.Style.RESET_ALL, text)
+        content_text = "{0:s}: {1:s}{2:s} - {3:s}".format(timestamp, level, tag, text)
+
+        _write_stdout(content_stdout)
+        self._write_logging(content_text)
+        return
+
     def inform(self, tag, text):
 
         scheme = _create_scheme("BRIGHT", "GREEN")
-
-        content = self.reset + scheme + " " + tag.ljust(self.label_num) + self.seperator + self.reset + text
-        _write_stdout(content)
-
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        text = timestamp + ": INFORM".ljust(self.label_num) + tag.ljust(self.label_num) + " - " + text
-        self._write_file(text)
+        self._log_long(scheme, "INFORM", tag, text)
         return
 
     def debug1(self, tag, text):
@@ -125,12 +205,7 @@ class Log(object):
             return
 
         scheme = _create_scheme("BRIGHT", "CYAN")
-        content = self.reset + scheme + " " + tag.ljust(self.label_num) + self.seperator + self.reset + text
-        _write_stdout(content)
-
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        text = timestamp + ": DEBUG1".ljust(self.label_num) + tag.ljust(self.label_num) + " - " + text
-        self._write_file(text)
+        self._log_long(scheme, "DEBUG1", tag, text)
         return
 
     def debug2(self, tag, text):
@@ -139,12 +214,7 @@ class Log(object):
             return
 
         scheme = _create_scheme("BRIGHT", "MAGENTA")
-        content = self.reset + scheme + " " + tag.ljust(self.label_num) + self.seperator + self.reset + text
-        _write_stdout(content)
-
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        text = timestamp + ": DEBUG2".ljust(self.label_num) + tag.ljust(self.label_num) + " - " + text
-        self._write_file(text)
+        self._log_long(scheme, "DEBUG2", tag, text)
         return
 
     def debug3(self, tag, text):
@@ -153,38 +223,17 @@ class Log(object):
             return
 
         scheme = _create_scheme("BRIGHT", "BLACK")
-
-        content = self.reset + scheme + " " + tag.ljust(self.label_num) + self.seperator + self.reset + text
-        _write_stdout(content)
-
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        text = timestamp + ": DEBUG3".ljust(self.label_num) + tag.ljust(self.label_num) + " - " + text
-        self._write_file(text)
+        self._log_long(scheme, "DEBUG3", tag, text)
         return
 
     def warn(self, tag, text):
-
         scheme = _create_scheme("BRIGHT", "MAGENTA")
-
-        content = self.reset + scheme + " " + tag.ljust(self.label_num) + self.seperator + self.reset + text
-        _write_stdout(content)
-
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        text = timestamp + ": WARN".ljust(self.label_num) + tag.ljust(self.label_num) + " - " + text
-        self._write_file(text)
+        self._log_long(scheme, "WARN", tag, text)
         return
 
     def error(self, text):
-
         scheme = _create_scheme("BRIGHT", "RED")
-        tag = "ERROR"
-
-        content = self.reset + scheme + " " + tag.ljust(self.label_num) + self.seperator + self.reset + text
-        _write_stderr(content)
-
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        text = timestamp + ": " + tag.ljust(self.label_num) + " - " + text
-        self._write_file(text)
+        self._log_short(scheme, "ERROR", text)
         return
 
     def log_traceback(self):
@@ -196,19 +245,12 @@ class Log(object):
         lines = traceback.format_tb(tb)
         for line in lines:
             _write_stderr(line, True)
-            self._write_file(line, True)
+            self._write_logging(line, True)
         return
 
     def exception(self, e):
-
         scheme = _create_scheme("BRIGHT", "RED")
-        tag = "EXCEPTION"
         text = str(e)
 
-        content = self.reset + scheme + " " + tag.ljust(self.label_num) + self.seperator + self.reset + text
-        _write_stderr(content)
-
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        text = timestamp + ": " + tag.ljust(self.label_num) + " - " + text
-        self._write_file(text)
+        self._log_short(scheme, "EXCEPTION", text)
         return

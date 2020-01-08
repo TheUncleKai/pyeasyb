@@ -19,7 +19,7 @@ import easyb
 
 from datetime import datetime
 
-from typing import List, Any
+from typing import Any
 
 __all__ = [
     "base",

@@ -16,6 +16,7 @@
 #    Copyright (C) 2017, Kai Raphahn <kai.raphahn@laburec.de>
 #
 
+import os
 import time
 import threading
 import unittest.mock as mock
@@ -30,6 +31,11 @@ from serial import EIGHTBITS, PARITY_NONE, STOPBITS_ONE
 from easyb.definitions import Direction, Length, Priority
 from easyb.command import Command
 from tests import TestDevice, TestException, TestSerial
+from easyb.logging import Log
+
+old_logging = easyb.log
+new_logging = Log()
+new_logging.open(name="Device", level=2)
 
 
 class TestControl(unittest.TestCase):
@@ -38,12 +44,13 @@ class TestControl(unittest.TestCase):
     def setUp(self):
         """set up test.
         """
-        easyb.log.level = 2
+        easyb.set_log(new_logging)
         return
 
     def tearDown(self):
         """tear down test.
         """
+        easyb.set_log(old_logging)
         return
 
     def test_constructor(self):
@@ -738,4 +745,52 @@ class TestControl(unittest.TestCase):
         column.type = None
 
         self.assertRaises(ValueError, device.run_loop)
+        return
+
+    def test_store_1(self):
+        data = [
+            [0xfe, 0x05, 0x26],
+            [0x71, 0x00, 0x48, 0xf8, 0x7b, 0x25],
+            [0xfe, 0x05, 0x26],
+            [0x71, 0x00, 0x48, 0xf8, 0x7b, 0x25],
+            [0xfe, 0x05, 0x26],
+            [0x71, 0x00, 0x48, 0xf8, 0x7b, 0x25],
+            [0xfe, 0x05, 0x26],
+            [0x71, 0x00, 0x48, 0xf8, 0x7b, 0x25],
+            [0xfe, 0x05, 0x26],
+            [0x71, 0x00, 0x48, 0xf8, 0x7b, 0x25],
+            [0xfe, 0x05, 0x26],
+            [0x71, 0x00, 0x48, 0xf8, 0x7b, 0x25],
+            [0xfe, 0x05, 0x26],
+            [0x71, 0x00, 0x48, 0xf8, 0x7b, 0x25],
+            [0xfe, 0x05, 0x26],
+            [0x71, 0x00, 0x48, 0xf8, 0x7b, 0x25]
+        ]
+
+        serial = TestSerial()
+        serial.read_data = data
+
+        device = TestDevice()
+        device.serial = serial
+
+        thread = threading.Thread(target=device.run_loop)
+        thread.start()
+        time.sleep(0.1)
+
+        while True:
+            check = device.active
+            if check is False:
+                break
+
+            if device.interval_counter == 5:
+                device.do_abort(None, None)
+
+            time.sleep(0.01)
+
+        check1 = device.store("EXCEL", "test")
+        check2 = os.path.exists("test.xlsx")
+        self.assertTrue(device.status)
+        self.assertTrue(check1)
+        self.assertTrue(check2)
+        os.remove("test.xlsx")
         return
