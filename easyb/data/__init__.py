@@ -34,7 +34,7 @@ __storage__ = [
 
 
 from easyb.data.base import Type, Column, Row, Collection
-from easyb.utils import get_attribute
+from bbutil.utils import get_attribute
 
 
 class Data(Collection):

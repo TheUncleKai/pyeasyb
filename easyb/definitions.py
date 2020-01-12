@@ -34,7 +34,7 @@ __all__ = [
     "Unit"
 ]
 
-from easyb.utils import check_dict
+from bbutil.utils import check_dict
 
 
 class Direction(Enum):

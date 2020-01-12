@@ -26,9 +26,7 @@ __all__ = [
     "config",
     "console",
     "definitions",
-    "device",
-    "logging",
-    "utils"
+    "device"
 ]
 
 
@@ -75,14 +73,8 @@ __version__ = "{0:d}.{1:d}.{2:d}.{3:d}".format(__milestone__, __major__, __minor
 __maintainer__ = __author__
 
 
-import easyb.logging
+from bbutil.logging import Logging
 import easyb.config
 
-log = easyb.logging.Log()
+log: Logging = Logging()
 conf = easyb.config.Config()
-
-
-def set_log(log_module: easyb.logging.Log):
-    global log
-    log = log_module
-    return

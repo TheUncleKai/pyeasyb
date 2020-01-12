@@ -145,7 +145,7 @@ class Console(object):
             return False
 
         self.options = options
-        easyb.log.level = options.verbose
+        easyb.log.setup(level=options.verbose)
 
         version = "python {0:d}.{1:d}.{2:d}.{3:s}".format(sys.version_info.major, sys.version_info.minor,
                                                           sys.version_info.micro, sys.version_info.releaselevel)
