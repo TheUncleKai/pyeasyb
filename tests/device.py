@@ -31,11 +31,14 @@ from serial import EIGHTBITS, PARITY_NONE, STOPBITS_ONE
 from easyb.definitions import Direction, Length, Priority
 from easyb.command import Command
 from tests import TestDevice, TestException, TestSerial
-from easyb.logging import Log
+from bbutil.logging import Logging
 
 old_logging = easyb.log
-new_logging = Log()
-new_logging.open(name="Device", level=0)
+new_logging = Logging()
+new_logging.setup(app="Device", level=0)
+console = new_logging.get_writer("console")
+console.setup(text_space=15, error_index=["ERROR", "EXCEPTION"])
+new_logging.register(console)
 
 
 class TestControl(unittest.TestCase):
@@ -44,13 +47,13 @@ class TestControl(unittest.TestCase):
     def setUp(self):
         """set up test.
         """
-        easyb.set_log(new_logging)
+        easyb.set_logging(new_logging)
         return
 
     def tearDown(self):
         """tear down test.
         """
-        easyb.set_log(old_logging)
+        easyb.set_logging(old_logging)
         return
 
     def test_constructor(self):
