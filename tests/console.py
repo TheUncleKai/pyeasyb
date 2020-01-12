@@ -58,6 +58,12 @@ data_run_1 = [
 ]
 
 
+data_close_1 = [
+    [0xfe, 0x05, 0x26],
+    [0x71, 0x00, 0x48, 0xf9, 0x9e, 0x85]
+]
+
+
 class TestserialPrepare11(TestSerial):
 
     def __init__(self, **kwargs):
@@ -71,6 +77,14 @@ class TestserialRun1(TestSerial):
     def __init__(self, **kwargs):
         TestSerial.__init__(self)
         self.read_data = data_run_1
+        return
+
+
+class TestserialClose1(TestSerial):
+
+    def __init__(self, **kwargs):
+        TestSerial.__init__(self)
+        self.read_data = data_close_1
         return
 
 
@@ -312,7 +326,7 @@ class TestConsole(unittest.TestCase):
         self.assertTrue(check2)
         return
 
-    @mock.patch('easyb.device.Serial', new=mock_serial)
+    @mock.patch('easyb.device.Serial', new=TestserialClose1)
     def test_close_1(self):
         """tear down test.
         """

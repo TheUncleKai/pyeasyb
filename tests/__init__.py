@@ -218,7 +218,7 @@ class TestOptions(object):
     def test_5(self):
         self.port = "TEST"
         self.device = "GMH 3710"
-        self.command = 12
+        self.command = 22
 
     def test_6(self):
         self.list = True
