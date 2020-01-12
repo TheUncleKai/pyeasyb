@@ -28,12 +28,24 @@ mock_serial_2 = mock.Mock()
 
 class TestOptions(object):
 
-    device = ""
-    command = 0
-    port = ""
-    verbose = 0
-    list = False
-    read = False
+    def __init__(self):
+        self.verbose = 0
+        self.read = False
+        self.list = False
+        self.interval = 2.0
+
+        self.device = ""
+        self.command = 0
+
+        self.port = ""
+        self.baudrate = 4800
+        self.timeout = 2
+        self.writetimeout = 2
+
+        self.output = "none"
+        self.filename = "measurement"
+        return
+
 
     def test_1(self):
         self.device = "GMH 3710"
