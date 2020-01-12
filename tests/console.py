@@ -32,7 +32,7 @@ mock_serial_2 = mock.Mock()
 
 old_logging = easyb.log
 new_logging = SerialLogging()
-new_logging.setup(app="Device", level=0)
+new_logging.setup(app="Device", level=2)
 cons = new_logging.get_writer("console")
 cons.index.append("SERIAL")
 
@@ -42,33 +42,19 @@ cons.setup(text_space=15, error_index=["ERROR", "EXCEPTION"])
 new_logging.register(cons)
 new_logging.open()
 
-data_11 = [
-    [0xfe, 0x33, 0xa4],
-    [0xff, 0x00, 0x28],
-    [0xfe, 0xc5, 0x68],
-    [0xcd, 0x40, 0x3c, 0x8f, 0x08, 0xb2],
-    [0xfe, 0xf5, 0xf8],
-    [0x35, 0x00, 0x47, 0xff, 0x01, 0x2f]
-]
-
-
-data_run_1 = [
-    [0xfe, 0x05, 0x26],
-    [0x71, 0x00, 0x48, 0xf9, 0x9e, 0x85]
-]
-
-
-data_close_1 = [
-    [0xfe, 0x05, 0x26],
-    [0x71, 0x00, 0x48, 0xf9, 0x9e, 0x85]
-]
-
 
 class TestserialPrepare11(TestSerial):
 
     def __init__(self, **kwargs):
         TestSerial.__init__(self)
-        self.read_data = data_11
+        self.read_data = [
+            [0xfe, 0x33, 0xa4],
+            [0xff, 0x00, 0x28],
+            [0xfe, 0xc5, 0x68],
+            [0xcd, 0x40, 0x3c, 0x8f, 0x08, 0xb2],
+            [0xfe, 0xf5, 0xf8],
+            [0x35, 0x00, 0x47, 0xff, 0x01, 0x2f]
+        ]
         return
 
 
@@ -76,7 +62,10 @@ class TestserialRun1(TestSerial):
 
     def __init__(self, **kwargs):
         TestSerial.__init__(self)
-        self.read_data = data_run_1
+        self.read_data = [
+            [0xfe, 0x05, 0x26],
+            [0x71, 0x00, 0x48, 0xf9, 0x9e, 0x85]
+        ]
         return
 
 
@@ -84,7 +73,10 @@ class TestserialClose1(TestSerial):
 
     def __init__(self, **kwargs):
         TestSerial.__init__(self)
-        self.read_data = data_close_1
+        self.read_data = [
+            [0xfe, 0x05, 0x26],
+            [0x71, 0x00, 0x48, 0xf9, 0x9e, 0x85]
+        ]
         return
 
 

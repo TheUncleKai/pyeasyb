@@ -179,7 +179,7 @@ class TestSerial(object):
 class TestOptions(object):
 
     def __init__(self):
-        self.verbose = 0
+        self.verbose = 2
         self.read = False
         self.list = False
         self.interval = 2.0
@@ -200,7 +200,7 @@ class TestOptions(object):
         self.device = "GMH 3710"
         self.command = 0
         self.port = "TEST"
-        self.verbose = 0
+        self.verbose = 2
         return
 
     def test_2(self):
@@ -227,11 +227,11 @@ class TestOptions(object):
         self.device = "GMH 3710"
         self.command = 0
         self.port = ""
-        self.verbose = 0
+        self.verbose = 2
 
     def test_8(self):
         self.device = "GMH 3710"
         self.command = 0
         self.port = "TEST"
-        self.verbose = 0
+        self.verbose = 2
         self.read = True

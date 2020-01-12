@@ -102,6 +102,7 @@ class Device(metaclass=ABCMeta):
         self.data.add_column("number", "Number", Type.integer)
 
         for item in easyb.conf.status:
+            item.is_set = False
             self.device_status.append(item)
         return
 
