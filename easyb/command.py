@@ -15,15 +15,12 @@
 #
 #    Copyright (C) 2017, Kai Raphahn <kai.raphahn@laburec.de>
 #
-from typing import List, Any
+from typing import List
 
 from easyb.definitions import Length
 
 
 class Command(object):
-
-    number = 0
-    address = 1
 
     @property
     def name(self) -> str:
@@ -46,20 +43,8 @@ class Command(object):
         return check
 
     def __init__(self, **kwargs):
-        """Initialise the Message.
-
-        :Arguments:
-        * name: command name
-        * number: command number
-        * address: address of unit to read
-        * code: F1 command code
-        * length: message length
-        * param: command param
-        * func_call: function call for command
-
-        :param kwargs: keyworded variable length of arguments.
-        :type kwargs: **dict
-        """
+        self.number = 0
+        self.address = 1
 
         self._name = ""
         self._code = 0

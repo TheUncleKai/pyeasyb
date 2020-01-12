@@ -36,8 +36,6 @@ __all__ = [
 
 class Console(object):
 
-    options = None
-
     @property
     def parser(self) -> OptionParser:
         return self._parser
@@ -47,6 +45,8 @@ class Console(object):
         return self._device
 
     def __init__(self):
+
+        self.options = None
 
         usage = "usage: %prog [options] arg1 arg2"
 

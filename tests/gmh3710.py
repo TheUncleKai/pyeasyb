@@ -16,69 +16,12 @@
 #    Copyright (C) 2017, Kai Raphahn <kai.raphahn@laburec.de>
 #
 
-import unittest.mock as mock
 import unittest
 
 import easyb
 
-from easyb.message import Message
-
-
-from serial import SerialException
-
-from serial import EIGHTBITS, PARITY_NONE, STOPBITS_ONE
-from easyb.definitions import Direction, Length, Priority
 
 from easyb.devices.gmh3710 import GMH3710
-
-
-class TestRead(object):
-
-    run = 0
-
-    def test_read_1(self, count) -> bytes:
-        data = []
-
-        if self.run == 0:
-            data = [0xfe, 0x0d, 0x1e]
-        if self.run == 1:
-            data = [0x72, 0xff, 0x84, 0x00, 0xfc, 0x05]
-        result = bytes(data)
-
-        self.run += 1
-        return result
-
-    def test_read_2(self, count) -> bytes:
-
-        message = Message(code=0, address=1, priority=Priority.NoPriority, length=Length.Variable,
-                          direction=Direction.FromMaster)
-
-        result = message.encode()
-        return result
-
-    def test_read_3(self, count) -> bytes:
-        data = []
-
-        if self.run == 0:
-            data = [0xfe, 0x0d, 0x1e]
-        if self.run == 1:
-            raise SerialException('Attempting to use a port that is not open')
-        result = bytes(data)
-
-        self.run += 1
-        return result
-
-    def test_read_4(self, count) -> bytes:
-        data = []
-
-        if self.run == 0:
-            data = [0xfe, 0x0d, 0x1e]
-        if self.run == 1:
-            data = [0x73, 0xff, 0x84, 0x00, 0xfc, 0x05]
-        result = bytes(data)
-
-        self.run += 1
-        return result
 
 
 class TestGMH3710(unittest.TestCase):
@@ -104,7 +47,7 @@ class TestGMH3710(unittest.TestCase):
         self.assertEqual(device.baudrate, 4800)
         self.assertEqual(device.address, 0)
         self.assertEqual(device.write_timeout, 2)
-        self.assertEqual(device.timeout, 6)
+        self.assertEqual(device.timeout, 2)
         self.assertEqual(device.wait_time, 0.1)
         self.assertIsNone(device.serial)
         return
@@ -121,21 +64,5 @@ class TestGMH3710(unittest.TestCase):
         self.assertEqual(device.write_timeout, 3)
         self.assertEqual(device.timeout, 60)
         self.assertEqual(device.wait_time, 0.2)
-        self.assertIsNone(device.serial)
-        return
-
-    def test_constructor_1(self):
-        """Test constructor.
-        """
-        device = GMH3710()
-
-        self.assertNotEqual(device, None)
-        self.assertEqual(device.name, "GMH 3710")
-        self.assertEqual(device.port, "")
-        self.assertEqual(device.baudrate, 4800)
-        self.assertEqual(device.address, 0)
-        self.assertEqual(device.write_timeout, 2)
-        self.assertEqual(device.timeout, 6)
-        self.assertEqual(device.wait_time, 0.1)
         self.assertIsNone(device.serial)
         return
