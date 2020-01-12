@@ -73,10 +73,10 @@ __version__ = "{0:d}.{1:d}.{2:d}.{3:d}".format(__milestone__, __major__, __minor
 __maintainer__ = __author__
 
 
-from bbutil.logging import Logging
+from easyb.logging import SerialLogging
 import easyb.config
 
-log: Logging = Logging()
+log: SerialLogging = SerialLogging()
 conf = easyb.config.Config()
 
 

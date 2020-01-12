@@ -31,14 +31,19 @@ from serial import EIGHTBITS, PARITY_NONE, STOPBITS_ONE
 from easyb.definitions import Direction, Length, Priority
 from easyb.command import Command
 from tests import TestDevice, TestException, TestSerial
-from bbutil.logging import Logging
+from easyb.logging import SerialLogging
 
 old_logging = easyb.log
-new_logging = Logging()
+new_logging = SerialLogging()
 new_logging.setup(app="Device", level=0)
 console = new_logging.get_writer("console")
+console.index.append("SERIAL")
+
+# noinspection PyUnresolvedReferences
+console.add_style("SERIAL", "BRIGHT", "YELLOW", "")
 console.setup(text_space=15, error_index=["ERROR", "EXCEPTION"])
 new_logging.register(console)
+new_logging.open()
 
 
 class TestControl(unittest.TestCase):
