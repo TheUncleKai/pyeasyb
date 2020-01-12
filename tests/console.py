@@ -22,88 +22,70 @@ import unittest.mock as mock
 from easyb.console import Console
 from serial import SerialException
 
+import easyb
+from easyb.logging import SerialLogging
+
+from tests import TestOptions, TestSerial
+
 mock_serial = mock.Mock()
 mock_serial_2 = mock.Mock()
 
+old_logging = easyb.log
+new_logging = SerialLogging()
+new_logging.setup(app="Device", level=0)
+cons = new_logging.get_writer("console")
+cons.index.append("SERIAL")
 
-class TestOptions(object):
+# noinspection PyUnresolvedReferences
+cons.add_style("SERIAL", "BRIGHT", "YELLOW", "")
+cons.setup(text_space=15, error_index=["ERROR", "EXCEPTION"])
+new_logging.register(cons)
+new_logging.open()
 
-    def __init__(self):
-        self.verbose = 0
-        self.read = False
-        self.list = False
-        self.interval = 2.0
+data_11 = [
+    [0xfe, 0x33, 0xa4],
+    [0xff, 0x00, 0x28],
+    [0xfe, 0xc5, 0x68],
+    [0xcd, 0x40, 0x3c, 0x8f, 0x08, 0xb2],
+    [0xfe, 0xf5, 0xf8],
+    [0x35, 0x00, 0x47, 0xff, 0x01, 0x2f]
+]
 
-        self.device = ""
-        self.command = 0
 
-        self.port = ""
-        self.baudrate = 4800
-        self.timeout = 2
-        self.writetimeout = 2
+data_run_1 = [
+    [0xfe, 0x05, 0x26],
+    [0x71, 0x00, 0x48, 0xf9, 0x9e, 0x85]
+]
 
-        self.output = "none"
-        self.filename = "measurement"
+
+class TestserialPrepare11(TestSerial):
+
+    def __init__(self, **kwargs):
+        TestSerial.__init__(self)
+        self.read_data = data_11
         return
 
 
-    def test_1(self):
-        self.device = "GMH 3710"
-        self.command = 0
-        self.port = "TEST"
-        self.verbose = 0
+class TestserialRun1(TestSerial):
 
-    def test_2(self):
-        self.port = "TEST"
-
-    def test_3(self):
-        self.port = "TEST"
-        self.device = "GMH"
-
-    def test_4(self):
-        self.port = "TEST"
-        self.device = "GMH 3710"
-        self.command = None
-
-    def test_5(self):
-        self.port = "TEST"
-        self.device = "GMH 3710"
-        self.command = 12
-
-    def test_6(self):
-        self.list = True
-
-    def test_7(self):
-        self.device = "GMH 3710"
-        self.command = 0
-        self.port = ""
-        self.verbose = 0
-
-    def test_8(self):
-        self.device = "GMH 3710"
-        self.command = 0
-        self.port = "TEST"
-        self.verbose = 0
-        self.read = True
+    def __init__(self, **kwargs):
+        TestSerial.__init__(self)
+        self.read_data = data_run_1
+        return
 
 
 # noinspection DuplicatedCode
 class TestConsole(unittest.TestCase):
-    """Testing class for message coding and decoding module."""
 
     def setUp(self):
-        """set up test.
-        """
+        easyb.set_logging(new_logging)
         return
 
     def tearDown(self):
-        """tear down test.
-        """
+        easyb.set_logging(old_logging)
         return
 
     def test_constructor(self):
-        """tear down test.
-        """
         console = Console()
 
         self.assertIsNone(console.device)
@@ -277,7 +259,7 @@ class TestConsole(unittest.TestCase):
         self.assertFalse(check)
         return
 
-    @mock.patch('easyb.device.Serial', new=mock_serial)
+    @mock.patch('easyb.device.Serial', new=TestserialPrepare11)
     def test_prepare_11(self):
         options = TestOptions()
         options.test_8()
@@ -292,7 +274,7 @@ class TestConsole(unittest.TestCase):
         self.assertTrue(check)
         return
 
-    @mock.patch('easyb.device.Serial', new=mock_serial)
+    @mock.patch('easyb.device.Serial', new=TestserialRun1)
     def test_run_1(self):
         """tear down test.
         """

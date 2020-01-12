@@ -166,6 +166,9 @@ class Console(object):
             return True
 
         c = get_device(self.options.device)
+        if c is None:
+            easyb.log.error("Unable to find device {0:s}".format(self.options.device))
+            return False
 
         # noinspection PyCallingNonCallable
         self._device = c(address=1, port=self.options.port, baudrate=self.options.baudrate,
