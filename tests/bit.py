@@ -16,10 +16,9 @@
 #    Copyright (C) 2017, Kai Raphahn <kai.raphahn@laburec.de>
 #
 
-import sys
 import unittest
 
-from easyb.bit import Value
+from easyb.bit import Value, debug_data
 
 
 # noinspection DuplicatedCode
@@ -29,6 +28,14 @@ class TestBit(unittest.TestCase):
         return
 
     def tearDown(self):
+        return
+
+    def test_debug_data(self):
+        data = [255, 0, 5]
+        tests = "0xff 0x00 0x05"
+        value = debug_data(bytes(data))
+
+        self.assertEqual(tests, value)
         return
 
     def test_create_crc(self):

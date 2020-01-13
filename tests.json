@@ -5,6 +5,7 @@
             "path": "tests.bit",
             "classname": "TestBit",
             "tests": [
+                "test_debug_data",
                 "test_create_crc",
                 "test_crop_u8_1",
                 "test_crop_u8_2",
