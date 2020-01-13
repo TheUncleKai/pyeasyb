@@ -24,7 +24,7 @@ from easyb.data.base import Type
 from easyb.command import Command
 from easyb.device import Device
 from easyb.message import Message
-from easyb.bit import decode_u32
+from easyb.bit import Value
 from easyb.definitions import Error
 
 __all__ = [
@@ -72,17 +72,18 @@ class TestDevice(Device):
             return False
 
         data = message.stream.data
+        bitio = Value(data=data)
 
-        error, value = decode_u32(data[3], data[4], data[6], data[7])
+        check = bitio.value_decode_u32()
 
-        if error is not None:
-            easyb.log.warn(self.name, "Error: {0:s}".format(error.text))
+        if check is False:
+            easyb.log.warn(self.name, "Error: {0:s}".format(bitio.error.text))
         else:
-            debug = "{0:.2f}".format(value)
+            debug = "{0:.2f}".format(bitio.value)
             easyb.log.inform(self.name, debug)
 
-        self.error = error
-        self.value = value
+        self.error = bitio.error
+        self.value = bitio.value
         return True
 
     def prepare(self) -> bool:
@@ -96,16 +97,17 @@ class TestDevice(Device):
             return False
 
         data = message.stream.data
-        error, value = decode_u32(data[3], data[4], data[6], data[7])
+        bitio = Value(data=data)
 
+        check = bitio.value_decode_u32()
         row = self.create_row()
 
-        if error is not None:
-            easyb.log.warn(self.name, "Error: {0:s}".format(error.text))
+        if check is False:
+            easyb.log.warn(self.name, "Error: {0:s}".format(bitio.error.text))
             row.value = 0.0
-            row.error = error.text
+            row.error = bitio.error.text
         else:
-            row.value = value
+            row.value = bitio.value
             row.error = ""
             debug = "{0:06d} {1:s}: {2:.2f}".format(self.interval_counter, row.datetime.strftime("%H:%M:%S"), row.value)
             easyb.log.inform(self.name, debug)

@@ -16,70 +16,161 @@
 #    Copyright (C) 2017, Kai Raphahn <kai.raphahn@laburec.de>
 #
 
-
+import sys
 import unittest
 
-import easyb.bit
+from easyb.bit import Value
 
 
 # noinspection DuplicatedCode
 class TestBit(unittest.TestCase):
-    """Testing class for message coding and decoding module."""
 
     def setUp(self):
-        """set up test.
-        """
         return
 
     def tearDown(self):
-        """tear down test.
-        """
         return
 
     def test_create_crc(self):
 
+        bitio = Value()
+
         byte1 = 0xfe
         byte2 = 0x00
 
-        crc = easyb.bit.create_crc(byte1, byte2)
+        crc = bitio.create_crc(byte1, byte2)
 
-        self.assertEqual(crc, 0x3d, "Failed: crc: " + hex(crc))
+        self.assertEqual(crc, 0x3d)
+        return
+
+    def test_crop_u8_1(self):
+        bitio = Value()
+
+        value1 = 0xffffffffffffffff
+        value2 = 0x00000000000000ff
+
+        value = bitio.crop_u8(value1)
+        self.assertEqual(value2, value)
+        return
+
+    def test_crop_u8_2(self):
+        bitio = Value()
+
+        value1 = 0xffffffff
+        value2 = 0x000000ff
+
+        value = bitio.crop_u8(value1)
+        self.assertEqual(value2, value)
+        return
+
+    def test_crop_u8_3(self):
+        bitio = Value()
+
+        value1 = 0xfff
+        value2 = 0x0ff
+
+        value = bitio.crop_u8(value1)
+        self.assertEqual(value2, value)
+        return
+
+    def test_crop_u16_1(self):
+        bitio = Value()
+
+        value1 = 0xffffffff
+        value2 = 0x0000ffff
+
+        value = bitio.crop_u16(value1)
+        self.assertEqual(value2, value)
+        return
+
+    def test_crop_u16_2(self):
+        bitio = Value()
+
+        value1 = 0xffffffffffffffff
+        value2 = 0x000000000000ffff
+
+        value = bitio.crop_u16(value1)
+        self.assertEqual(value2, value)
+        return
+
+    def test_crop_u32_1(self):
+        bitio = Value()
+
+        value1 = 0xffffffffffffffff
+        value2 = 0x00000000ffffffff
+
+        value = bitio.crop_u32(value1)
+        self.assertEqual(value2, value)
         return
 
     def test_check_crc_1(self):
+        bitio = Value()
 
-        check = easyb.bit.check_crc(0xfe, 0x00, 0x3d)
+        check = bitio.check_crc(0xfe, 0x00, 0x3d)
 
-        self.assertIs(check, True, "Failed: crc")
+        self.assertIs(check, True)
         return
 
     def test_check_crc_2(self):
+        bitio = Value()
 
-        check = easyb.bit.check_crc(0xfe, 0x00, 0x3c)
+        check = bitio.check_crc(0xfe, 0x00, 0x3c)
 
-        self.assertIs(check, False, "Failed: crc")
+        self.assertIs(check, False)
         return
 
-    def test_decode_u32(self):
-        error, value = easyb.bit.decode_u32(0x72, 0xff, 0x00, 0xfc)
+    def test_value_decode_u32_1(self):
+        data = [0, 0, 0, 0x72, 0xff, 0, 0x00, 0xfc]
 
-        self.assertIsNone(error)
-        self.assertEqual(value, -0.04)
+        bitio = Value(data=data)
+
+        check = bitio.value_decode_u32()
+
+        self.assertTrue(check)
+        self.assertIsNone(bitio.error)
+        self.assertEqual(bitio.value, -0.04)
+        return
+
+    def test_value_decode_u32_2(self):
+        data = [0xfe, 0x65, 0x01, 0x70, 0xf6, 0x91, 0xdf, 0xed, 0x0b]
+
+        bitio = Value(data=data)
+
+        check = bitio.value_decode_u32()
+
+        self.assertFalse(check)
+        self.assertIsNotNone(bitio.error)
+        self.assertEqual(bitio.value, 0.0)
+        self.assertEqual(bitio.error.text, "No sensor")
         return
 
     def test_encode_u32_1(self):
         value = -0.04
         check = [0x72, 0xff, 0x84, 0x00, 0xfc, 0x05]
 
-        data = easyb.bit.encode_u32(value)
-        self.assertListEqual(data, check, "Failed: encode_u32")
+        bitio = Value(value=value)
+        bitio.encode_u32()
+
+        self.assertListEqual(bitio.data, check)
         return
 
     def test_encode_u32_2(self):
         value = 53.84
 
-        data = easyb.bit.encode_u32(value)
-        error, check = easyb.bit.decode_u32(data[0], data[1], data[3], data[4])
-        self.assertIsNone(error)
-        self.assertEqual(check, value)
+        bitio1 = Value(value=value)
+        bitio1.encode_u32()
+
+        data = [0, 0, 0]
+
+        for item in bitio1.data:
+            data.append(item)
+
+        bitio2 = Value(data=data)
+        check = bitio2.value_decode_u32()
+
+        self.assertIsNone(bitio1.error)
+        self.assertIsNone(bitio2.error)
+        self.assertTrue(check)
+
+        self.assertEqual(value, bitio2.value)
         return

@@ -19,7 +19,7 @@ import easyb
 
 from typing import List
 from easyb.definitions import Length
-from easyb.bit import debug_data, check_crc, crop_u8, create_crc
+from easyb.bit import debug_data, Value
 
 __all__ = [
     "Stream"
@@ -74,6 +74,8 @@ class Stream(object):
             easyb.log.error("Data is empty!")
             return False
 
+        bitio = Value()
+
         pos_set = 0
         while True:
             if pos_set >= length:
@@ -83,9 +85,9 @@ class Stream(object):
             pos2 = pos_set + 1
             pos3 = pos_set + 2
 
-            byte1 = crop_u8(255 - self.data[pos1])
+            byte1 = bitio.crop_u8(255 - self.data[pos1])
             byte2 = self.data[pos2]
-            crc = create_crc(byte1, byte2)
+            crc = bitio.create_crc(byte1, byte2)
 
             self.data[pos1] = byte1
             self.data[pos2] = byte2
@@ -160,6 +162,7 @@ class Stream(object):
 
     def verify_crc(self) -> bool:
         length = len(self.data)
+        bitio = Value()
 
         pos_set = 0
         while True:
@@ -170,7 +173,7 @@ class Stream(object):
             byte2 = self.data[pos_set + 1]
             crc = self.data[pos_set + 2]
 
-            check = check_crc(byte1, byte2, crc)
+            check = bitio.check_crc(byte1, byte2, crc)
             if check is False:
                 return False
 

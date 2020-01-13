@@ -1,6 +1,26 @@
 {
     "modules": [
         {
+            "id": "BitIO",
+            "path": "tests.bit",
+            "classname": "TestBit",
+            "tests": [
+                "test_create_crc",
+                "test_crop_u8_1",
+                "test_crop_u8_2",
+                "test_crop_u8_3",
+                "test_crop_u16_1",
+                "test_crop_u16_2",
+                "test_crop_u32_1",
+                "test_check_crc_1",
+                "test_check_crc_2",
+                "test_value_decode_u32_1",
+                "test_value_decode_u32_2",
+                "test_encode_u32_1",
+                "test_encode_u32_2"
+            ]
+        },
+        {
             "id": "Device",
             "path": "tests.device",
             "classname": "TestControl",
@@ -90,19 +110,6 @@
                 "test_decode_1",
                 "test_decode_2",
                 "test_decode_3"
-            ]
-        },
-        {
-            "id": "BitIO",
-            "path": "tests.bit",
-            "classname": "TestBit",
-            "tests": [
-                "test_create_crc",
-                "test_check_crc_1",
-                "test_check_crc_2",
-                "test_decode_u32",
-                "test_encode_u32_1",
-                "test_encode_u32_2"
             ]
         },
         {

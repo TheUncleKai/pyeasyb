@@ -25,7 +25,7 @@ from easyb.definitions import Length
 from easyb.command import Command
 from easyb.message import Message
 from easyb.device import Device
-from easyb.bit import convert_u16, convert_u32, decode_u16, decode_u32
+from easyb.bit import Value
 
 __all__ = [
     "GMH3710"
@@ -57,27 +57,28 @@ class GMH3710(Device):
 
     def messwert_lesen(self, message: Message) -> bool:
         data = message.stream.data
-        error = 0
-        value = 0.0
+        bitio = Value(data=data)
+        check = False
 
         if message.length is Length.Byte6:
-            error, value = decode_u16(data[3], data[4])
+            check = bitio.value_decode_u16()
 
         if message.length is Length.Byte9:
-            error, value = decode_u32(data[3], data[4], data[6], data[7])
+            check = bitio.value_decode_u32()
 
-        if error is not None:
-            easyb.log.warn(self.name, "Error: {0:s}".format(error.text))
+        if check is False:
+            easyb.log.warn(self.name, "Error: {0:s}".format(bitio.error.text))
         else:
             now = datetime.now()
-            debug = "{0:s}: {1:.2f}".format(now.strftime("%Y-%m-%d %H:%M:%S"), value)
+            debug = "{0:s}: {1:.2f}".format(now.strftime("%Y-%m-%d %H:%M:%S"), bitio.value)
             easyb.log.inform(self.name, debug)
         return True
 
     def systemstatus_lesen(self, message: Message) -> bool:
         data = message.stream.data
+        bitio = Value()
 
-        value = convert_u16(data[3], data[4])
+        value = bitio.decode_u16(data[3], data[4])
 
         counter = self.set_status(value)
 
@@ -92,46 +93,47 @@ class GMH3710(Device):
 
     def minwert_lesen(self, message: Message) -> bool:
         data = message.stream.data
-        error = None
-        value = 0.0
+        bitio = Value(data=data)
+        check = False
 
         if message.length is Length.Byte6:
-            error, value = decode_u16(data[3], data[4])
+            check = bitio.value_decode_u16()
 
         if message.length is Length.Byte9:
-            error, value = decode_u32(data[3], data[4], data[6], data[7])
+            check = bitio.value_decode_u32()
 
-        if error is not None:
-            easyb.log.warn(self.name, "Error: {0:s}".format(error.text))
+        if check is False:
+            easyb.log.warn(self.name, "Error: {0:s}".format(bitio.error.text))
         else:
-            easyb.log.inform("Min. value", str(value))
-            self.min_value = value
+            easyb.log.inform("Min. value", str(bitio.value))
+            self.min_value = bitio.value
         return True
 
     def maxwert_lesen(self, message: Message) -> bool:
         data = message.stream.data
-        error = None
-        value = 0.0
+        bitio = Value(data=data)
+        check = False
 
         if message.length is Length.Byte6:
-            error, value = decode_u16(data[3], data[4])
+            check = bitio.value_decode_u16()
 
         if message.length is Length.Byte9:
-            error, value = decode_u32(data[3], data[4], data[6], data[7])
+            check = bitio.value_decode_u32()
 
-        if error is not None:
-            easyb.log.warn(self.name, "Error: {0:s}".format(error.text))
+        if check is False:
+            easyb.log.warn(self.name, "Error: {0:s}".format(bitio.error.text))
         else:
-            easyb.log.inform("Max. value", str(value))
-            self.max_value = value
+            easyb.log.inform("Max. value", str(bitio.value))
+            self.max_value = bitio.value
         return True
 
     def id_nummer_lesen(self, message: Message) -> bool:
         data = message.stream.data
+        bitio = Value()
 
-        input1 = convert_u16(data[3], data[4])
-        input2 = convert_u16(data[6], data[7])
-        value = convert_u32(input1, input2)
+        input1 = bitio.decode_u16(data[3], data[4])
+        input2 = bitio.decode_u16(data[6], data[7])
+        value = bitio.decode_u32(input1, input2)
 
         self.id_number = value
 
@@ -141,8 +143,9 @@ class GMH3710(Device):
     # noinspection PyUnusedLocal
     def anzeige_einheit_lesen(self, message: Message) -> bool:
         data = message.stream.data
+        bitio = Value()
 
-        value = convert_u16(data[6], data[7])
+        value = bitio.decode_u16(data[6], data[7])
 
         unit = easyb.conf.get_unit(value)
         if unit is None:
@@ -258,23 +261,23 @@ class GMH3710(Device):
             return False
 
         data = message.stream.data
-        error = 0
-        value = 0.0
+        bitio = Value(data=data)
+        check = False
 
         if message.length is Length.Byte6:
-            error, value = decode_u16(data[3], data[4])
+            check = bitio.value_decode_u16()
 
         if message.length is Length.Byte9:
-            error, value = decode_u32(data[3], data[4], data[6], data[7])
+            check = bitio.value_decode_u32()
 
         row = self.create_row()
 
-        if error is not None:
-            easyb.log.warn(self.name, "Error: {0:s}".format(error.text))
+        if check is False:
+            easyb.log.warn(self.name, "Error: {0:s}".format(bitio.error.text))
             row.value = 0.0
-            row.error = error.text
+            row.error = bitio.error.text
         else:
-            row.value = value
+            row.value = bitio.value
             row.error = ""
             debug = "{0:06d} {1:s}: {2:.2f}".format(self.interval_counter, row.datetime.strftime("%H:%M:%S"), row.value)
             easyb.log.inform(self.name, debug)
