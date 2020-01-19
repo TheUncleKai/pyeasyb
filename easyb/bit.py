@@ -62,6 +62,11 @@ class Value(object):
         return
 
     @staticmethod
+    def convert_unsigned(unsigned_value, bitsize) -> int:
+        signed_value = unsigned_value if unsigned_value < (1 << bitsize - 1) else unsigned_value - (1 << bitsize)
+        return signed_value
+
+    @staticmethod
     def to_signed32(value):
         value = value & 0xffffffff
         return (value ^ 0x80000000) - 0x80000000
@@ -141,6 +146,29 @@ class Value(object):
 
         self.value = float(zaehler / nenner)
         return True
+
+    def encode_u16(self):
+        float_value = self.value
+        floor_value = math.floor(float_value)
+        floor_str = str(floor_value)
+
+        pos = len(floor_str)
+
+        i16_integer = int(float_value * float(float(10.0) ** pos)) + 2048
+        i16_integer = self.crop_u16(i16_integer)
+        u16_integer = self.convert_unsigned(i16_integer, 16)
+
+        float_pos = self.crop_u16(pos << 14)
+        u16_integer = u16_integer | float_pos
+
+        byte3 = u16_integer >> 8
+        byte3 = 255 - byte3
+
+        byte4 = self.crop_u8(u16_integer & 0x00ff)
+        byte5 = self.create_crc(byte3, byte4)
+
+        self.data = [byte3, byte4, byte5]
+        return
 
     def value_decode_u32(self) -> bool:
         byte3: int = self.data[3]

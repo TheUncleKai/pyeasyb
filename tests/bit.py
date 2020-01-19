@@ -181,3 +181,18 @@ class TestBit(unittest.TestCase):
 
         self.assertEqual(value, bitio2.value)
         return
+
+    def test_encode_u16_1(self):
+        value = 7.0
+        check_data1 = [0, 0, 0, 183, 70, 14]
+        check_data2 = [183, 70, 14]
+
+        bitio1 = Value(value=value)
+        bitio1.encode_u16()
+
+        bitio2 = Value(data=check_data1)
+        bitio2.value_decode_u16()
+
+        self.assertEqual(value, bitio2.value)
+        self.assertListEqual(check_data2, bitio1.data)
+        return

@@ -18,7 +18,8 @@
                 "test_value_decode_u32_1",
                 "test_value_decode_u32_2",
                 "test_encode_u32_1",
-                "test_encode_u32_2"
+                "test_encode_u32_2",
+                "test_encode_u16_1"
             ]
         },
         {
