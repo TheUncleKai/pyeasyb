@@ -24,7 +24,7 @@ from easyb.command import Command
 from easyb.message.stream import Stream
 
 from easyb.definitions import Direction, get_direction, Length, get_length, Priority, get_priority
-from easyb.bit import Value
+from easyb.bit import crop_u8
 
 __all__ = [
     "stream",
@@ -103,20 +103,19 @@ class Message(object):
         return True
 
     def _encode_header(self, data: List[int]):
-        bitio = Value()
         u8 = 0
 
-        direction = bitio.crop_u8(self.direction.value)
-        length = bitio.crop_u8(self.length.value << 1)
-        priority = bitio.crop_u8(self.priority.value << 3)
-        code = bitio.crop_u8(self.code << 4)
+        direction = crop_u8(self.direction.value)
+        length = crop_u8(self.length.value << 1)
+        priority = crop_u8(self.priority.value << 3)
+        code = crop_u8(self.code << 4)
 
-        u8 = bitio.crop_u8(u8 | direction)
-        u8 = bitio.crop_u8(u8 | length)
-        u8 = bitio.crop_u8(u8 | priority)
-        u8 = bitio.crop_u8(u8 | code)
+        u8 = crop_u8(u8 | direction)
+        u8 = crop_u8(u8 | length)
+        u8 = crop_u8(u8 | priority)
+        u8 = crop_u8(u8 | code)
 
-        byte = bitio.crop_u8(self.address)
+        byte = crop_u8(self.address)
         data.append(byte)
 
         result = int(u8)

@@ -15,6 +15,8 @@
                 "test_crop_u32_1",
                 "test_check_crc_1",
                 "test_check_crc_2",
+                "test_value_decode_u16_1",
+                "test_value_decode_u16_2",
                 "test_value_decode_u32_1",
                 "test_value_decode_u32_2",
                 "test_encode_u32_1",

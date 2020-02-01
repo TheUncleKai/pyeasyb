@@ -74,7 +74,7 @@ class TestDevice(Device):
         data = message.stream.data
         bitio = Value(data=data)
 
-        check = bitio.value_decode_u32()
+        check = bitio.decode32()
 
         if check is False:
             easyb.log.warn(self.name, "Error: {0:s}".format(bitio.error.text))
@@ -99,7 +99,7 @@ class TestDevice(Device):
         data = message.stream.data
         bitio = Value(data=data)
 
-        check = bitio.value_decode_u32()
+        check = bitio.decode32()
         row = self.create_row()
 
         if check is False:

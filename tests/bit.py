@@ -18,7 +18,7 @@
 
 import unittest
 
-from easyb.bit import Value, debug_data
+from easyb.bit import Value, debug_data, crop_u8, crop_u16, crop_u32, check_crc, create_crc
 
 
 # noinspection DuplicatedCode
@@ -39,91 +39,99 @@ class TestBit(unittest.TestCase):
         return
 
     def test_create_crc(self):
-
-        bitio = Value()
-
         byte1 = 0xfe
         byte2 = 0x00
 
-        crc = bitio.create_crc(byte1, byte2)
+        crc = create_crc(byte1, byte2)
 
         self.assertEqual(crc, 0x3d)
         return
 
     def test_crop_u8_1(self):
-        bitio = Value()
-
         value1 = 0xffffffffffffffff
         value2 = 0x00000000000000ff
 
-        value = bitio.crop_u8(value1)
+        value = crop_u8(value1)
         self.assertEqual(value2, value)
         return
 
     def test_crop_u8_2(self):
-        bitio = Value()
-
         value1 = 0xffffffff
         value2 = 0x000000ff
 
-        value = bitio.crop_u8(value1)
+        value = crop_u8(value1)
         self.assertEqual(value2, value)
         return
 
     def test_crop_u8_3(self):
-        bitio = Value()
-
         value1 = 0xfff
         value2 = 0x0ff
 
-        value = bitio.crop_u8(value1)
+        value = crop_u8(value1)
         self.assertEqual(value2, value)
         return
 
     def test_crop_u16_1(self):
-        bitio = Value()
-
         value1 = 0xffffffff
         value2 = 0x0000ffff
 
-        value = bitio.crop_u16(value1)
+        value = crop_u16(value1)
         self.assertEqual(value2, value)
         return
 
     def test_crop_u16_2(self):
-        bitio = Value()
-
         value1 = 0xffffffffffffffff
         value2 = 0x000000000000ffff
 
-        value = bitio.crop_u16(value1)
+        value = crop_u16(value1)
         self.assertEqual(value2, value)
         return
 
     def test_crop_u32_1(self):
-        bitio = Value()
-
         value1 = 0xffffffffffffffff
         value2 = 0x00000000ffffffff
 
-        value = bitio.crop_u32(value1)
+        value = crop_u32(value1)
         self.assertEqual(value2, value)
         return
 
     def test_check_crc_1(self):
-        bitio = Value()
-
-        check = bitio.check_crc(0xfe, 0x00, 0x3d)
+        check = check_crc(0xfe, 0x00, 0x3d)
 
         self.assertIs(check, True)
         return
 
     def test_check_crc_2(self):
-        bitio = Value()
-
-        check = bitio.check_crc(0xfe, 0x00, 0x3c)
+        check = check_crc(0xfe, 0x00, 0x3c)
 
         self.assertIs(check, False)
+        return
+
+    def test_value_decode_u16_1(self):
+        value = 7.0
+        check_data1 = [0, 0, 0, 183, 70, 14]
+
+        bitio2 = Value(data=check_data1)
+        bitio2.decode16()
+
+        self.assertEqual(value, bitio2.value)
+        return
+
+    def test_value_decode_u16_2(self):
+        value = 0x3fed
+        byte1 = 255 - ((value & 0xff00) >> 8)
+        byte2 = value & 0x00ff
+        crc = create_crc(byte1, byte2)
+
+        check_data1 = [0, 0, 0, byte1, byte2, crc]
+
+        bitio = Value(data=check_data1)
+        check = bitio.decode16()
+
+        self.assertFalse(check)
+        self.assertIsNotNone(bitio.error)
+        self.assertEqual(bitio.value, 0.0)
+        self.assertEqual(bitio.error.text, "No sensor")
         return
 
     def test_value_decode_u32_1(self):
@@ -131,7 +139,7 @@ class TestBit(unittest.TestCase):
 
         bitio = Value(data=data)
 
-        check = bitio.value_decode_u32()
+        check = bitio.decode32()
 
         self.assertTrue(check)
         self.assertIsNone(bitio.error)
@@ -143,43 +151,12 @@ class TestBit(unittest.TestCase):
 
         bitio = Value(data=data)
 
-        check = bitio.value_decode_u32()
+        check = bitio.decode32()
 
         self.assertFalse(check)
         self.assertIsNotNone(bitio.error)
         self.assertEqual(bitio.value, 0.0)
         self.assertEqual(bitio.error.text, "No sensor")
-        return
-
-    def test_encode_u32_1(self):
-        value = -0.04
-        check = [0x72, 0xff, 0x84, 0x00, 0xfc, 0x05]
-
-        bitio = Value(value=value)
-        bitio.encode_u32()
-
-        self.assertListEqual(bitio.data, check)
-        return
-
-    def test_encode_u32_2(self):
-        value = 53.84
-
-        bitio1 = Value(value=value)
-        bitio1.encode_u32()
-
-        data = [0, 0, 0]
-
-        for item in bitio1.data:
-            data.append(item)
-
-        bitio2 = Value(data=data)
-        check = bitio2.value_decode_u32()
-
-        self.assertIsNone(bitio1.error)
-        self.assertIsNone(bitio2.error)
-        self.assertTrue(check)
-
-        self.assertEqual(value, bitio2.value)
         return
 
     def test_encode_u16_1(self):
@@ -188,11 +165,42 @@ class TestBit(unittest.TestCase):
         check_data2 = [183, 70, 14]
 
         bitio1 = Value(value=value)
-        bitio1.encode_u16()
+        bitio1.encode16()
 
         bitio2 = Value(data=check_data1)
-        bitio2.value_decode_u16()
+        bitio2.decode16()
 
         self.assertEqual(value, bitio2.value)
         self.assertListEqual(check_data2, bitio1.data)
+        return
+
+    def test_encode_u32_1(self):
+        value = -0.04
+        check = [0x72, 0xff, 0x84, 0x00, 0xfc, 0x05]
+
+        bitio = Value(value=value)
+        bitio.encode32()
+
+        self.assertListEqual(bitio.data, check)
+        return
+
+    def test_encode_u32_2(self):
+        value = 53.84
+
+        bitio1 = Value(value=value)
+        bitio1.encode32()
+
+        data = [0, 0, 0]
+
+        for item in bitio1.data:
+            data.append(item)
+
+        bitio2 = Value(data=data)
+        check = bitio2.decode32()
+
+        self.assertIsNone(bitio1.error)
+        self.assertIsNone(bitio2.error)
+        self.assertTrue(check)
+
+        self.assertEqual(value, bitio2.value)
         return

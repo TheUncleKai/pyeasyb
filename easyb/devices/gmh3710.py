@@ -25,7 +25,7 @@ from easyb.definitions import Length
 from easyb.command import Command
 from easyb.message import Message
 from easyb.device import Device
-from easyb.bit import Value
+from easyb.bit import Value, decode_u16, decode_u32
 
 __all__ = [
     "GMH3710"
@@ -61,10 +61,10 @@ class GMH3710(Device):
         check = False
 
         if message.length is Length.Byte6:
-            check = bitio.value_decode_u16()
+            check = bitio.decode16()
 
         if message.length is Length.Byte9:
-            check = bitio.value_decode_u32()
+            check = bitio.decode32()
 
         if check is False:
             easyb.log.warn(self.name, "Error: {0:s}".format(bitio.error.text))
@@ -78,7 +78,7 @@ class GMH3710(Device):
         data = message.stream.data
         bitio = Value()
 
-        value = bitio.decode_u16(data[3], data[4])
+        value = decode_u16(data[3], data[4])
 
         counter = self.set_status(value)
 
@@ -97,10 +97,10 @@ class GMH3710(Device):
         check = False
 
         if message.length is Length.Byte6:
-            check = bitio.value_decode_u16()
+            check = bitio.decode16()
 
         if message.length is Length.Byte9:
-            check = bitio.value_decode_u32()
+            check = bitio.decode32()
 
         if check is False:
             easyb.log.warn(self.name, "Error: {0:s}".format(bitio.error.text))
@@ -115,10 +115,10 @@ class GMH3710(Device):
         check = False
 
         if message.length is Length.Byte6:
-            check = bitio.value_decode_u16()
+            check = bitio.decode16()
 
         if message.length is Length.Byte9:
-            check = bitio.value_decode_u32()
+            check = bitio.decode32()
 
         if check is False:
             easyb.log.warn(self.name, "Error: {0:s}".format(bitio.error.text))
@@ -131,9 +131,9 @@ class GMH3710(Device):
         data = message.stream.data
         bitio = Value()
 
-        input1 = bitio.decode_u16(data[3], data[4])
-        input2 = bitio.decode_u16(data[6], data[7])
-        value = bitio.decode_u32(input1, input2)
+        input1 = decode_u16(data[3], data[4])
+        input2 = decode_u16(data[6], data[7])
+        value = decode_u32(input1, input2)
 
         self.id_number = value
 
@@ -145,7 +145,7 @@ class GMH3710(Device):
         data = message.stream.data
         bitio = Value()
 
-        value = bitio.decode_u16(data[6], data[7])
+        value = decode_u16(data[6], data[7])
 
         unit = easyb.conf.get_unit(value)
         if unit is None:
@@ -265,10 +265,10 @@ class GMH3710(Device):
         check = False
 
         if message.length is Length.Byte6:
-            check = bitio.value_decode_u16()
+            check = bitio.decode16()
 
         if message.length is Length.Byte9:
-            check = bitio.value_decode_u32()
+            check = bitio.decode32()
 
         row = self.create_row()
 
