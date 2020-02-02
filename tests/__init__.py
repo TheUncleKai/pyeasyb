@@ -171,6 +171,11 @@ class TestSerial(object):
             if self.read_exception.run == self.read_run:
                 raise self.read_exception.exception
 
+        if self.read_run >= len(self.read_data):
+            data = []
+            result = bytes(data)
+            return result
+
         data = self.read_data[self.read_run]
         result = bytes(data)
         self.read_run += 1

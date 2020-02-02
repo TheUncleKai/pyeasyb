@@ -387,6 +387,11 @@ class Device(metaclass=ABCMeta):
                 easyb.log.inform(self.name, "Stop measurements")
                 break
 
+            if self.status is False:
+                self.abort = True
+                easyb.log.warn(self.name, "Abort measurements")
+                break
+
         self.active = False
         return
 

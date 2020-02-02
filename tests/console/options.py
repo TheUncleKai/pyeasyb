@@ -103,3 +103,10 @@ class TestOptions(object):
         self.port = ""
         self.verbose = 2
         self.read = False
+
+    def test_12(self):
+        self.device = "GMH 3710"
+        self.command = 0
+        self.port = "TEST"
+        self.verbose = 2
+        self.read = True

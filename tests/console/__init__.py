@@ -34,7 +34,7 @@ __all__ = [
     "TestConsole"
 ]
 
-from tests.console.serial import TestserialPrepare11, TestserialRun1, TestserialClose1
+from tests.console.serial import TestserialPrepare11, TestserialRun1, TestserialClose1, TestserialRunContinuously
 
 mock_serial = mock.Mock()
 mock_serial_2 = mock.Mock()
@@ -364,4 +364,26 @@ class TestConsole(unittest.TestCase):
         self.assertTrue(check1)
         self.assertTrue(check2)
         self.assertTrue(check3)
+        return
+
+    @mock.patch('easyb.device.Serial', new=TestserialRunContinuously)
+    def test_run_continuously_1(self):
+        """tear down test.
+        """
+        option = TestOptions()
+        option.test_12()
+
+        console = Console()
+        console._parser = mock.Mock()
+        console._parser.parse_args = mock.Mock()
+        console._parser.parse_args.return_value = (option, None)
+
+        check1 = console.prepare()
+        check2 = console.run()
+
+
+        # check3 = console.close()
+
+        self.assertTrue(check1)
+        self.assertFalse(check2)
         return
