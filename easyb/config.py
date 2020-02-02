@@ -522,14 +522,10 @@ class Config(object):
 
     def __init__(self):
         self.error: List[Error] = []
-        self.status: List[Status] = []
         self.units: List[Unit] = []
 
         for item in _error:
             self.error.append(Error(item))
-
-        for item in _status:
-            self.status.append(Status(item))
 
         for item in _units:
             self.units.append(Unit(item))
@@ -547,11 +543,8 @@ class Config(object):
                 return item
         return None
 
-    def get_status(self, value: int) -> List[Status]:
-        status = []
-
-        for item in self.status:
-            if item.bit & value:
-                status.append(item)
-
-        return status
+    @staticmethod
+    def create_status(status_list: List[Status]):
+        for item in _status:
+            status_list.append(Status(item))
+        return

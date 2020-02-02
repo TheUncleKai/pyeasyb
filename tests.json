@@ -33,6 +33,15 @@
             ]
         },
         {
+            "id": "Config",
+            "path": "tests.config",
+            "classname": "TestConfig",
+            "tests": [
+                "test_config_01",
+                "test_config_02"
+            ]
+        },
+        {
             "id": "Device",
             "path": "tests.device",
             "classname": "TestControl",

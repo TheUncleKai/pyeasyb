@@ -76,7 +76,6 @@ class GMH3710(Device):
 
     def systemstatus_lesen(self, message: Message) -> bool:
         data = message.stream.data
-        bitio = Value()
 
         value = decode_u16(data[3], data[4])
 
@@ -129,8 +128,6 @@ class GMH3710(Device):
 
     def id_nummer_lesen(self, message: Message) -> bool:
         data = message.stream.data
-        bitio = Value()
-
         input1 = decode_u16(data[3], data[4])
         input2 = decode_u16(data[6], data[7])
         value = decode_u32(input1, input2)

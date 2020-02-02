@@ -101,9 +101,7 @@ class Device(metaclass=ABCMeta):
         self.data.add_column("datetime", "Time", Type.datetime)
         self.data.add_column("number", "Number", Type.integer)
 
-        for item in easyb.conf.status:
-            item.is_set = False
-            self.device_status.append(item)
+        easyb.conf.create_status(self.device_status)
         return
 
     def get_status(self) -> List[Status]:
