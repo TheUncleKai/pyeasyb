@@ -37,8 +37,7 @@ __all__ = [
 
     "TestDevice",
     "TestException",
-    "TestSerial",
-    "TestOptions"
+    "TestSerial"
 ]
 
 
@@ -178,62 +177,3 @@ class TestSerial(object):
         return result
 
 
-class TestOptions(object):
-
-    def __init__(self):
-        self.verbose = 2
-        self.read = False
-        self.list = False
-        self.interval = 2.0
-
-        self.device = ""
-        self.command = 0
-
-        self.port = ""
-        self.baudrate = 4800
-        self.timeout = 2
-        self.writetimeout = 2
-
-        self.output = "none"
-        self.filename = "measurement"
-        return
-
-    def test_1(self):
-        self.device = "GMH 3710"
-        self.command = 0
-        self.port = "TEST"
-        self.verbose = 2
-        return
-
-    def test_2(self):
-        self.port = "TEST"
-
-    def test_3(self):
-        self.port = "TEST"
-        self.device = "GMH"
-
-    def test_4(self):
-        self.port = "TEST"
-        self.device = "GMH 3710"
-        self.command = None
-
-    def test_5(self):
-        self.port = "TEST"
-        self.device = "GMH 3710"
-        self.command = 22
-
-    def test_6(self):
-        self.list = True
-
-    def test_7(self):
-        self.device = "GMH 3710"
-        self.command = 0
-        self.port = ""
-        self.verbose = 2
-
-    def test_8(self):
-        self.device = "GMH 3710"
-        self.command = 0
-        self.port = "TEST"
-        self.verbose = 2
-        self.read = True

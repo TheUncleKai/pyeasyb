@@ -25,7 +25,16 @@ from serial import SerialException
 import easyb
 from easyb.logging import SerialLogging
 
-from tests import TestOptions, TestSerial
+from tests.console.options import TestOptions
+
+__all__ = [
+    "options",
+    "serial",
+
+    "TestConsole"
+]
+
+from tests.console.serial import TestserialPrepare11, TestserialRun1, TestserialClose1
 
 mock_serial = mock.Mock()
 mock_serial_2 = mock.Mock()
@@ -41,43 +50,6 @@ cons.add_style("SERIAL", "BRIGHT", "YELLOW", "")
 cons.setup(text_space=15, error_index=["ERROR", "EXCEPTION"])
 new_logging.register(cons)
 new_logging.open()
-
-
-class TestserialPrepare11(TestSerial):
-
-    def __init__(self, **kwargs):
-        TestSerial.__init__(self)
-        self.read_data = [
-            [0xfe, 0x33, 0xa4],
-            [0xff, 0x00, 0x28],
-            [0xfe, 0xc5, 0x68],
-            [0xcd, 0x40, 0x3c, 0x8f, 0x08, 0xb2],
-            [0xfe, 0xf5, 0xf8],
-            [0x35, 0x00, 0x47, 0xff, 0x01, 0x2f]
-        ]
-        return
-
-
-class TestserialRun1(TestSerial):
-
-    def __init__(self, **kwargs):
-        TestSerial.__init__(self)
-        self.read_data = [
-            [0xfe, 0x05, 0x26],
-            [0x71, 0x00, 0x48, 0xf9, 0x9e, 0x85]
-        ]
-        return
-
-
-class TestserialClose1(TestSerial):
-
-    def __init__(self, **kwargs):
-        TestSerial.__init__(self)
-        self.read_data = [
-            [0xfe, 0x05, 0x26],
-            [0x71, 0x00, 0x48, 0xf9, 0x9e, 0x85]
-        ]
-        return
 
 
 # noinspection DuplicatedCode
@@ -100,13 +72,13 @@ class TestConsole(unittest.TestCase):
 
     @mock.patch('easyb.device.Serial', new=mock_serial)
     def test_prepare_1(self):
-        options = TestOptions()
-        options.test_1()
+        option = TestOptions()
+        option.test_1()
 
         console = Console()
         console._parser = mock.Mock()
         console._parser.parse_args = mock.Mock()
-        console._parser.parse_args.return_value = (options, None)
+        console._parser.parse_args.return_value = (option, None)
 
         check = console.prepare()
 
