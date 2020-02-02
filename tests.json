@@ -150,6 +150,9 @@
                 "test_prepare_9",
                 "test_prepare_10",
                 "test_prepare_11",
+                "test_list_commands_01",
+                "test_list_commands_02",
+                "test_list_commands_03",
                 "test_run_1",
                 "test_run_2",
                 "test_close_1"

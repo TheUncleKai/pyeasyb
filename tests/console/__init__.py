@@ -250,6 +250,63 @@ class TestConsole(unittest.TestCase):
         self.assertTrue(check)
         return
 
+    @mock.patch('easyb.device.Serial', new=TestserialPrepare11)
+    def test_list_commands_01(self):
+        option = TestOptions()
+        option.test_9()
+
+        console = Console()
+        console._parser = mock.Mock()
+        console._parser.parse_args = mock.Mock()
+        console._parser.parse_args.return_value = (option, None)
+
+        check1 = console.prepare()
+        check2 = console.run()
+        check3 = console.close()
+
+        self.assertTrue(check1)
+        self.assertTrue(check2)
+        self.assertTrue(check3)
+        return
+
+    @mock.patch('easyb.device.Serial', new=TestserialPrepare11)
+    def test_list_commands_02(self):
+        option = TestOptions()
+        option.test_10()
+
+        console = Console()
+        console._parser = mock.Mock()
+        console._parser.parse_args = mock.Mock()
+        console._parser.parse_args.return_value = (option, None)
+
+        check1 = console.prepare()
+        check2 = console.run()
+        check3 = console.close()
+
+        self.assertTrue(check1)
+        self.assertTrue(check2)
+        self.assertTrue(check3)
+        return
+
+    @mock.patch('easyb.device.Serial', new=TestserialPrepare11)
+    def test_list_commands_03(self):
+        option = TestOptions()
+        option.test_11()
+
+        console = Console()
+        console._parser = mock.Mock()
+        console._parser.parse_args = mock.Mock()
+        console._parser.parse_args.return_value = (option, None)
+
+        check1 = console.prepare()
+        check2 = console.run()
+        check3 = console.close()
+
+        self.assertTrue(check1)
+        self.assertTrue(check2)
+        self.assertTrue(check3)
+        return
+
     @mock.patch('easyb.device.Serial', new=TestserialRun1)
     def test_run_1(self):
         """tear down test.

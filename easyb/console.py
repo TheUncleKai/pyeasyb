@@ -173,9 +173,6 @@ class Console(object):
         # noinspection PyCallingNonCallable
         self._device = c(address=1, port=self.options.port, baudrate=self.options.baudrate,
                          timeout=self.options.timeout, write_timeout=self.options.writetimeout)
-        if self.device is None:
-            easyb.log.error("Device {0:s} is unknown!".format(options.device))
-            return False
 
         if self.options.read is False:
             if self.options.command not in self.device.command_list:
