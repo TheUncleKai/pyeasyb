@@ -22,22 +22,6 @@ from easyb.definitions import Length
 
 class Command(object):
 
-    @property
-    def name(self) -> str:
-        return self._name
-
-    @property
-    def code(self) -> int:
-        return self._code
-
-    @property
-    def length(self) -> Length:
-        return self._length
-
-    @property
-    def param(self) -> List[int]:
-        return self._param
-
     def call(self, message) -> bool:
         check = self._func_call(message)
         return check
@@ -46,15 +30,15 @@ class Command(object):
         self.number = 0
         self.address = 1
 
-        self._name = ""
-        self._code = 0
-        self._length = Length.Byte3
-        self._param = []
+        self.name: str = ""
+        self.code: int = 0
+        self.length: Length = Length.Byte3
+        self.param: List[int] = []
         self._func_call = None
 
         item = kwargs.get("name", "")
         if item is not None:
-            self._name = item
+            self.name = item
 
         item = kwargs.get("address", None)
         if item is not None:
@@ -66,15 +50,15 @@ class Command(object):
 
         item = kwargs.get("code", 0)
         if item is not None:
-            self._code = item
+            self.code = item
 
         item = kwargs.get("length", Length.Byte3)
         if item is not None:
-            self._length = item
+            self.length = item
 
         item = kwargs.get("param", [])
         if item is not None:
-            self._param = item
+            self.param = item
 
         item = kwargs.get("func_call", None)
         if item is not None:
