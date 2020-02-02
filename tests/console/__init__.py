@@ -89,9 +89,6 @@ class TestConsole(unittest.TestCase):
     def test_prepare_2(self):
         """tear down test.
         """
-        options = TestOptions()
-        options.test_1()
-
         console = Console()
         console._parser = mock.Mock()
         console._parser.parse_args = mock.Mock()
@@ -106,12 +103,12 @@ class TestConsole(unittest.TestCase):
     def test_prepare_3(self):
         """tear down test.
         """
-        options = TestOptions()
+        option = TestOptions()
 
         console = Console()
         console._parser = mock.Mock()
         console._parser.parse_args = mock.Mock()
-        console._parser.parse_args.return_value = (options, None)
+        console._parser.parse_args.return_value = (option, None)
 
         check = console.prepare()
 
@@ -122,13 +119,13 @@ class TestConsole(unittest.TestCase):
     def test_prepare_4(self):
         """tear down test.
         """
-        options = TestOptions()
-        options.test_2()
+        option = TestOptions()
+        option.test_2()
 
         console = Console()
         console._parser = mock.Mock()
         console._parser.parse_args = mock.Mock()
-        console._parser.parse_args.return_value = (options, None)
+        console._parser.parse_args.return_value = (option, None)
 
         check = console.prepare()
 
@@ -139,13 +136,13 @@ class TestConsole(unittest.TestCase):
     def test_prepare_5(self):
         """tear down test.
         """
-        options = TestOptions()
-        options.test_3()
+        option = TestOptions()
+        option.test_3()
 
         console = Console()
         console._parser = mock.Mock()
         console._parser.parse_args = mock.Mock()
-        console._parser.parse_args.return_value = (options, None)
+        console._parser.parse_args.return_value = (option, None)
 
         check = console.prepare()
 
@@ -156,13 +153,13 @@ class TestConsole(unittest.TestCase):
     def test_prepare_6(self):
         """tear down test.
         """
-        options = TestOptions()
-        options.test_4()
+        option = TestOptions()
+        option.test_4()
 
         console = Console()
         console._parser = mock.Mock()
         console._parser.parse_args = mock.Mock()
-        console._parser.parse_args.return_value = (options, None)
+        console._parser.parse_args.return_value = (option, None)
 
         check = console.prepare()
 
@@ -173,13 +170,13 @@ class TestConsole(unittest.TestCase):
     def test_prepare_7(self):
         """tear down test.
         """
-        options = TestOptions()
-        options.test_5()
+        option = TestOptions()
+        option.test_5()
 
         console = Console()
         console._parser = mock.Mock()
         console._parser.parse_args = mock.Mock()
-        console._parser.parse_args.return_value = (options, None)
+        console._parser.parse_args.return_value = (option, None)
 
         check = console.prepare()
 
@@ -190,13 +187,13 @@ class TestConsole(unittest.TestCase):
     def test_prepare_8(self):
         """tear down test.
         """
-        options = TestOptions()
-        options.test_6()
+        option = TestOptions()
+        option.test_6()
 
         console = Console()
         console._parser = mock.Mock()
         console._parser.parse_args = mock.Mock()
-        console._parser.parse_args.return_value = (options, None)
+        console._parser.parse_args.return_value = (option, None)
 
         check = console.prepare()
 
@@ -207,30 +204,31 @@ class TestConsole(unittest.TestCase):
     def test_prepare_9(self):
         """tear down test.
         """
-        options = TestOptions()
-        options.test_7()
+        option = TestOptions()
+        option.test_7()
 
         console = Console()
         console._parser = mock.Mock()
         console._parser.parse_args = mock.Mock()
-        console._parser.parse_args.return_value = (options, None)
+        console._parser.parse_args.return_value = (option, None)
 
         check = console.prepare()
 
         self.assertFalse(check)
         return
 
-    @mock.patch('easyb.device.Serial.open', new=mock.Mock(side_effect=SerialException('Attempting to use a port that is not open')))
+    @mock.patch('easyb.device.Serial.open',
+                new=mock.Mock(side_effect=SerialException('Attempting to use a port that is not open')))
     def test_prepare_10(self):
-        options = TestOptions()
-        options.test_1()
+        option = TestOptions()
+        option.test_1()
 
         # mock_serial_2.open = mock.Mock(side_effect=SerialException('Attempting to use a port that is not open'))
 
         console = Console()
         console._parser = mock.Mock()
         console._parser.parse_args = mock.Mock()
-        console._parser.parse_args.return_value = (options, None)
+        console._parser.parse_args.return_value = (option, None)
 
         check = console.prepare()
 
@@ -239,13 +237,13 @@ class TestConsole(unittest.TestCase):
 
     @mock.patch('easyb.device.Serial', new=TestserialPrepare11)
     def test_prepare_11(self):
-        options = TestOptions()
-        options.test_8()
+        option = TestOptions()
+        option.test_8()
 
         console = Console()
         console._parser = mock.Mock()
         console._parser.parse_args = mock.Mock()
-        console._parser.parse_args.return_value = (options, None)
+        console._parser.parse_args.return_value = (option, None)
 
         check = console.prepare()
 
@@ -256,13 +254,13 @@ class TestConsole(unittest.TestCase):
     def test_run_1(self):
         """tear down test.
         """
-        options = TestOptions()
-        options.test_1()
+        option = TestOptions()
+        option.test_1()
 
         console = Console()
         console._parser = mock.Mock()
         console._parser.parse_args = mock.Mock()
-        console._parser.parse_args.return_value = (options, None)
+        console._parser.parse_args.return_value = (option, None)
 
         check1 = console.prepare()
         check2 = console.run()
@@ -275,13 +273,13 @@ class TestConsole(unittest.TestCase):
     def test_run_2(self):
         """tear down test.
         """
-        options = TestOptions()
-        options.test_6()
+        option = TestOptions()
+        option.test_6()
 
         console = Console()
         console._parser = mock.Mock()
         console._parser.parse_args = mock.Mock()
-        console._parser.parse_args.return_value = (options, None)
+        console._parser.parse_args.return_value = (option, None)
 
         check1 = console.prepare()
         check2 = console.run()
@@ -294,13 +292,13 @@ class TestConsole(unittest.TestCase):
     def test_close_1(self):
         """tear down test.
         """
-        options = TestOptions()
-        options.test_1()
+        option = TestOptions()
+        option.test_1()
 
         console = Console()
         console._parser = mock.Mock()
         console._parser.parse_args = mock.Mock()
-        console._parser.parse_args.return_value = (options, None)
+        console._parser.parse_args.return_value = (option, None)
 
         check1 = console.prepare()
         check2 = console.run()
