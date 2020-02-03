@@ -83,7 +83,7 @@ def crop_u8(value: int) -> int:
     size = sys.getsizeof(value)
     result = value
 
-    if size <= 16:
+    if size <= 16:  # pragma: no cover
         result = value & 0x00ff
 
     if (size > 16) and (size <= 32):

@@ -258,7 +258,7 @@ class Console(object):
 
         if self.options.output != "none":
             check = self.device.store(self.options.output, self.options.filename)
-            if check is False:
+            if check is False:  # pragma: no cover
                 return False
 
         return True

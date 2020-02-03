@@ -16,6 +16,7 @@
 #    Copyright (C) 2017, Kai Raphahn <kai.raphahn@laburec.de>
 #
 
+import os
 import time
 import unittest
 import unittest.mock as mock
@@ -458,4 +459,52 @@ class TestConsole(unittest.TestCase):
         self.assertTrue(check1)
         self.assertTrue(check2)
         self.assertFalse(check3)
+        return
+
+    @mock.patch('easyb.device.Serial', new=TestserialRunContinuously)
+    def test_run_continuously_3(self):
+        """tear down test.
+        """
+        option = TestOptions()
+        option.test_13()
+
+        console = Console()
+        console._parser = mock.Mock()
+        console._parser.parse_args = mock.Mock()
+        console._parser.parse_args.return_value = (option, None)
+
+        check1 = console.prepare()
+
+        thread = threading.Thread(target=console.run)
+        thread.start()
+
+        time.sleep(8)
+        console.device.abort = True
+
+        while True:
+            if console.device.active is False:
+                break
+
+            time.sleep(0.1)
+
+        check2 = console.device.status
+
+        console.device.serial.read_run = 0
+        console.device.serial.write_run = 0
+        console.device.serial.read_data = [
+            [0xfe, 0x33, 0xa4],
+            [0xff, 0x00, 0x28],
+            [0xfe, 0x65, 0x01],
+            [0x71, 0x00, 0x48, 0xf9, 0xed, 0xdb],
+            [0xfe, 0x75, 0x71],
+            [0x71, 0x00, 0x48, 0xf8, 0x61, 0x63]
+        ]
+
+        check3 = console.close()
+        check4 = os.path.exists("TEST.xlsx")
+
+        self.assertTrue(check1)
+        self.assertTrue(check2)
+        self.assertTrue(check3)
+        self.assertTrue(check4)
         return

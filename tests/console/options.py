@@ -110,3 +110,12 @@ class TestOptions(object):
         self.port = "TEST"
         self.verbose = 2
         self.read = True
+
+    def test_13(self):
+        self.device = "GMH 3710"
+        self.output = "EXCEL"
+        self.filename = "TEST"
+        self.command = 0
+        self.port = "TEST"
+        self.verbose = 2
+        self.read = True
