@@ -413,3 +413,49 @@ class TestConsole(unittest.TestCase):
         self.assertTrue(check2)
         self.assertTrue(check3)
         return
+
+    @mock.patch('easyb.device.Serial', new=TestserialRunContinuously)
+    def test_run_continuously_2(self):
+        """tear down test.
+        """
+        option = TestOptions()
+        option.test_12()
+
+        console = Console()
+        console._parser = mock.Mock()
+        console._parser.parse_args = mock.Mock()
+        console._parser.parse_args.return_value = (option, None)
+
+        check1 = console.prepare()
+
+        thread = threading.Thread(target=console.run)
+        thread.start()
+
+        time.sleep(8)
+        console.device.abort = True
+
+        while True:
+            if console.device.active is False:
+                break
+
+            time.sleep(0.1)
+
+        check2 = console.device.status
+
+        console.device.serial.read_run = 0
+        console.device.serial.write_run = 0
+        console.device.serial.read_data = [
+            [0xfe, 0x33, 0xa4],
+            [0xff, 0x00, 0x28],
+            [0xfe, 0x0d, 0x1e],
+            [0x70, 0xf6, 0x91, 0xdf, 0xed, 0x0b],
+            [0xfe, 0x0d, 0x1e],
+            [0x70, 0xf6, 0x91, 0xdf, 0xed, 0x0b]
+        ]
+
+        check3 = console.close()
+
+        self.assertTrue(check1)
+        self.assertTrue(check2)
+        self.assertFalse(check3)
+        return

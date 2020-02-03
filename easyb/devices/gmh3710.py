@@ -72,7 +72,7 @@ class GMH3710(Device):
             now = datetime.now()
             debug = "{0:s}: {1:.2f}".format(now.strftime("%Y-%m-%d %H:%M:%S"), bitio.value)
             easyb.log.inform(self.name, debug)
-        return True
+        return check
 
     def systemstatus_lesen(self, message: Message) -> bool:
         data = message.stream.data
@@ -106,7 +106,7 @@ class GMH3710(Device):
         else:
             easyb.log.inform("Min. value", str(bitio.value))
             self.min_value = bitio.value
-        return True
+        return check
 
     def maxwert_lesen(self, message: Message) -> bool:
         data = message.stream.data
@@ -124,7 +124,7 @@ class GMH3710(Device):
         else:
             easyb.log.inform("Max. value", str(bitio.value))
             self.max_value = bitio.value
-        return True
+        return check
 
     def id_nummer_lesen(self, message: Message) -> bool:
         data = message.stream.data
@@ -278,7 +278,7 @@ class GMH3710(Device):
             row.error = ""
             debug = "{0:06d} {1:s}: {2:.2f}".format(self.interval_counter, row.datetime.strftime("%H:%M:%S"), row.value)
             easyb.log.inform(self.name, debug)
-        return True
+        return check
 
     def close(self) -> bool:
         self.end_measure = datetime.now()
