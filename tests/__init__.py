@@ -153,6 +153,10 @@ class TestSerial(object):
         self.is_open = True
         return
 
+    def close(self):
+        self.is_open = False
+        return
+
     def write(self, data: bytes):
         if self.write_exception is not None:
             if self.write_exception.run == self.write_run:

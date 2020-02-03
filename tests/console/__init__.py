@@ -16,11 +16,13 @@
 #    Copyright (C) 2017, Kai Raphahn <kai.raphahn@laburec.de>
 #
 
+import time
 import unittest
 import unittest.mock as mock
 
 from easyb.console import Console
 from serial import SerialException
+import threading
 
 import easyb
 from easyb.logging import SerialLogging
@@ -379,11 +381,23 @@ class TestConsole(unittest.TestCase):
         console._parser.parse_args.return_value = (option, None)
 
         check1 = console.prepare()
-        check2 = console.run()
 
+        thread = threading.Thread(target=console.run)
+        thread.start()
+
+        time.sleep(8)
+        console.device.abort = True
+
+        while True:
+            if console.device.active is False:
+                break
+
+            time.sleep(0.1)
+
+        check2 = console.device.status
 
         # check3 = console.close()
 
         self.assertTrue(check1)
-        self.assertFalse(check2)
+        self.assertTrue(check2)
         return
