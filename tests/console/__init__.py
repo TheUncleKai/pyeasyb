@@ -396,8 +396,20 @@ class TestConsole(unittest.TestCase):
 
         check2 = console.device.status
 
-        # check3 = console.close()
+        console.device.serial.read_run = 0
+        console.device.serial.write_run = 0
+        console.device.serial.read_data = [
+            [0xfe, 0x33, 0xa4],
+            [0xff, 0x00, 0x28],
+            [0xfe, 0x65, 0x01],
+            [0x71, 0x00, 0x48, 0xf9, 0xed, 0xdb],
+            [0xfe, 0x75, 0x71],
+            [0x71, 0x00, 0x48, 0xf8, 0x61, 0x63]
+        ]
+
+        check3 = console.close()
 
         self.assertTrue(check1)
         self.assertTrue(check2)
+        self.assertTrue(check3)
         return
