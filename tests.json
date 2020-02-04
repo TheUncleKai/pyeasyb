@@ -86,6 +86,19 @@
             ]
         },
         {
+            "id": "Definitions",
+            "path": "tests.definitions",
+            "classname": "TestDefinitions",
+            "tests": [
+                "test_direction",
+                "test_priority",
+                "test_length",
+                "test_error",
+                "test_status",
+                "test_unit"
+            ]
+        },
+        {
             "id": "Stream",
             "path": "tests.stream",
             "classname": "TestStream",
