@@ -20,7 +20,6 @@ import unittest
 import easyb
 
 
-
 # noinspection DuplicatedCode
 class TestDefinitions(unittest.TestCase):
 
