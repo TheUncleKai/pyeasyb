@@ -60,9 +60,6 @@ class GMH3710(Device):
         bitio = Value(data=data)
         check = False
 
-        if message.length is Length.Byte6:
-            check = bitio.decode16()
-
         if message.length is Length.Byte9:
             check = bitio.decode32()
 
@@ -81,10 +78,14 @@ class GMH3710(Device):
 
         counter = self.set_status(value)
 
+        n = 0
         for item in self.device_status:
             if item.is_set is False:
+                n += 1
                 continue
-            easyb.log.warn(self.name, item.text)
+            line = "{0:d}: {2:s} (0x{1:04x})".format(n, item.bit, item.text)
+            easyb.log.warn(self.name, line)
+            n += 1
 
         if counter == 0:
             easyb.log.inform("Systemstatus", "Nothing to report!")
@@ -94,9 +95,6 @@ class GMH3710(Device):
         data = message.stream.data
         bitio = Value(data=data)
         check = False
-
-        if message.length is Length.Byte6:
-            check = bitio.decode16()
 
         if message.length is Length.Byte9:
             check = bitio.decode32()
@@ -112,9 +110,6 @@ class GMH3710(Device):
         data = message.stream.data
         bitio = Value(data=data)
         check = False
-
-        if message.length is Length.Byte6:
-            check = bitio.decode16()
 
         if message.length is Length.Byte9:
             check = bitio.decode32()

@@ -181,7 +181,15 @@
             "classname": "TestGMH3710",
             "tests": [
                 "test_constructor_1",
-                "test_constructor_2"
+                "test_constructor_2",
+                "test_command_01",
+                "test_command_02",
+                "test_command_03",
+                "test_command_04",
+                "test_command_05",
+                "test_command_06",
+                "test_command_07",
+                "test_command_08"
             ]
         }
     ]
