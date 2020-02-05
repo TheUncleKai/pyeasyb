@@ -200,7 +200,11 @@
                 "test_prepare_05",
                 "test_run_01",
                 "test_run_02",
-                "test_run_03"
+                "test_run_03",
+                "test_close_01",
+                "test_close_02",
+                "test_close_03",
+                "test_close_04"
             ]
         }
     ]
