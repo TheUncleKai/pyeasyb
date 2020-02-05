@@ -238,3 +238,64 @@ class TestGMH3710(unittest.TestCase):
         self.assertFalse(check)
         self.assertEqual(device.max_value, 0.0)
         return
+
+    def test_command_09(self):
+        """Test constructor.
+        """
+        data = [
+            [0xfe, 0xc5, 0x68],
+            [0xcd, 0x40, 0x3c, 0x8f, 0x08, 0xb2],
+        ]
+
+        serial = TestSerial()
+        serial.read_data = data
+
+        device = GMH3710(port="TEST", baudrate=2400, address=1, write_timeout=3, timeout=60, wait_time=0.2)
+        device.serial = serial
+
+        check = device.run_command(4)
+        id_number = "{0:x}".format(device.id_number)
+
+        self.assertTrue(check)
+        self.assertEqual(id_number, "32407008")
+        return
+
+    def test_command_10(self):
+        """Test constructor.
+        """
+        data = [
+            [0xfe, 0xf5, 0xf8],
+            [0x35, 0x00, 0x47, 0xff, 0x01, 0x2f],
+        ]
+
+        serial = TestSerial()
+        serial.read_data = data
+
+        device = GMH3710(port="TEST", baudrate=2400, address=1, write_timeout=3, timeout=60, wait_time=0.2)
+        device.serial = serial
+
+        check = device.run_command(12)
+
+        self.assertTrue(check)
+        self.assertEqual(device.unit, "°C")
+        return
+
+    def test_command_11(self):
+        """Test constructor.
+        """
+        data = [
+            [0xfe, 0xf5, 0xf8],
+            [0x35, 0x00, 0x47, 0xff, 0x04, 0x34],
+        ]
+
+        serial = TestSerial()
+        serial.read_data = data
+
+        device = GMH3710(port="TEST", baudrate=2400, address=1, write_timeout=3, timeout=60, wait_time=0.2)
+        device.serial = serial
+
+        check = device.run_command(12)
+
+        self.assertFalse(check)
+        self.assertEqual(device.unit, "")
+        return

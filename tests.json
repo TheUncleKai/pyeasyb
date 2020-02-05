@@ -189,7 +189,10 @@
                 "test_command_05",
                 "test_command_06",
                 "test_command_07",
-                "test_command_08"
+                "test_command_08",
+                "test_command_09",
+                "test_command_10",
+                "test_command_11"
             ]
         }
     ]
