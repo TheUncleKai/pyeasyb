@@ -17,6 +17,13 @@
 #
 from tests import TestSerial
 
+__all__ = [
+    "TestserialPrepare11",
+    "TestserialRun1",
+    "TestserialClose1",
+    "TestserialRunContinuously"
+]
+
 
 class TestserialPrepare11(TestSerial):
 

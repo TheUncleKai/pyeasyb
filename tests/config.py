@@ -19,7 +19,10 @@
 import unittest
 
 from easyb.config import Config
-from easyb.definitions import Length
+
+__all__ = [
+    "TestConfig"
+]
 
 
 # noinspection DuplicatedCode

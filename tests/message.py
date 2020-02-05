@@ -24,6 +24,10 @@ import easyb.message
 
 from easyb.definitions import Direction, Length, Priority
 
+__all__ = [
+    "TestMessage"
+]
+
 
 # noinspection DuplicatedCode
 class TestMessage(unittest.TestCase):

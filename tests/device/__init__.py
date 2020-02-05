@@ -33,6 +33,12 @@ from easyb.command import Command
 from tests import TestDevice, TestException, TestSerial
 from easyb.logging import SerialLogging
 
+__all__ = [
+    "gmh3710",
+
+    "TestControl"
+]
+
 old_logging = easyb.log
 new_logging = SerialLogging()
 new_logging.setup(app="Device", level=0)

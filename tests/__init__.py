@@ -28,10 +28,13 @@ from easyb.bit import Value
 from easyb.definitions import Error
 
 __all__ = [
-    "bit",
     "console",
     "device",
-    "gmh3710",
+
+    "bit",
+    "command",
+    "config",
+    "definitions",
     "message",
     "stream",
 
@@ -184,5 +187,3 @@ class TestSerial(object):
         result = bytes(data)
         self.read_run += 1
         return result
-
-

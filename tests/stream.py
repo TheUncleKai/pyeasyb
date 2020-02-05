@@ -1,11 +1,12 @@
 import unittest
 
-import easyb.command
-import easyb.message.stream
-
 from easyb.definitions import Length
 from easyb.bit import debug_data
 from easyb.message.stream import Stream
+
+__all__ = [
+    "TestStream"
+]
 
 
 # noinspection DuplicatedCode
@@ -79,8 +80,6 @@ class TestStream(unittest.TestCase):
 
     def test_set_data_3(self):
         data1 = [0, 0, 0, 0, 0, 0]
-        data2 = bytes(data1)
-        data3 = debug_data(data2)
 
         stream = Stream(Length.Byte3)
         stream.expand_data(3)

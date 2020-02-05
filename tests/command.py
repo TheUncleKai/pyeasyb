@@ -21,6 +21,10 @@ import unittest
 from easyb.command import Command
 from easyb.definitions import Length
 
+__all__ = [
+    "TestCommand"
+]
+
 
 # noinspection DuplicatedCode
 class TestCommand(unittest.TestCase):

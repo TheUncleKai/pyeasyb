@@ -19,6 +19,10 @@
 import unittest
 import easyb
 
+__all__ = [
+    "TestDefinitions"
+]
+
 
 # noinspection DuplicatedCode
 class TestDefinitions(unittest.TestCase):

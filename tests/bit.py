@@ -20,6 +20,10 @@ import unittest
 
 from easyb.bit import Value, debug_data, crop_u8, crop_u16, crop_u32, check_crc, create_crc
 
+__all__ = [
+    "TestBit"
+]
+
 
 # noinspection DuplicatedCode
 class TestBit(unittest.TestCase):
