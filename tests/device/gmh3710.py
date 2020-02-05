@@ -391,3 +391,77 @@ class TestGMH3710(unittest.TestCase):
         check = device.prepare()
         self.assertFalse(check)
         return
+
+    def test_run_01(self):
+        data = [
+            [0xfe, 0x33, 0xa4],
+            [0xff, 0x00, 0x28],
+            [0xfe, 0xc5, 0x68],
+            [0xcd, 0x40, 0x3c, 0x8f, 0x08, 0xb2],
+            [0xfe, 0xf5, 0xf8],
+            [0x35, 0x00, 0x47, 0xff, 0x01, 0x2f],
+            [0xfe, 0x05, 0x26],
+            [0x71, 0x00, 0x48, 0xf8, 0x7b, 0x25]
+        ]
+
+        serial = TestSerial()
+        serial.read_data = data
+
+        device = GMH3710(port="TEST", baudrate=2400, address=1, write_timeout=3, timeout=60, wait_time=0.2)
+        device.serial = serial
+
+        check1 = device.prepare()
+        check2 = device.run()
+
+        self.assertTrue(check1)
+        self.assertTrue(check2)
+        return
+
+    def test_run_02(self):
+        data = [
+            [0xfe, 0x33, 0xa4],
+            [0xff, 0x00, 0x28],
+            [0xfe, 0xc5, 0x68],
+            [0xcd, 0x40, 0x3c, 0x8f, 0x08, 0xb2],
+            [0xfe, 0xf5, 0xf8],
+            [0x35, 0x00, 0x47, 0xff, 0x01, 0x2f],
+            [0xfe, 0x05, 0x27]
+        ]
+
+        serial = TestSerial()
+        serial.read_data = data
+
+        device = GMH3710(port="TEST", baudrate=2400, address=1, write_timeout=3, timeout=60, wait_time=0.2)
+        device.serial = serial
+
+        check1 = device.prepare()
+        check2 = device.run()
+
+        self.assertTrue(check1)
+        self.assertFalse(check2)
+        return
+
+    def test_run_03(self):
+        data = [
+            [0xfe, 0x33, 0xa4],
+            [0xff, 0x00, 0x28],
+            [0xfe, 0xc5, 0x68],
+            [0xcd, 0x40, 0x3c, 0x8f, 0x08, 0xb2],
+            [0xfe, 0xf5, 0xf8],
+            [0x35, 0x00, 0x47, 0xff, 0x01, 0x2f],
+            [0xfe, 0x0d, 0x1e],
+            [0x70, 0xf6, 0x91, 0xdf, 0xed, 0x0b],
+        ]
+
+        serial = TestSerial()
+        serial.read_data = data
+
+        device = GMH3710(port="TEST", baudrate=2400, address=1, write_timeout=3, timeout=60, wait_time=0.2)
+        device.serial = serial
+
+        check1 = device.prepare()
+        check2 = device.run()
+
+        self.assertTrue(check1)
+        self.assertFalse(check2)
+        return

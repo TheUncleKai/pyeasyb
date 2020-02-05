@@ -197,7 +197,10 @@
                 "test_prepare_02",
                 "test_prepare_03",
                 "test_prepare_04",
-                "test_prepare_05"
+                "test_prepare_05",
+                "test_run_01",
+                "test_run_02",
+                "test_run_03"
             ]
         }
     ]
