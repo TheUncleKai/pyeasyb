@@ -58,10 +58,8 @@ class GMH3710(Device):
     def messwert_lesen(self, message: Message) -> bool:
         data = message.stream.data
         bitio = Value(data=data)
-        check = False
 
-        if message.length is Length.Byte9:
-            check = bitio.decode32()
+        check = bitio.decode32()
 
         if check is False:
             easyb.log.warn(self.name, "Error: {0:s}".format(bitio.error.text))
@@ -94,10 +92,8 @@ class GMH3710(Device):
     def minwert_lesen(self, message: Message) -> bool:
         data = message.stream.data
         bitio = Value(data=data)
-        check = False
 
-        if message.length is Length.Byte9:
-            check = bitio.decode32()
+        check = bitio.decode32()
 
         if check is False:
             easyb.log.warn(self.name, "Error: {0:s}".format(bitio.error.text))
@@ -109,10 +105,8 @@ class GMH3710(Device):
     def maxwert_lesen(self, message: Message) -> bool:
         data = message.stream.data
         bitio = Value(data=data)
-        check = False
 
-        if message.length is Length.Byte9:
-            check = bitio.decode32()
+        check = bitio.decode32()
 
         if check is False:
             easyb.log.warn(self.name, "Error: {0:s}".format(bitio.error.text))
@@ -254,13 +248,8 @@ class GMH3710(Device):
 
         data = message.stream.data
         bitio = Value(data=data)
-        check = False
 
-        if message.length is Length.Byte6:
-            check = bitio.decode16()
-
-        if message.length is Length.Byte9:
-            check = bitio.decode32()
+        check = bitio.decode32()
 
         row = self.create_row()
 

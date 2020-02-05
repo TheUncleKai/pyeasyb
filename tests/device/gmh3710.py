@@ -299,3 +299,95 @@ class TestGMH3710(unittest.TestCase):
         self.assertFalse(check)
         self.assertEqual(device.unit, "")
         return
+
+    def test_prepare_01(self):
+        data = [
+            [0xfe, 0x33, 0xa4],
+            [0xff, 0x00, 0x28],
+            [0xfe, 0xc5, 0x68],
+            [0xcd, 0x40, 0x3c, 0x8f, 0x08, 0xb2],
+            [0xfe, 0xf5, 0xf8],
+            [0x35, 0x00, 0x47, 0xff, 0x01, 0x2f],
+        ]
+
+        serial = TestSerial()
+        serial.read_data = data
+
+        device = GMH3710(port="TEST", baudrate=2400, address=1, write_timeout=3, timeout=60, wait_time=0.2)
+        device.serial = serial
+
+        check = device.prepare()
+        self.assertTrue(check)
+        return
+
+    def test_prepare_02(self):
+        data = [
+            [0xfe, 0x3b, 0x9c],
+            [0xfb, 0x00, 0x7c],
+            [0xfe, 0xc5, 0x68],
+            [0xcd, 0x40, 0x3c, 0x8f, 0x08, 0xb2],
+            [0xfe, 0xf5, 0xf8],
+            [0x35, 0x00, 0x47, 0xff, 0x01, 0x2f],
+        ]
+
+        serial = TestSerial()
+        serial.read_data = data
+
+        device = GMH3710(port="TEST", baudrate=2400, address=1, write_timeout=3, timeout=60, wait_time=0.2)
+        device.serial = serial
+
+        check = device.prepare()
+        self.assertFalse(check)
+        return
+
+    def test_prepare_03(self):
+        data = [
+            [0xfe, 0x33, 0xa5]
+        ]
+
+        serial = TestSerial()
+        serial.read_data = data
+
+        device = GMH3710(port="TEST", baudrate=2400, address=1, write_timeout=3, timeout=60, wait_time=0.2)
+        device.serial = serial
+
+        check = device.prepare()
+        self.assertFalse(check)
+        return
+
+    def test_prepare_04(self):
+        data = [
+            [0xfe, 0x33, 0xa4],
+            [0xff, 0x00, 0x28],
+            [0xfe, 0xc5, 0x67]
+        ]
+
+        serial = TestSerial()
+        serial.read_data = data
+
+        device = GMH3710(port="TEST", baudrate=2400, address=1, write_timeout=3, timeout=60, wait_time=0.2)
+        device.serial = serial
+
+        check = device.prepare()
+        self.assertFalse(check)
+        return
+
+    def test_prepare_05(self):
+        data = [
+            [0xfe, 0x33, 0xa4],
+            [0xff, 0x00, 0x28],
+            [0xfe, 0xc5, 0x68],
+            [0xcd, 0x40, 0x3c, 0x8f, 0x08, 0xb2],
+            [0xfe, 0xf5, 0xf8],
+            [0x35, 0x00, 0x47, 0xff, 0x04, 0x34],
+        ]
+
+        serial = TestSerial()
+        serial.read_data = data
+
+        device = GMH3710(port="TEST", baudrate=2400, address=1, write_timeout=3, timeout=60, wait_time=0.2)
+        device.serial = serial
+
+        check = device.prepare()
+        self.assertFalse(check)
+        return

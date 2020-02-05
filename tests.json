@@ -192,7 +192,12 @@
                 "test_command_08",
                 "test_command_09",
                 "test_command_10",
-                "test_command_11"
+                "test_command_11",
+                "test_prepare_01",
+                "test_prepare_02",
+                "test_prepare_03",
+                "test_prepare_04",
+                "test_prepare_05"
             ]
         }
     ]
