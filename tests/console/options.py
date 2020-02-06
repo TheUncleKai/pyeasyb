@@ -113,7 +113,7 @@ class TestOptions(object):
 
     def test_13(self):
         self.device = "GMH 3710"
-        self.output = "EXCEL"
+        self.output = "excel"
         self.filename = "TEST"
         self.command = 0
         self.port = "TEST"

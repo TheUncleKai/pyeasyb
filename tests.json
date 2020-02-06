@@ -217,7 +217,10 @@
                 "test_add_column_02",
                 "test_get_column_01",
                 "test_get_column_02",
-                "test_create_row_01"
+                "test_create_row",
+                "test_store_01",
+                "test_store_02",
+                "test_store_03"
             ]
         }
     ]

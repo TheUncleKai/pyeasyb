@@ -18,6 +18,7 @@
 
 import unittest
 import easyb
+import os
 
 from datetime import datetime
 
@@ -108,7 +109,7 @@ class TestData(unittest.TestCase):
         return
 
     # noinspection PyUnresolvedReferences
-    def test_create_row_01(self):
+    def test_create_row(self):
         item = Data()
 
         item.add_column("datetime", "Datetime", Type.datetime)
@@ -132,4 +133,42 @@ class TestData(unittest.TestCase):
         self.assertEqual(item.rows[0].temp, 0.1)
         self.assertEqual(item.rows[0].counter, 2)
         self.assertEqual(item.rows[0].note, "Jo")
+        return
+
+    def test_store_01(self):
+        item = Data()
+
+        item.add_column("datetime", "Datetime", Type.datetime)
+        item.add_column("checked", "Is checked", Type.bool)
+        item.add_column("temp", "Temperature", Type.float)
+        item.add_column("counter", "Counter", Type.integer)
+        item.add_column("note", "Note", Type.string)
+
+        _now = datetime.now()
+        row = item.create_row()
+
+        row.datetime = _now
+        row.checked = False
+        row.temp = 0.1
+        row.counter = 2
+        row.note = "Jo"
+
+        item.store("excel", "Test")
+
+        check1 = os.path.exists("Test.xlsx")
+        self.assertTrue(check1)
+        os.remove("Test.xlsx")
+        return
+
+    def test_store_02(self):
+        item = Data()
+
+        self.assertRaises(ValueError, item.store, "excel", "")
+        return
+
+    def test_store_03(self):
+        item = Data()
+
+        check = item.store("unknown", "Test")
+        self.assertFalse(check)
         return

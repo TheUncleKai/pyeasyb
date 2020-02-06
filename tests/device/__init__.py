@@ -847,7 +847,7 @@ class TestControl(unittest.TestCase):
 
             time.sleep(0.01)
 
-        check1 = device.store("EXCEL", "test")
+        check1 = device.store("excel", "test")
         check2 = os.path.exists("test.xlsx")
         self.assertTrue(device.status)
         self.assertTrue(check1)

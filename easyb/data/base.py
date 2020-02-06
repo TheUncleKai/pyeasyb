@@ -24,6 +24,7 @@ from abc import ABCMeta
 
 __all__ = [
     "Type",
+    "FormatInfo",
     "Column",
     "Info",
     "Row",
@@ -39,6 +40,15 @@ class Type(Enum):
     float = 2
     string = 3
     bool = 4
+
+
+class FormatInfo(object):
+
+    def __init__(self, name: str = "", path: str = "", classname: str = ""):
+        self.name = name
+        self.path = path
+        self.classname = classname
+        return
 
 
 class Column(object):

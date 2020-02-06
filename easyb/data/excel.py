@@ -23,14 +23,11 @@ from easyb.data.base import Storage, Type, Collection
 import xlsxwriter
 
 __all__ = [
-    "ExportExcel"
+    "ExcelStorage"
 ]
 
-storage = "EXCEL"
-classname = "ExportExcel"
 
-
-class ExportExcel(Storage):
+class ExcelStorage(Storage):
 
     workbook: xlsxwriter.Workbook = None
     info_sheet: xlsxwriter.workbook.Worksheet = None

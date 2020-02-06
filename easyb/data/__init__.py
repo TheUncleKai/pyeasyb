@@ -18,8 +18,9 @@
 import easyb
 
 from datetime import datetime
+from enum import Enum
 
-from typing import Any
+from typing import Any, List
 
 __all__ = [
     "base",
@@ -33,7 +34,7 @@ __storage__ = [
 ]
 
 
-from easyb.data.base import Type, Column, Row, Collection
+from easyb.data.base import Type, Column, Row, Collection, FormatInfo
 from bbutil.utils import get_attribute
 
 
@@ -41,6 +42,11 @@ class Data(Collection):
 
     def __init__(self):
         Collection.__init__(self)
+
+        self.format: List[FormatInfo] = [
+            FormatInfo("excel", "easyb.data.excel", "ExcelStorage")
+        ]
+
         self.counter: int = 0
         return
 
@@ -109,31 +115,23 @@ class Data(Collection):
 
     def store(self, file_type: str, filename: str) -> bool:
 
-        if file_type == "":
-            raise ValueError("Filename is missing!")
-
         if filename == "":
             raise ValueError("Filename is missing!")
 
-        c = None
+        info = None
 
-        for item in __storage__:
-            path = "easyb.data.{0:s}".format(item)
-            name = get_attribute(path, "storage")
+        for item in self.format:
+            if item.name == file_type:
+                info = item
+                break
 
-            if name is None:
-                continue
-
-            if name != file_type:
-                continue
-
-            classname = get_attribute(path, "classname")
-            c = get_attribute(path, classname)
-
-        if c is None:
+        if info is None:
             easyb.log.error("Unable to find storge format: {0:s}".format(file_type))
             return False
 
+        easyb.log.inform("Data", "Open {0:s}".format(info.name))
+
+        c = get_attribute(info.path, info.classname)
         self.filename = filename
 
         storage = c(self)

@@ -74,7 +74,7 @@ class Console(object):
         parser.add_option_group(serial)
 
         output = OptionGroup(parser, "Output Options", "Set output to file.")
-        serial.add_option("-o", "--output", help="output type", metavar="EXCEL/TEXT", type="string",
+        serial.add_option("-o", "--output", help="output type", metavar="excel/csv", type="string",
                           default="none")
         serial.add_option("-f", "--filename", help="filename for output", metavar="measurement", type="string",
                           default="measurement")
@@ -257,6 +257,7 @@ class Console(object):
             return False
 
         if self.options.output != "none":
+
             check = self.device.store(self.options.output, self.options.filename)
             if check is False:  # pragma: no cover
                 return False
