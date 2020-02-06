@@ -21,6 +21,7 @@ import easyb
 
 from easyb.logging import SerialLogging
 from easyb.data import Data
+from easyb.data.base import Type
 
 __all__ = [
     "TestData"
@@ -59,4 +60,26 @@ class TestData(unittest.TestCase):
         self.assertEqual(len(item.columns), 0)
         self.assertEqual(len(item.infos), 0)
         self.assertEqual(len(item.status), 0)
+        return
+
+    def test_add_column_01(self):
+        item = Data()
+
+        check = item.add_column("datetime", "Datetime", Type.datetime)
+
+        self.assertTrue(check)
+        self.assertEqual(item.counter, 1)
+        self.assertEqual(len(item.columns), 1)
+        return
+
+    def test_add_column_02(self):
+        item = Data()
+
+        check1 = item.add_column("datetime", "Datetime", Type.datetime)
+        check2 = item.add_column("datetime", "Datetime2", Type.datetime)
+
+        self.assertTrue(check1)
+        self.assertFalse(check2)
+        self.assertEqual(item.counter, 1)
+        self.assertEqual(len(item.columns), 1)
         return

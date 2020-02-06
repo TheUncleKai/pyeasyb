@@ -212,7 +212,9 @@
             "path": "tests.data",
             "classname": "TestData",
             "tests": [
-                "test_constructor"
+                "test_constructor",
+                "test_add_column_01",
+                "test_add_column_02"
             ]
         }
     ]
