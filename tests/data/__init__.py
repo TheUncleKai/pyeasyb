@@ -19,6 +19,8 @@
 import unittest
 import easyb
 
+from datetime import datetime
+
 from easyb.logging import SerialLogging
 from easyb.data import Data
 from easyb.data.base import Type
@@ -103,4 +105,31 @@ class TestData(unittest.TestCase):
         item = Data()
 
         self.assertRaises(ValueError, item.get_column, "datetime")
+        return
+
+    # noinspection PyUnresolvedReferences
+    def test_create_row_01(self):
+        item = Data()
+
+        item.add_column("datetime", "Datetime", Type.datetime)
+        item.add_column("checked", "Is checked", Type.bool)
+        item.add_column("temp", "Temperature", Type.float)
+        item.add_column("counter", "Counter", Type.integer)
+        item.add_column("note", "Note", Type.string)
+
+        _now = datetime.now()
+        row = item.create_row()
+
+        row.datetime = _now
+        row.checked = False
+        row.temp = 0.1
+        row.counter = 2
+        row.note = "Jo"
+
+        self.assertEqual(item.len, 1)
+        self.assertEqual(item.rows[0].datetime, _now)
+        self.assertEqual(item.rows[0].checked, False)
+        self.assertEqual(item.rows[0].temp, 0.1)
+        self.assertEqual(item.rows[0].counter, 2)
+        self.assertEqual(item.rows[0].note, "Jo")
         return

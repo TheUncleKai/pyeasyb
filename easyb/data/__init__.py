@@ -98,7 +98,7 @@ class Data(Collection):
             if column.type is Type.string:
                 value = ""
 
-            if value is None:
+            if value is None:  # pragma: no cover
                 return None
 
             value_list.append(value)
