@@ -83,3 +83,24 @@ class TestData(unittest.TestCase):
         self.assertEqual(item.counter, 1)
         self.assertEqual(len(item.columns), 1)
         return
+
+    def test_get_column_01(self):
+        item = Data()
+
+        check1 = item.add_column("datetime", "Datetime", Type.datetime)
+
+        column = item.get_column("datetime")
+
+        self.assertTrue(check1)
+        self.assertIsNotNone(column)
+        self.assertEqual(column.name, "datetime")
+        self.assertEqual(column.description, "Datetime")
+        self.assertEqual(column.type, Type.datetime)
+        self.assertEqual(column.index, 0)
+        return
+
+    def test_get_column_02(self):
+        item = Data()
+
+        self.assertRaises(ValueError, item.get_column, "datetime")
+        return
