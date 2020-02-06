@@ -56,14 +56,10 @@ class TestControl(unittest.TestCase):
     """Testing class for locking module."""
 
     def setUp(self):
-        """set up test.
-        """
         easyb.set_logging(new_logging)
         return
 
     def tearDown(self):
-        """tear down test.
-        """
         easyb.set_logging(old_logging)
         return
 

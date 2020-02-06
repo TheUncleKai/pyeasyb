@@ -29,6 +29,7 @@ from easyb.definitions import Error
 
 __all__ = [
     "console",
+    "data",
     "device",
 
     "bit",

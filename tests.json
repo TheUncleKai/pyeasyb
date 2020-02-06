@@ -206,6 +206,14 @@
                 "test_close_03",
                 "test_close_04"
             ]
+        },
+        {
+            "id": "Data",
+            "path": "tests.data",
+            "classname": "TestData",
+            "tests": [
+                "test_constructor"
+            ]
         }
     ]
 }
