@@ -16,18 +16,28 @@
 #    Copyright (C) 2017, Kai Raphahn <kai.raphahn@laburec.de>
 #
 
+import os
 import sys
 import easyb
+
+from bbutil.utils import full_path
 
 from easyb.console import Console
 
 if __name__ == '__main__':
 
-    easyb.log.file_name = "easyb-tool.log"
-    check = easyb.conf.load("config.json")
-    if check is False:
-        easyb.log.error("Unable to load config!")
-        sys.exit(1)
+    easyb.log.setup(app="easyb-tool", level=2)
+
+    console = easyb.log.get_writer("console")
+    fileio = easyb.log.get_writer("file")
+    filename = full_path("{0:s}/run-tests.log".format(os.getcwd()))
+
+    console.setup(text_space=15, error_index=["ERROR", "EXCEPTION"])
+    fileio.setup(text_space=15, error_index=["ERROR", "EXCEPTION"], filename=filename)
+    easyb.log.register(console)
+    easyb.log.register(fileio)
+
+    easyb.log.open()
 
     main = Console()
 

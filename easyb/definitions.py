@@ -27,8 +27,14 @@ __all__ = [
     "get_priority",
 
     "Length",
-    "get_length"
+    "get_length",
+
+    "Error",
+    "Status",
+    "Unit"
 ]
+
+from bbutil.utils import check_dict
 
 
 class Direction(Enum):
@@ -70,3 +76,49 @@ def get_length(value: int) -> Union[None, Length]:
         if item.value == value:
             return item
     return None
+
+
+class Error(object):
+
+    def __init__(self, data: dict):
+        self.code: int = 0
+        self.text: str = ""
+
+        check = check_dict(data, ["code", "text"])
+        if check is False:
+            raise ValueError("Invalid error code: {0:s}".format(str(data)))
+
+        self.code = data["code"]
+        self.text = data["text"]
+        return
+
+
+class Status(object):
+
+    def __init__(self, data: dict):
+        self.bit: int = 0
+        self.text: str = ""
+        self.is_set: bool = False
+
+        check = check_dict(data, ["bit", "text"])
+        if check is False:
+            raise ValueError("Invalid status code: {0:s}".format(str(data)))
+
+        self.bit = data["bit"]
+        self.text = data["text"]
+        return
+
+
+class Unit(object):
+
+    def __init__(self, data: dict):
+        self.code: int = 0
+        self.value: str = ""
+
+        check = check_dict(data, ["code", "value"])
+        if check is False:
+            raise ValueError("Invalid unit code: {0:s}".format(str(data)))
+
+        self.code = data["code"]
+        self.value = data["value"]
+        return

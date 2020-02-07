@@ -26,9 +26,7 @@ __all__ = [
     "config",
     "console",
     "definitions",
-    "device",
-    "logging",
-    "utils"
+    "device"
 ]
 
 
@@ -75,8 +73,13 @@ __version__ = "{0:d}.{1:d}.{2:d}.{3:d}".format(__milestone__, __major__, __minor
 __maintainer__ = __author__
 
 
-import easyb.logging
+from easyb.logging import SerialLogging
 import easyb.config
 
-log = easyb.logging.Log()
+log: SerialLogging = SerialLogging()
 conf = easyb.config.Config()
+
+
+def set_logging(new_log):
+    global log
+    log = new_log

@@ -36,8 +36,6 @@ __all__ = [
 
 class Console(object):
 
-    options = None
-
     @property
     def parser(self) -> OptionParser:
         return self._parser
@@ -47,6 +45,8 @@ class Console(object):
         return self._device
 
     def __init__(self):
+
+        self.options = None
 
         usage = "usage: %prog [options] arg1 arg2"
 
@@ -74,7 +74,7 @@ class Console(object):
         parser.add_option_group(serial)
 
         output = OptionGroup(parser, "Output Options", "Set output to file.")
-        serial.add_option("-o", "--output", help="output type", metavar="EXCEL/TEXT", type="string",
+        serial.add_option("-o", "--output", help="output type", metavar="excel/csv", type="string",
                           default="none")
         serial.add_option("-f", "--filename", help="filename for output", metavar="measurement", type="string",
                           default="measurement")
@@ -145,7 +145,7 @@ class Console(object):
             return False
 
         self.options = options
-        easyb.log.level = options.verbose
+        easyb.log.setup(level=options.verbose)
 
         version = "python {0:d}.{1:d}.{2:d}.{3:s}".format(sys.version_info.major, sys.version_info.minor,
                                                           sys.version_info.micro, sys.version_info.releaselevel)
@@ -166,13 +166,13 @@ class Console(object):
             return True
 
         c = get_device(self.options.device)
+        if c is None:
+            easyb.log.error("Unable to find device {0:s}".format(self.options.device))
+            return False
 
         # noinspection PyCallingNonCallable
         self._device = c(address=1, port=self.options.port, baudrate=self.options.baudrate,
                          timeout=self.options.timeout, write_timeout=self.options.writetimeout)
-        if self.device is None:
-            easyb.log.error("Device {0:s} is unknown!".format(options.device))
-            return False
 
         if self.options.read is False:
             if self.options.command not in self.device.command_list:
@@ -201,7 +201,8 @@ class Console(object):
 
     def run_continuously(self) -> bool:
 
-        signal.signal(signal.SIGINT, self.device.do_abort)
+        if __name__ == '__main__':
+            signal.signal(signal.SIGINT, self.device.do_abort)
 
         thread = threading.Thread(target=self.device.run_loop)
         thread.start()
@@ -245,6 +246,9 @@ class Console(object):
         if self.options.list is True:
             return True
 
+        if self.device is not None:
+            self.device.disconnect()
+
         if self.options.read is False:
             return True
 
@@ -252,12 +256,10 @@ class Console(object):
         if check is False:
             return False
 
-        if self.device is not None:
-            self.device.disconnect()
-
         if self.options.output != "none":
+
             check = self.device.store(self.options.output, self.options.filename)
-            if check is False:
+            if check is False:  # pragma: no cover
                 return False
 
         return True

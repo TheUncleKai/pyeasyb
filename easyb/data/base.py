@@ -24,6 +24,7 @@ from abc import ABCMeta
 
 __all__ = [
     "Type",
+    "FormatInfo",
     "Column",
     "Info",
     "Row",
@@ -41,31 +42,31 @@ class Type(Enum):
     bool = 4
 
 
+class FormatInfo(object):
+
+    def __init__(self, name: str = "", path: str = "", classname: str = ""):
+        self.name = name
+        self.path = path
+        self.classname = classname
+        return
+
+
 class Column(object):
 
-    index: int = 0
-    name: str = ""
-    description: str = ""
-    type: Type = None
-
     def __init__(self, index: int, name: str, desc: str, column_type: Type):
-        self.index = index
-        self.name = name
-        self.description = desc
-        self.type = column_type
+        self.index: int = index
+        self.name: str = name
+        self.description: str = desc
+        self.type: Type = column_type
         return
 
 
 class Info(object):
 
-    name: str = ""
-    type: Type = None
-    value: Any = None
-
-    def __init__(self, name: str, type: Type, value: Any):
-        self.name = name
-        self.type = type
-        self.value = value
+    def __init__(self, name: str, data_type: Type, value: Any):
+        self.name: str = name
+        self.type: Type = data_type
+        self.value: Any = value
         return
 
 
@@ -79,23 +80,22 @@ class Row(object):
 
 class Collection(object):
 
-    rows: List[Row] = []
-    columns: List[Column] = []
-    infos: List[Info] = []
-    status: List[Info] = []
-    filename: str = ""
+    def __init__(self):
+        self.rows: List[Row] = []
+        self.columns: List[Column] = []
+        self.infos: List[Info] = []
+        self.status: List[Info] = []
+        self.filename: str = ""
+        return
 
 
 class Storage(metaclass=ABCMeta):
 
-    name: str = ""
-    data: Collection = None
-
     def __init__(self, name: str, data: Collection):
-        self.name = name
-        self.data = data
+        self.name: str = name
+        self.data: Collection = data
         return
 
     @abc.abstractmethod
-    def store(self) -> bool:
+    def store(self) -> bool:  # pragma: no cover
         return True

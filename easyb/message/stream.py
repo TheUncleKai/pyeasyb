@@ -19,7 +19,7 @@ import easyb
 
 from typing import List
 from easyb.definitions import Length
-from easyb.bit import debug_data, check_crc, crop_u8, create_crc
+from easyb.bit import debug_data, crop_u8, create_crc, check_crc
 
 __all__ = [
     "Stream"
@@ -29,40 +29,18 @@ __all__ = [
 class Stream(object):
 
     def __init__(self, length: Length):
-        self._data = []
-        self.length = length
+        self.data: List[int] = []
+        self.length: Length = length
         return
-
-    @property
-    def length(self) -> Length:
-        return self._length
-
-    @length.setter
-    def length(self, in_length: Length):
-        self._length = in_length
-
-        if self._length is Length.Byte3:
-            self._expand_data(3)
-
-        if self._length is Length.Byte6:
-            self._expand_data(6)
-
-        if self._length is Length.Byte9:
-            self._expand_data(9)
-        return
-
-    @property
-    def data(self) -> List[int]:
-        return self._data
 
     @property
     def bytes(self) -> bytes:
-        res = bytes(self._data)
+        res = bytes(self.data)
         return res
 
     @property
     def len(self) -> int:
-        return len(self._data)
+        return len(self.data)
 
     def __str__(self):
         return debug_data(self.bytes)
@@ -70,19 +48,23 @@ class Stream(object):
     def __repr__(self):
         return debug_data(self.bytes)
 
-    def _expand_data(self, number):
+    def expand_data(self, number):
         if number == self.len:
             return
 
         n = self.len
         while n < number:
-            self._data.append(0)
+            self.data.append(0)
             n += 1
         return
 
     def encode(self) -> bool:
         length = len(self.data)
         check = False
+
+        if length == 0:
+            easyb.log.error("Data is empty!")
+            return False
 
         for item in self.data:
             if item != 0:
@@ -113,10 +95,10 @@ class Stream(object):
         return True
 
     def decode(self, data_input: bytes):
-        self._data = []
+        self.data = []
 
         for item in data_input:
-            self._data.append(int(item))
+            self.data.append(int(item))
 
         length = len(self.data)
 
@@ -145,7 +127,7 @@ class Stream(object):
             return False
 
         for item in data_input:
-            self._data.append(int(item))
+            self.data.append(int(item))
 
         check = self.verify_crc()
         return check
@@ -198,7 +180,13 @@ class Stream(object):
     def set_data(self, data_input) -> bool:
         length = len(data_input)
 
-        if length != self.len:
+        if len(self.data) == 0:
+            self.expand_data(length)
+
+        if self.length is Length.Variable:
+            self.expand_data(length)
+
+        if (length != self.len) and (self.length is not Length.Variable):
             easyb.log.error("Invalid data size of {0:d}, need {1:d}!".format(length, self.len))
             return False
 

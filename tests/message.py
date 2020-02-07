@@ -24,6 +24,10 @@ import easyb.message
 
 from easyb.definitions import Direction, Length, Priority
 
+__all__ = [
+    "TestMessage"
+]
+
 
 # noinspection DuplicatedCode
 class TestMessage(unittest.TestCase):
@@ -153,7 +157,7 @@ class TestMessage(unittest.TestCase):
                                         param=[202, 0, 1, 0, 0, 0])
 
         check = message.encode()
-        self.assertFalse(check)
+        self.assertTrue(check)
         return
 
     def test_decode_1(self):

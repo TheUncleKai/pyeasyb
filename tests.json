@@ -1,25 +1,57 @@
 {
     "modules": [
         {
-            "id": "Device",
-            "path": "tests.device",
-            "classname": "TestControl",
+            "id": "BitIO",
+            "path": "tests.bit",
+            "classname": "TestBit",
             "tests": [
-                "test_constructor",
-                "test_setup",
-                "test_connect_1",
-                "test_connect_2",
-                "test_connect_3",
-                "test_connect_4",
-                "test_disconnect_1",
-                "test_disconnect_2",
-                "test_disconnect_3",
-                "test_disconnect_4",
-                "test_get_command_1",
-                "test_get_command_2",
-                "test_send_1",
-                "test_send_2",
-                "test_send_3"
+                "test_debug_data",
+                "test_create_crc",
+                "test_crop_u8_1",
+                "test_crop_u8_2",
+                "test_crop_u8_3",
+                "test_crop_u16_1",
+                "test_crop_u16_2",
+                "test_crop_u32_1",
+                "test_check_crc_1",
+                "test_check_crc_2",
+                "test_value_decode_u16_1",
+                "test_value_decode_u16_2",
+                "test_value_decode_u32_1",
+                "test_value_decode_u32_2",
+                "test_encode_u32_1",
+                "test_encode_u32_2",
+                "test_encode_u16_1"
+            ]
+        },
+        {
+            "id": "Command",
+            "path": "tests.command",
+            "classname": "TestCommand",
+            "tests": [
+                "test_command_01"
+            ]
+        },
+        {
+            "id": "Config",
+            "path": "tests.config",
+            "classname": "TestConfig",
+            "tests": [
+                "test_config_01",
+                "test_config_02"
+            ]
+        },
+        {
+            "id": "Definitions",
+            "path": "tests.definitions",
+            "classname": "TestDefinitions",
+            "tests": [
+                "test_direction",
+                "test_priority",
+                "test_length",
+                "test_error",
+                "test_status",
+                "test_unit"
             ]
         },
         {
@@ -27,26 +59,27 @@
             "path": "tests.stream",
             "classname": "TestStream",
             "tests": [
-                "test_stream_1",
-                "test_stream_2",
-                "test_stream_3",
-                "test_encode_1",
-                "test_encode_2",
-                "test_encode_3",
-                "test_decode_1",
-                "test_decode_2",
-                "test_decode_3",
-                "test_decode_4",
+                "test_stream",
+                "test_expand_data",
                 "test_set_data_1",
+                "test_set_data_2",
+                "test_set_data_3",
+                "test_append_1",
+                "test_append_2",
+                "test_append_3",
+                "test_append_4",
                 "test_verify_length_1",
                 "test_verify_length_2",
                 "test_verify_length_3",
                 "test_verify_length_4",
                 "test_verify_length_5",
                 "test_verify_length_6",
-                "test_append_1",
-                "test_append_2",
-                "test_append_3"
+                "test_encode_1",
+                "test_encode_2",
+                "test_encode_3",
+                "test_decode_1",
+                "test_decode_2",
+                "test_decode_3"
             ]
         },
         {
@@ -70,19 +103,6 @@
             ]
         },
         {
-            "id": "BitIO",
-            "path": "tests.bit",
-            "classname": "TestBit",
-            "tests": [
-                "test_create_crc",
-                "test_check_crc_1",
-                "test_check_crc_2",
-                "test_decode_u32",
-                "test_encode_u32_1",
-                "test_encode_u32_2"
-            ]
-        },
-        {
             "id": "Console",
             "path": "tests.console",
             "classname": "TestConsole",
@@ -99,18 +119,117 @@
                 "test_prepare_9",
                 "test_prepare_10",
                 "test_prepare_11",
+                "test_list_commands_01",
+                "test_list_commands_02",
+                "test_list_commands_03",
                 "test_run_1",
                 "test_run_2",
-                "test_close_1"
+                "test_close_1",
+                "test_run_continuously_1",
+                "test_run_continuously_2",
+                "test_run_continuously_3"
             ]
         },
         {
-            "id": "GMH3710",
-            "path": "tests.gmh3710",
+            "id": "Device",
+            "path": "tests.device",
+            "classname": "TestControl",
+            "tests": [
+                "test_constructor",
+                "test_setup",
+                "test_connect_1",
+                "test_connect_2",
+                "test_connect_3",
+                "test_connect_4",
+                "test_disconnect_1",
+                "test_disconnect_2",
+                "test_disconnect_3",
+                "test_disconnect_4",
+                "test_get_command_1",
+                "test_get_command_2",
+                "test_send_1",
+                "test_send_2",
+                "test_send_3",
+                "test_read_receive_1",
+                "test_read_receive_2",
+                "test_read_receive_3",
+                "test_read_receive_4",
+                "test_read_receive_5",
+                "test_read_receive_6",
+                "test_read_receive_7",
+                "test_read_receive_8",
+                "test_read_receive_9",
+                "test_read_receive_10",
+                "test_status_1",
+                "test_execute_1",
+                "test_execute_2",
+                "test_execute_3",
+                "test_run_command_1",
+                "test_run_command_2",
+                "test_run_command_3",
+                "test_add_command_1",
+                "test_run_1",
+                "test_run_loop_1",
+                "test_run_loop_2",
+                "test_run_loop_3",
+                "test_store_1"
+            ]
+        },
+        {
+            "id": "Device.GMH3710",
+            "path": "tests.device.gmh3710",
             "classname": "TestGMH3710",
             "tests": [
                 "test_constructor_1",
-                "test_constructor_2"
+                "test_constructor_2",
+                "test_command_01",
+                "test_command_02",
+                "test_command_03",
+                "test_command_04",
+                "test_command_05",
+                "test_command_06",
+                "test_command_07",
+                "test_command_08",
+                "test_command_09",
+                "test_command_10",
+                "test_command_11",
+                "test_prepare_01",
+                "test_prepare_02",
+                "test_prepare_03",
+                "test_prepare_04",
+                "test_prepare_05",
+                "test_run_01",
+                "test_run_02",
+                "test_run_03",
+                "test_close_01",
+                "test_close_02",
+                "test_close_03",
+                "test_close_04"
+            ]
+        },
+        {
+            "id": "Data",
+            "path": "tests.data",
+            "classname": "TestData",
+            "tests": [
+                "test_constructor",
+                "test_add_column_01",
+                "test_add_column_02",
+                "test_get_column_01",
+                "test_get_column_02",
+                "test_create_row",
+                "test_store_01",
+                "test_store_02",
+                "test_store_03"
+            ]
+        },
+        {
+            "id": "Data.Excel",
+            "path": "tests.data.excel",
+            "classname": "TestExcel",
+            "tests": [
+                "test_constructor",
+                "test_store"
             ]
         }
     ]

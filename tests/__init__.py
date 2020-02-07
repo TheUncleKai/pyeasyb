@@ -16,7 +16,175 @@
 #    Copyright (C) 2017, Kai Raphahn <kai.raphahn@laburec.de>
 #
 
+from typing import List
+
+import easyb
+
+from easyb.data.base import Type
+from easyb.command import Command
+from easyb.device import Device
+from easyb.message import Message
+from easyb.bit import Value
+from easyb.definitions import Error
+
 __all__ = [
-    "device.py",
-    "message"
+    "console",
+    "data",
+    "device",
+
+    "bit",
+    "command",
+    "config",
+    "definitions",
+    "message",
+    "stream",
+
+    "TestDevice",
+    "TestException",
+    "TestSerial"
 ]
+
+
+class TestDevice(Device):
+
+    def __init__(self, **kwargs):
+        Device.__init__(self, name="TEST-DEVICE", wait_time=0.1, address=1, **kwargs)
+
+        self.value: float = 0.0
+
+        # noinspection PyTypeChecker
+        self.message: Message = None
+
+        # noinspection PyTypeChecker
+        self.error: Error = None
+
+        self.data.add_column("value", "Temperature", Type.float)
+        self.data.add_column("error", "Error", Type.string)
+        return
+
+    def init_commands(self):
+
+        command = Command(name="Messwert lesen", code=0, func_call=self.read_messwert)
+        self.add_command(command)
+        return
+
+    def read_messwert(self, message: Message) -> bool:
+        self.message = message
+
+        if self.message.stream is None:
+            return False
+
+        data = message.stream.data
+        bitio = Value(data=data)
+
+        check = bitio.decode32()
+
+        if check is False:
+            easyb.log.warn(self.name, "Error: {0:s}".format(bitio.error.text))
+        else:
+            debug = "{0:.2f}".format(bitio.value)
+            easyb.log.inform(self.name, debug)
+
+        self.error = bitio.error
+        self.value = bitio.value
+        return True
+
+    def prepare(self) -> bool:
+        return True
+
+    def run(self) -> bool:
+        command = self.get_command(0)
+
+        message = self.execute(command)
+        if message is None:
+            return False
+
+        data = message.stream.data
+        bitio = Value(data=data)
+
+        check = bitio.decode32()
+        row = self.create_row()
+
+        if check is False:
+            easyb.log.warn(self.name, "Error: {0:s}".format(bitio.error.text))
+            row.value = 0.0
+            row.error = bitio.error.text
+        else:
+            row.value = bitio.value
+            row.error = ""
+            debug = "{0:06d} {1:s}: {2:.2f}".format(self.interval_counter, row.datetime.strftime("%H:%M:%S"), row.value)
+            easyb.log.inform(self.name, debug)
+        return True
+
+    def close(self) -> bool:
+        length = len(self.data.rows)
+
+        if length == 0:
+            return False
+
+        return True
+
+
+class TestException(object):
+
+    def __init__(self, number: int, exception: Exception):
+        self.run: int = number
+
+        # noinspection PyTypeChecker
+        self.exception: Exception = exception
+        return
+
+
+class TestSerial(object):
+
+    def __init__(self, **kwargs):
+        self.is_open = False
+
+        self.read_run: int = 0
+        self.read_data: List[List[int]] = []
+
+        self.write_run: int = 0
+        self.write_data: List[List[int]] = []
+
+        # noinspection PyTypeChecker
+        self.read_exception: TestException = None
+
+        # noinspection PyTypeChecker
+        self.write_exception: TestException = None
+        return
+
+    def open(self):
+        self.is_open = True
+        return
+
+    def close(self):
+        self.is_open = False
+        return
+
+    def write(self, data: bytes):
+        if self.write_exception is not None:
+            if self.write_exception.run == self.write_run:
+                raise self.write_exception.exception
+
+        run_list = []
+        for item in data:
+            run_list.append(int(item))
+        self.write_data.append(run_list)
+        self.write_run += 1
+        return
+
+    # noinspection PyUnusedLocal
+    def read(self, count: int = 0) -> bytes:
+        if self.read_exception is not None:
+            if self.read_exception.run == self.read_run:
+                raise self.read_exception.exception
+
+        if self.read_run >= len(self.read_data):
+            data = []
+            result = bytes(data)
+            return result
+
+        data = self.read_data[self.read_run]
+        result = bytes(data)
+        self.read_run += 1
+        return result

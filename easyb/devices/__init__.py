@@ -27,7 +27,7 @@ __all__ = [
     "get_devices"
 ]
 
-from easyb.utils import get_attribute
+from bbutil.utils import get_attribute
 
 exception_list = [
     "get_devices",

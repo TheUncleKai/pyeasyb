@@ -29,42 +29,40 @@ from easyb.data.base import Type
 from easyb.bit import debug_data
 from easyb.message import Message
 from easyb.command import Command
-from easyb.definitions import Length
-from easyb.config import Status
+from easyb.definitions import Length, Status
 
 from abc import ABCMeta
 
 
 class Device(metaclass=ABCMeta):
 
-    # device members
-    name: str = ""
-    address: int = 0
-    commands: List[Command] = []
-    command_list: List[int] = []
-    command_counter: int = 0
-    device_status: List[Status] = []
-
-    # members for serial communication
-    serial: Serial = None
-    port: str = ""
-    baudrate: int = 0
-    timeout: int = 2
-    write_timeout: int = 2
-    wait_time: float = 0.0
-
-    # members for reading via thread
-    interval: float = 2.0
-    abort: bool = False
-    status: bool = False
-    active: bool = False
-    interval_counter: int = 0
-
-    # data type members
-    data: Data = Data()
-
     def __init__(self, **kwargs):
-        self._name = ""
+        # device members
+        self.name: str = ""
+        self.address: int = 0
+        self.commands: List[Command] = []
+        self.command_list: List[int] = []
+        self.command_counter: int = 0
+        self.device_status: List[Status] = []
+
+        # members for serial communication
+        # noinspection PyTypeChecker
+        self.serial: Serial = None
+        self.port: str = ""
+        self.baudrate: int = 0
+        self.timeout: int = 2
+        self.write_timeout: int = 2
+        self.wait_time: float = 0.0
+
+        # members for reading via thread
+        self.interval: float = 2.0
+        self.abort: bool = False
+        self.status: bool = False
+        self.active: bool = False
+        self.interval_counter: int = 0
+
+        # data type members
+        self.data: Data = Data()
 
         item = kwargs.get("name", "")
         if item is not None:
@@ -103,8 +101,7 @@ class Device(metaclass=ABCMeta):
         self.data.add_column("datetime", "Time", Type.datetime)
         self.data.add_column("number", "Number", Type.integer)
 
-        for item in easyb.conf.status:
-            self.device_status.append(item)
+        easyb.conf.create_status(self.device_status)
         return
 
     def get_status(self) -> List[Status]:
@@ -218,6 +215,8 @@ class Device(metaclass=ABCMeta):
 
         stream = message.stream.bytes
 
+        easyb.log.serial_write(stream)
+
         try:
             self.serial.write(stream)
         except serial.SerialException as e:
@@ -259,8 +258,7 @@ class Device(metaclass=ABCMeta):
             easyb.log.exception(e)
             return None
 
-        debug = debug_data(header)
-        easyb.log.debug1("SERIAL", "Header: {0:s}".format(debug))
+        easyb.log.serial_read(header)
 
         message = Message()
         check = message.decode(header)
@@ -302,9 +300,7 @@ class Device(metaclass=ABCMeta):
 
         stream = message.stream
 
-        debug = debug_data(data)
-        easyb.log.debug1("SERIAL", "{0:s}: {1:s}".format(message.length.name, debug))
-
+        easyb.log.serial_read(data)
         check = stream.append(data)
         if check is False:
             return None
@@ -391,6 +387,11 @@ class Device(metaclass=ABCMeta):
                 easyb.log.inform(self.name, "Stop measurements")
                 break
 
+            if self.status is False:
+                self.abort = True
+                easyb.log.warn(self.name, "Abort measurements")
+                break
+
         self.active = False
         return
 
@@ -399,18 +400,22 @@ class Device(metaclass=ABCMeta):
         ret = self.data.store(file_type, filename)
         return ret
 
+    # noinspection PyUnusedLocal
     @abc.abstractmethod
     def init_commands(self):
-        return
+        raise NotImplementedError
 
+    # noinspection PyUnusedLocal
     @abc.abstractmethod
     def prepare(self) -> bool:
-        return True
+        raise NotImplementedError
 
+    # noinspection PyUnusedLocal
     @abc.abstractmethod
     def run(self) -> bool:
-        return True
+        raise NotImplementedError
 
+    # noinspection PyUnusedLocal
     @abc.abstractmethod
     def close(self) -> bool:
-        return True
+        raise NotImplementedError
