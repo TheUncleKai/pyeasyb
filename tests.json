@@ -222,6 +222,15 @@
                 "test_store_02",
                 "test_store_03"
             ]
+        },
+        {
+            "id": "Data.Excel",
+            "path": "tests.data.excel",
+            "classname": "TestExcel",
+            "tests": [
+                "test_constructor",
+                "test_store"
+            ]
         }
     ]
 }

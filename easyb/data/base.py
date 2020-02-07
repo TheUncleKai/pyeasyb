@@ -97,5 +97,5 @@ class Storage(metaclass=ABCMeta):
         return
 
     @abc.abstractmethod
-    def store(self) -> bool:
+    def store(self) -> bool:  # pragma: no cover
         return True

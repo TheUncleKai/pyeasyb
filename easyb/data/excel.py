@@ -29,12 +29,13 @@ __all__ = [
 
 class ExcelStorage(Storage):
 
-    workbook: xlsxwriter.Workbook = None
-    info_sheet: xlsxwriter.workbook.Worksheet = None
-    data_sheet: xlsxwriter.workbook.Worksheet = None
-    row: int = 0
-
+    # noinspection PyTypeChecker
     def __init__(self, data: Collection):
+        self.workbook: xlsxwriter.Workbook = None
+        self.info_sheet: xlsxwriter.workbook.Worksheet = None
+        self.data_sheet: xlsxwriter.workbook.Worksheet = None
+        self.row: int = 0
+
         Storage.__init__(self, "EXCEL", data)
         return
 
@@ -79,7 +80,7 @@ class ExcelStorage(Storage):
         if data_type is Type.bool:
             writer = sheet.write_boolean
 
-        if writer is None:
+        if writer is None:  # pragma: no cover
             raise ValueError("Unknown type: {0:s}".format(data_type.name))
 
         return writer
@@ -142,8 +143,6 @@ class ExcelStorage(Storage):
         return
 
     def _close(self):
-        if self.workbook is None:
-            return
         easyb.log.inform(self.name, "Write number of rows {0:d}".format(self.row))
         self.workbook.close()
         return
