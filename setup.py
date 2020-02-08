@@ -19,7 +19,10 @@
 from setuptools import setup, find_packages
 import easyb
 
-packages = find_packages(where=".")
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
+packages = find_packages(where=".", exclude=["tests", "tests.console", "tests.data", "tests.device"])
 
 setup(
     name=easyb.__name__,
@@ -29,6 +32,8 @@ setup(
     author=easyb.__author__,
     author_email=easyb.__email__,
     include_package_data=True,
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     scripts=[
         'easyb-tool.py',
     ],
@@ -36,13 +41,12 @@ setup(
     packages=packages,
     classifiers=[
         'Intended Audience :: Developers',
-        'Topic :: Software Development :: Development Tools',
+        'Topic :: Other/Nonlisted Topic',
         'License :: OSI Approved :: Apache Software License',
-        'Programming Language :: Python :: 3.7'
+        'Operating System :: OS Independent'
     ],
     install_requires=[
         'colorama',
         "pyserial"
     ]
 )
-

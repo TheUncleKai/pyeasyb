@@ -40,7 +40,7 @@ __author__ = "Kai Raphahn"
 __email__ = "kai.raphahn@laburec.de"
 
 #: copyright year
-__year__ = 2019
+__year__ = 2020
 
 #: package copyright
 __copyright__ = "Copyright (C) {0:d}, {1:s} <{2:s}>".format(__year__, __author__, __email__)
@@ -58,10 +58,10 @@ __credits__ = [__author__]
 __milestone__ = 0
 
 #: version major
-__major__ = 0
+__major__ = 1
 
 #: version minor
-__minor__ = 5
+__minor__ = 0
 
 #: version patch
 __patch__ = 0
