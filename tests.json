@@ -231,6 +231,15 @@
                 "test_constructor",
                 "test_store"
             ]
+        },
+        {
+            "id": "Data.Text",
+            "path": "tests.data.text",
+            "classname": "TestText",
+            "tests": [
+                "test_constructor",
+                "test_store"
+            ]
         }
     ]
 }
