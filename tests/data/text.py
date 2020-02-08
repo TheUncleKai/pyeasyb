@@ -17,6 +17,8 @@
 #
 
 import unittest
+import unittest.mock as mock
+
 import easyb
 import os
 
@@ -26,6 +28,10 @@ from easyb.logging import SerialLogging
 from easyb.data import Data
 from easyb.data.base import Type, Info
 from easyb.data.text import TextStorage
+
+mocked_open = unittest.mock.mock_open()
+mocked_open.side_effect = OSError(5)
+
 
 __all__ = [
     "TestText"
@@ -84,7 +90,7 @@ class TestText(unittest.TestCase):
         self.assertIsNone(item.file)
         return
 
-    def test_store(self):
+    def test_store_01(self):
         data = self._get_data()
 
         item = TextStorage(data)
@@ -109,4 +115,28 @@ class TestText(unittest.TestCase):
         check1 = os.path.exists("TEST.csv")
         self.assertTrue(check1)
         os.remove("TEST.csv")
+        return
+
+    @mock.patch('builtins.open', new=mocked_open)
+    def test_store_02(self):
+        data = self._get_data()
+
+        item = TextStorage(data)
+
+        status = []
+
+        easyb.conf.create_status(status)
+
+        status[0].is_set = True
+
+        data.infos.append(Info("Test1", Type.integer, 1))
+        data.infos.append(Info("Test2", Type.float, 0.1))
+        data.infos.append(Info("Test3", Type.bool, False))
+
+        for _state in status:
+            info = Info(_state.text, Type.bool, _state.is_set)
+            data.status.append(info)
+
+        check = item.store()
+        self.assertFalse(check)
         return
