@@ -26,6 +26,7 @@ __all__ = [
     "Type",
     "FormatInfo",
     "Column",
+    "convert_data",
     "Info",
     "Row",
     "Collection",
@@ -61,7 +62,32 @@ class Column(object):
         return
 
 
+def convert_data(data_type: Type, data: Any) -> Any:
+    value = data
+
+    if data_type is Type.bool:
+        if data is True:
+            value = "True"
+        else:
+            value = "False"
+
+    if data_type is Type.float:
+        value = "{0:.2f}".format(data)
+
+    if data_type is Type.integer:
+        value = str(data)
+
+    if data_type is Type.datetime:
+        value = "{0:s}".format(data.strftime("%H:%M:%S"))
+
+    return value
+
+
 class Info(object):
+
+    def __repr__(self) -> str:
+        value = convert_data(self.type, self.value)
+        return value
 
     def __init__(self, name: str, data_type: Type, value: Any):
         self.name: str = name

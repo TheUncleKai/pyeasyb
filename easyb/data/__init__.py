@@ -43,7 +43,8 @@ class Data(Collection):
         Collection.__init__(self)
 
         self.format: List[FormatInfo] = [
-            FormatInfo("excel", "easyb.data.excel", "ExcelStorage")
+            FormatInfo("excel", "easyb.data.excel", "ExcelStorage"),
+            FormatInfo("text", "easyb.data.text", "TextStorage")
         ]
 
         self.counter: int = 0

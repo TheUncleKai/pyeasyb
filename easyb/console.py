@@ -74,7 +74,7 @@ class Console(object):
         parser.add_option_group(serial)
 
         output = OptionGroup(parser, "Output Options", "Set output to file.")
-        serial.add_option("-o", "--output", help="output type", metavar="excel/csv", type="string",
+        serial.add_option("-o", "--output", help="output type", metavar="excel/text", type="string",
                           default="none")
         serial.add_option("-f", "--filename", help="filename for output", metavar="measurement", type="string",
                           default="measurement")
