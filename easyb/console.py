@@ -201,8 +201,7 @@ class Console(object):
 
     def run_continuously(self) -> bool:
 
-        if __name__ == '__main__':
-            signal.signal(signal.SIGINT, self.device.do_abort)
+        signal.signal(signal.SIGINT, self.device.do_abort)
 
         thread = threading.Thread(target=self.device.run_loop)
         thread.start()
@@ -246,15 +245,17 @@ class Console(object):
         if self.options.list is True:
             return True
 
-        if self.device is not None:
-            self.device.disconnect()
-
         if self.options.read is False:
+            if self.device is not None:
+                self.device.disconnect()
             return True
 
         check = self.device.close()
         if check is False:
             return False
+
+        if self.device is not None:
+            self.device.disconnect()
 
         if self.options.output != "none":
 

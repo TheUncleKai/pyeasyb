@@ -222,6 +222,7 @@ class Device(metaclass=ABCMeta):
         except serial.SerialException as e:
             easyb.log.error("Problem during write to serial port!")
             easyb.log.exception(e)
+            easyb.log.traceback()
             return False
 
         return True
@@ -242,6 +243,7 @@ class Device(metaclass=ABCMeta):
             except serial.SerialException as e:
                 easyb.log.error("Problem during reading of message body!")
                 easyb.log.exception(e)
+                easyb.log.traceback()
                 break
 
             if check is False:
@@ -296,6 +298,7 @@ class Device(metaclass=ABCMeta):
             except serial.SerialException as e:
                 easyb.log.error("Problem during reading of message body!")
                 easyb.log.exception(e)
+                easyb.log.traceback()
                 return None
 
         stream = message.stream
