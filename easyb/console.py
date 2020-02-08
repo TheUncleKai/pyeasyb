@@ -201,7 +201,12 @@ class Console(object):
 
     def run_continuously(self) -> bool:
 
-        signal.signal(signal.SIGINT, self.device.do_abort)
+        try:
+            signal.signal(signal.SIGINT, self.device.do_abort)
+        except ValueError:
+            # signal handling cannot be used from a thread, so unit testing abort is done not via signals
+            # ValueError is thrown from a thread in unittests
+            pass
 
         thread = threading.Thread(target=self.device.run_loop)
         thread.start()
